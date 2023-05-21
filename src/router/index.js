@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import LandingPage from '@/components/LandingPage.vue'
+import LandingPage from '@/views/LandingPage.vue'
+import MainPage from '@/views/MainPage.vue'
 
 Vue.use(Router)
 
@@ -10,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'landing-page',
       component: LandingPage
+    },
+    {
+      path: '/main-page',
+      name: 'main-page',
+      component: MainPage
     }
   ]
 })

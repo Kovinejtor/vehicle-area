@@ -1,23 +1,9 @@
 <template>
-  <div class="app">
-    <LandingPage />
+  <div class="app" style="background-color: #7b7b7b;">
+    <router-view />
   </div>
 </template>
 
-<script>
-  import LandingPage from './components/LandingPage.vue'
 
-  export default {
-    name: 'App',
-    components: {
-      LandingPage
-    }
-    // your app logic here
-  }
-</script>
 
-<style>
-  .app {
-    background-color: #7B7B7B !important;
-  }
-</style>
+
