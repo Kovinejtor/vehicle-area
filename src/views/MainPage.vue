@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app style="background-color: #7b7b7b">
     <v-toolbar class="toolbar" color="#7b7b7b">
       <v-toolbar-title class="header">Vehicle area</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -11,7 +11,7 @@
       <v-btn text class="button" @click="redirectToLandingPage">Log out</v-btn>
     </v-toolbar>
 
-    <v-container class="big-container">
+    <v-container class="big-container ml-16" fluid>
       <v-container class="small-container">
         <span class="text"
           >Search for the best <br />
@@ -31,7 +31,7 @@
           <button class="search-button">Search</button>
         </div>
       </v-container>
-      <img src="@/assets/carr.png" alt="Car Image" class="car-image" />
+      <v-img src="@/assets/carr.png" alt="Car Image" class="car-image" />
     </v-container>
 
     <div class="color-container" style="background-color: #f1f5f9">
@@ -133,7 +133,7 @@
         >
 
     </v-container>
-  </div>
+  </v-app>
 </template>
 
 <style>
@@ -177,6 +177,7 @@
 
 .small-container {
   text-align: left;
+    margin-left: 170px;
 }
 
 .text {
@@ -190,6 +191,7 @@
 .car-image {
   width: 300px;
   height: auto;
+  margin-right: 240px;
 }
 
 .search-container {

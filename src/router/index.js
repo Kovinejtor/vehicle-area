@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import LandingPage from '@/views/LandingPage.vue';
 import MainPage from '@/views/MainPage.vue';
+import SignUp from '@/views/SignUp.vue';
 
 Vue.use(Router);
 
@@ -18,9 +19,14 @@ export default new Router({
       component: MainPage
     },
     {
-      path: '/login-page',
-      name: 'login',
-      component: LandingPage
+      path: '/signup',
+      name: 'signup',
+      component: SignUp
+    },
+    {
+      path: '/create',
+      name: 'create',
+      component: MainPage
     }
   ]
 });
