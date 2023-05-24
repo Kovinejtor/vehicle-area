@@ -3,12 +3,12 @@
     <v-toolbar class="toolbar" color="#7b7b7b">
       <v-toolbar-title class="header">Vehicle area</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text class="button">Explore</v-btn>
-      <v-btn text class="button">Buy</v-btn>
-      <v-btn text class="button">Sell</v-btn>
-      <v-btn text class="button">Rent</v-btn>
-      <v-btn text class="button">My account</v-btn>
-      <v-btn text class="button">Log out</v-btn>
+      <v-btn text class="button" @click="redirectToExplorePage">Explore</v-btn>
+      <v-btn text class="button" @click="redirectToBuyPage">Buy</v-btn>
+      <v-btn text class="button" @click="redirectToSellPage">Sell</v-btn>
+      <v-btn text class="button" @click="redirectToRentPage">Rent</v-btn>
+      <v-btn text class="button" @click="redirectToAccountPage">My account</v-btn>
+      <v-btn text class="button" @click="redirectToLandingPage">Log out</v-btn>
     </v-toolbar>
 
     <v-container class="big-container">
@@ -43,15 +43,107 @@
 
     <div class="categories">
       <span class="vc-header">Vehicle categories</span>
+      <span class="more-c"
+        >View all categories <v-icon>mdi-arrow-right</v-icon></span
+      >
+
+      <div class="card-container">
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/cars.jpg"
+            ><span class="card-text">Cars</span></v-img
+          >
+        </v-card>
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/moto.jpeg"
+            ><span class="card-text">Motorcycles</span></v-img
+          >
+        </v-card>
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/bice.jpg"
+            ><span class="card-text">Bicycles</span></v-img
+          >
+        </v-card>
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/truck.jpg"
+            ><span class="card-text">Trucks</span></v-img
+          >
+        </v-card>
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/romob.jpg"
+            ><span class="card-text">Romobiles</span></v-img
+          >
+        </v-card>
+      </div>
     </div>
 
     <div class="latest">
-      <span class="vc-header">Latest offers</span>
+      <span class="l-vc-header">Latest offers</span>
+      <span class="more-l"
+        >Discover more vehicles <v-icon>mdi-arrow-right</v-icon></span
+      >
+
+      <div class="card-container">
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car1.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 1</span>
+            <span>Price: $10,000</span>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car2.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 2</span>
+            <span>Price: $20,000</span>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car3.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 3</span>
+            <span>Price: $30,000</span>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car4.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 4</span>
+            <span>Price: $40,000</span>
+          </v-card-text>
+        </v-card>
+      </div>
     </div>
+
+    <v-container class="friends" fluid>
+      <img src="@/assets/like.png" alt="tumb" class="tumb" />
+      <span class="bring"
+          > Share your experience<br />
+          with your family or <br/> friends</span
+        >
+
+    </v-container>
   </div>
 </template>
 
 <style>
+.bring{
+  color: #FFFFFF;
+  font-size: 40px;
+  font-weight: bold;
+  margin-left: 100px;
+}
+
 .toolbar {
   height: 60px;
   position: fixed;
@@ -80,7 +172,7 @@
   justify-content: space-between;
   padding: 10px;
   height: 420px;
-   margin-top: 60px;
+  margin-top: 60px;
 }
 
 .small-container {
@@ -152,25 +244,105 @@
   margin: 30px;
 }
 
-.categories{
-  height: 400px;
-  background-color: #FFFFFF;
+.categories {
+  height: 480px;
+  background-color: #ffffff;
   padding-top: 60px;
 }
 
-.vc-header{
-  color: #0F172A;
+.vc-header {
+  color: #0f172a;
   font-size: 28px;
-  margin-left: 90px;
+  margin-left: 235px;
   font-weight: bold;
 }
 
-.latest{
-  height: 400px;
-  background-color: #F1F5F9;
+.l-vc-header {
+  color: #0f172a;
+  font-size: 28px;
+  margin-left: 240px;
+  font-weight: bold;
+}
+
+.more-c {
+  margin-left: 660px;
+  color: #2563eb;
+}
+
+.more-l {
+  margin-left: 686px;
+  color: #2563eb;
+}
+
+.latest {
+  height: 460px;
+  background-color: #f1f5f9;
   padding-top: 60px;
+}
+
+.card-container {
+  display: flex;
+  gap: 50px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.card-item {
+  width: 170px;
+}
+
+.card-text {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.l-card-item {
+  width: 220px;
+}
+
+.friends{
+  height: 420px;
+  background-color: #0F172A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
 }
 </style>
 
 <script>
+export default {
+  methods: {
+    redirectToLandingPage() {
+      this.$router.push("/");
+    },
+
+    redirectToBuyPage() {
+      this.$router.push("Buy.vue");
+    },
+
+    redirectToSellPage() {
+      this.$router.push("Sell.vue");
+    },
+
+    redirectToAccountPage() {
+      this.$router.push("MyAccount.vue");
+    },
+
+    redirectToRentPage() {
+      this.$router.push("Rent.vue");
+    },
+
+  },
+};
 </script>

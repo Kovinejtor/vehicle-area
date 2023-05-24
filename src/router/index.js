@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import LandingPage from '@/views/LandingPage.vue'
-import MainPage from '@/views/MainPage.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import LandingPage from '@/views/LandingPage.vue';
+import MainPage from '@/views/MainPage.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -16,6 +16,11 @@ export default new Router({
       path: '/main-page',
       name: 'main-page',
       component: MainPage
+    },
+    {
+      path: '/login-page',
+      name: 'login',
+      component: LandingPage
     }
   ]
-})
+});
