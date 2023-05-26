@@ -31,21 +31,25 @@
           ></v-text-field>
 
           <v-text-field
-            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
             v-model="lastName"
             label="Password"
             outlined
-            style="width: 350px"
-            type="password"
+            :value="myPass"
+            name="password"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="() => (value = !value)"
+            :type="value ? 'password' : 'text'"
           ></v-text-field>
 
           <v-text-field
-            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
             v-model="lastName"
             label="Repeat password"
             outlined
-            style="width: 350px"
-            type="password"
+            :value="myPass"
+            name="r-password"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="() => (value = !value)"
+            :type="value ? 'password' : 'text'"
           ></v-text-field>
 
           <v-text-field
@@ -88,9 +92,17 @@
       </v-row>
 
       <v-row class="justify-center">
-        <v-btn class="mb-14 mt-6 pa-6" style="background-color: #007074;
-                text-transform: none; color:#FFFFFF; font-size: 17px;" @click="create">
-            Create account
+        <v-btn
+          class="mb-14 mt-6 pa-6"
+          style="
+            background-color: #007074;
+            text-transform: none;
+            color: #ffffff;
+            font-size: 17px;
+          "
+          @click="create"
+        >
+          Create account
         </v-btn>
       </v-row>
     </v-container>
@@ -104,6 +116,12 @@ export default {
     create() {
       this.$router.push({ name: "main-page" });
     },
+  },
+
+  data() {
+    return {
+      value: String,
+    };
   },
 };
 </script>

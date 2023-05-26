@@ -1,15 +1,13 @@
 <template>
   <v-app style="background-color: #7b7b7b">
-    <v-toolbar class="toolbar" color="#7b7b7b">
-      <v-toolbar-title class="header">Vehicle area</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn text class="button" @click="redirectToExplorePage">Explore</v-btn>
-      <v-btn text class="button" @click="redirectToBuyPage">Buy</v-btn>
-      <v-btn text class="button" @click="redirectToSellPage">Sell</v-btn>
-      <v-btn text class="button" @click="redirectToRentPage">Rent</v-btn>
-      <v-btn text class="button" @click="redirectToAccountPage">My account</v-btn>
-      <v-btn text class="button" @click="redirectToLandingPage">Log out</v-btn>
-    </v-toolbar>
+    <Toolbar
+      @explore-clicked="exploreClicked"
+      @buy-clicked="redirectToBuyPage"
+      @sell-clicked="redirectToSellPage"
+      @rent-clicked="redirectToRentPage"
+      @account-clicked="redirectToAccountPage"
+      @logout-clicked="redirectToLandingPage"
+    />
 
     <v-container class="big-container ml-16" fluid>
       <v-container class="small-container">
@@ -127,18 +125,18 @@
 
     <v-container class="friends" fluid>
       <img src="@/assets/like.png" alt="tumb" class="tumb" />
-      <span class="bring"
-          > Share your experience<br />
-          with your family or <br/> friends</span
-        >
-
+      <span class="bring">
+        Share your experience<br />
+        with your family or <br />
+        friends</span
+      >
     </v-container>
   </v-app>
 </template>
 
 <style>
-.bring{
-  color: #FFFFFF;
+.bring {
+  color: #ffffff;
   font-size: 40px;
   font-weight: bold;
   margin-left: 100px;
@@ -177,7 +175,7 @@
 
 .small-container {
   text-align: left;
-    margin-left: 170px;
+  margin-left: 170px;
 }
 
 .text {
@@ -312,9 +310,9 @@
   width: 220px;
 }
 
-.friends{
+.friends {
   height: 420px;
-  background-color: #0F172A;
+  background-color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -323,28 +321,33 @@
 </style>
 
 <script>
+import Toolbar from "@/components/Toolbar.vue";
+
 export default {
+  components: {
+    Toolbar,
+  },
+
   methods: {
     redirectToLandingPage() {
       this.$router.push("/");
     },
 
     redirectToBuyPage() {
-      this.$router.push("Buy.vue");
+      this.$router.push("/buy");
     },
 
     redirectToSellPage() {
-      this.$router.push("Sell.vue");
+      this.$router.push("/sell");
     },
 
     redirectToAccountPage() {
-      this.$router.push("MyAccount.vue");
+      this.$router.push("/my-account");
     },
 
     redirectToRentPage() {
-      this.$router.push("Rent.vue");
+      this.$router.push("/rent");
     },
-
   },
 };
 </script>

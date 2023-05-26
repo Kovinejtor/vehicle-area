@@ -83,19 +83,24 @@
               ></v-text-field>
 
               <v-text-field
-              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 v-model="lastName"
                 label="Password"
                 outlined
-                type="password"
-
+                :value="myPass"
+                name="password"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => (value = !value)"
+                :type="value ? 'password' : 'text'"
               ></v-text-field>
-
             </v-form>
           </v-row>
 
           <v-row class="mt-3 justify-center align-center">
-            <v-btn style="background-color: #007074; color: #ffffff;" @click="login">
+            <v-btn
+              style="background-color: #007074; color: #ffffff"
+              class="pa-5"
+              @click="login"
+            >
               LOG IN
             </v-btn>
           </v-row>
@@ -140,5 +145,11 @@ export default {
       this.$router.push({ name: "main-page" });
     },
   },
+
+   data() {
+      return {
+        value: String,
+      };
+    },
 };
 </script>

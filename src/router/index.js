@@ -3,6 +3,11 @@ import Router from 'vue-router';
 import LandingPage from '@/views/LandingPage.vue';
 import MainPage from '@/views/MainPage.vue';
 import SignUp from '@/views/SignUp.vue';
+import Buy from '@/views/Buy.vue';
+import Sell from '@/views/Sell.vue';
+import MyAccount from '@/views/MyAccount.vue';
+import Rent from '@/views/Rent.vue';
+
 
 Vue.use(Router);
 
@@ -24,9 +29,25 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/create',
-      name: 'create',
-      component: MainPage
+      path: '/buy',
+      name: 'buy',
+      component: Buy
+    },
+    {
+      path: '/sell',
+      name: 'sell',
+      component: Sell
+    },
+    {
+      path: '/my-account',
+      name: 'my-account',
+      component: MyAccount
+    },
+    {
+      path: '/rent',
+      name: 'rent',
+      component: Rent
     }
   ]
 });
+
