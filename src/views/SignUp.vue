@@ -8,6 +8,7 @@
       <v-row class="justify-center">
         <v-form>
           <v-text-field
+            prepend-inner-icon="mdi-account"
             v-model="firstName"
             label="Name"
             outlined
@@ -16,6 +17,7 @@
           ></v-text-field>
 
           <v-text-field
+            prepend-inner-icon="mdi-account"
             v-model="firstName"
             label="Surname"
             outlined
@@ -23,6 +25,7 @@
           ></v-text-field>
 
           <v-text-field
+            prepend-inner-icon="mdi-email"
             v-model="firstName"
             label="E-mail"
             outlined
@@ -31,28 +34,31 @@
           ></v-text-field>
 
           <v-text-field
-            v-model="lastName"
+            prepend-inner-icon="mdi-key"
+            v-model="pass"
+            :append-icon="sho1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="sho1 ? 'text' : 'password'"
+            name="input-10-1"
             label="Password"
+            @click:append="sho1 = !sho1"
             outlined
-            :value="myPass"
-            name="password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="() => (value = !value)"
-            :type="value ? 'password' : 'text'"
+            style="width: 350px"
           ></v-text-field>
 
           <v-text-field
-            v-model="lastName"
+            prepend-inner-icon="mdi-key"
+            v-model="pass2"
+            :append-icon="sho3 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="sho3 ? 'text' : 'password'"
+            name="input-10-1"
             label="Repeat password"
+            @click:append="sho3 = !sho3"
             outlined
-            :value="myPass"
-            name="r-password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="() => (value = !value)"
-            :type="value ? 'password' : 'text'"
+            style="width: 350px"
           ></v-text-field>
 
           <v-text-field
+            prepend-inner-icon="mdi-map-marker"
             v-model="firstName"
             label="Country"
             outlined
@@ -61,6 +67,7 @@
           ></v-text-field>
 
           <v-text-field
+            prepend-inner-icon="mdi-phone"
             v-model="firstName"
             label="Phone number"
             outlined
@@ -68,23 +75,38 @@
           ></v-text-field>
 
           <v-text-field
-            v-model="firstName"
+            prepend-inner-icon="mdi-credit-card"
+            v-model="password"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show1 ? 'text' : 'password'"
+            name="input-10-1"
             label="Credit card number"
+            @click:append="show1 = !show1"
             outlined
             style="width: 350px"
             class="mt-10"
           ></v-text-field>
 
           <v-text-field
-            v-model="firstName"
+            prepend-inner-icon="mdi-credit-card"
+            v-model="password1"
+            :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show3 ? 'text' : 'password'"
+            name="input-10-1"
             label="Credit card expiration date"
+            @click:append="show3 = !show3"
             outlined
             style="width: 350px"
           ></v-text-field>
 
           <v-text-field
-            v-model="firstName"
+            prepend-inner-icon="mdi-credit-card"
+            v-model="password2"
+            :append-icon="show5 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show5 ? 'text' : 'password'"
+            name="input-10-1"
             label="Credit card CVV"
+            @click:append="show5 = !show5"
             outlined
             style="width: 350px"
           ></v-text-field>
@@ -121,6 +143,16 @@ export default {
   data() {
     return {
       value: String,
+      sho1: false,
+      sho2: true,
+      sho3: false,
+      sho4: true,
+      show1: false,
+      show2: true,
+      show3: false,
+      show4: true,
+      show5: false,
+      show6: true,
     };
   },
 };

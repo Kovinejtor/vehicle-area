@@ -60,26 +60,334 @@
             background-color: #ffffff;
           "
         >
-          <row>
+          <v-row class="justify-center mt-4 font-weight-black text-h5">
             <span>Basic information</span>
-          </row>
+          </v-row>
 
-          <row class="mt-3"> 
-            <span>Profile photo</span>
-          </row>
+          <v-row class="ml-16 mt-16">
+            <v-badge
+              bordered
+              bottom
+              color="#00997E"
+              offset-x="14 "
+              offset-y="14"
+              icon="mdi-pencil"
+            >
+              <v-avatar size="60">
+                <v-img
+                  src="https://cdn.vuetifyjs.com/images/lists/2.jpg"
+                ></v-img>
+              </v-avatar>
+            </v-badge>
 
-          <row> 
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-left: 30px;
+              "
+            >
+              <p style="margin: 0; padding-left: 10px">Profile picture</p>
+              <p style="margin: 0; padding-left: 10px">Your profile will be</p>
+            </div>
+          </v-row>
 
-          </row>
+          <v-row class="mt-14 justify-center">
+            <v-form>
+              <v-container>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Name"
+                      prepend-inner-icon="mdi-account"
+                    ></v-text-field>
+                  </v-col>
 
-          <row> 
+                  <v-col>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Surname"
+                      prepend-inner-icon="mdi-account-outline"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
 
-          </row>
+                <v-row>
+                  <v-col>
+                    <v-select
+                      outlined
+                      v-model="selectItem"
+                      :items="items"
+                      :rules="[(v) => !!v || 'Item is required']"
+                      label="Gender"
+                      required
+                      prepend-inner-icon="mdi-baby-face-outline"
+                    ></v-select>
+                  </v-col>
+                  <v-col>
+                    <div>
+                      <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            outlined
+                            v-model="date"
+                            label="Birthday date"
+                            prepend-inner-icon="mdi-calendar"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                          required
+                          v-model="date"
+                          :active-picker.sync="activePicker"
+                          :max="
+                            new Date(
+                              Date.now() -
+                                new Date().getTimezoneOffset() * 60000
+                            )
+                              .toISOString()
+                              .substr(0, 10)
+                          "
+                          min="1950-01-01"
+                          @change="save"
+                        ></v-date-picker>
+                      </v-menu>
+                    </div>
+                  </v-col>
+                </v-row>
 
-          <row> 
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Phone number"
+                      prepend-inner-icon="mdi-phone"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Country"
+                      prepend-inner-icon="mdi-map-marker"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
 
-          </row>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Credit card number"
+                      prepend-inner-icon="mdi-credit-card"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <div>
+                      <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            outlined
+                            v-model="date"
+                            label="Credit card expiration date"
+                            prepend-inner-icon="mdi-credit-card"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                          required
+                          v-model="date"
+                          :active-picker.sync="activePicker"
+                          :max="
+                            new Date(
+                              Date.now() -
+                                new Date().getTimezoneOffset() * 60000
+                            )
+                              .toISOString()
+                              .substr(0, 10)
+                          "
+                          min="1950-01-01"
+                          @change="save"
+                        ></v-date-picker>
+                      </v-menu>
+                    </div>
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Credit card CVV"
+                      prepend-inner-icon="mdi-credit-card"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-btn
+                      style="background-color: #007074; color: #ffffff"
+                      class="pa-5 mt-2"
+                    >
+                      UPDATE
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </v-row>
         </v-container>
+
+        <v-row>
+          <v-container
+            class="justify-center align-center text-center elevation-4"
+            style="
+              border-radius: 10px;
+              margin-top: 40px;
+              width: 50%;
+              height: 340px;
+              background-color: #ffffff;
+            "
+          >
+            <v-row class="justify-center mt-4 font-weight-black text-h5">
+              <span>Password and security</span>
+            </v-row>
+
+            <v-form>
+              <v-row class="mt-14">
+                <v-col>
+                  <v-text-field
+                    prepend-inner-icon="mdi-key"
+                    v-model="password"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show1 ? 'text' : 'password'"
+                    name="input-10-1"
+                    label="Enter current password"
+                    @click:append="show1 = !show1"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+
+                <v-col>
+                  <v-text-field
+                    prepend-inner-icon="mdi-key"
+                    v-model="password2"
+                    :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show3 ? 'text' : 'password'"
+                    name="input-10-1"
+                    label="Enter new password"
+                    @click:append="show3 = !show3"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    prepend-inner-icon="mdi-key"
+                    v-model="password3"
+                    :append-icon="show5 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show5 ? 'text' : 'password'"
+                    name="input-10-1"
+                    label="Comfirm new password"
+                    @click:append="show5 = !show5"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+
+                <v-col>
+                  <v-btn
+                    style="background-color: #007074; color: #ffffff"
+                    class="pa-5 mt-2"
+                  >
+                    UPDATE
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-container>
+        </v-row>
+
+        <v-row>
+          <v-container
+            class="justify-center align-center text-center elevation-4"
+            style="
+              border-radius: 10px;
+              margin-top: 40px;
+              width: 50%;
+              height: 300px;
+              background-color: #ffffff;
+            "
+          >
+            <v-row class="justify-center mt-4 font-weight-black text-h5">
+              <span>Delete your account</span>
+            </v-row>
+
+            <v-row>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  margin-left: 30px;
+                "
+              >
+                <p style="margin: 0; margin-top: 35px; padding-left: 10px">
+                  When you delete your account you lose access to "Vehicle area"
+                  with this account.
+                </p>
+                <p style="margin: 0; padding-left: 10px">
+                  Your profile will be permanently deleted alongside with all
+                  your personal data.
+                </p>
+              </div>
+            </v-row>
+
+            <v-row>
+              <v-checkbox
+                class="ml-10 mt-6"
+                v-model="ex4"
+                label="Comfirm that I want to delete my account"
+                color="error"
+                value="error"
+                hide-details
+              ></v-checkbox>
+            </v-row>
+
+            <v-row class="mt-10" style="margin-left: 380px">
+              <v-btn
+                style="background-color: #cb0a0a; color: #ffffff"
+                class="pa-5"
+              >
+                DELETE ACCOUNT
+              </v-btn>
+            </v-row>
+          </v-container>
+        </v-row>
       </v-col>
     </v-row>
   </v-app>
@@ -92,6 +400,19 @@ import Toolbar from "@/components/Toolbar.vue";
 export default {
   components: {
     Toolbar,
+  },
+
+  data() {
+    return {
+      selectedItem: "",
+      items: ["Male", "Female"],
+      show1: false,
+      show2: true,
+      show3: false,
+      show4: true,
+      show5: false,
+      show6: true,
+    };
   },
 
   methods: {
@@ -117,5 +438,7 @@ export default {
   },
 };
 </script>
+
+
 
 
