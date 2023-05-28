@@ -18,7 +18,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-account"
-            v-model="firstName"
+            v-model="lastName"
             label="Surname"
             outlined
             style="width: 350px"
@@ -26,7 +26,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-email"
-            v-model="firstName"
+            v-model="email"
             label="E-mail"
             outlined
             style="width: 350px"
@@ -35,7 +35,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-key"
-            v-model="pass"
+            v-model="password"
             :append-icon="sho1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="sho1 ? 'text' : 'password'"
             name="input-10-1"
@@ -47,7 +47,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-key"
-            v-model="pass2"
+            v-model="RePassword"
             :append-icon="sho3 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="sho3 ? 'text' : 'password'"
             name="input-10-1"
@@ -59,7 +59,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-map-marker"
-            v-model="firstName"
+            v-model="country"
             label="Country"
             outlined
             style="width: 350px"
@@ -68,7 +68,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-phone"
-            v-model="firstName"
+            v-model="phone"
             label="Phone number"
             outlined
             style="width: 350px"
@@ -76,7 +76,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-credit-card"
-            v-model="password"
+            v-model="ccNumber"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
             name="input-10-1"
@@ -89,7 +89,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-credit-card"
-            v-model="password1"
+            v-model="ccDate"
             :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show3 ? 'text' : 'password'"
             name="input-10-1"
@@ -101,7 +101,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-credit-card"
-            v-model="password2"
+            v-model="ccCVV"
             :append-icon="show5 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show5 ? 'text' : 'password'"
             name="input-10-1"
@@ -122,7 +122,7 @@
             color: #ffffff;
             font-size: 17px;
           "
-          @click="create"
+          @click="registerUser"
         >
           Create account
         </v-btn>
@@ -132,17 +132,28 @@
 </template>
 
 <script>
+import {
+  doc,
+  auth,
+  db,
+  setDoc,
+  createUserWithEmailAndPassword,
+} from "../../firebase.js";
+
 export default {
-  name: "Create",
-  methods: {
-    create() {
-      this.$router.push({ name: "main-page" });
-    },
-  },
+  name: "SignUp",
 
   data() {
     return {
-      value: String,
+      firstName: null,
+      lastName: null,
+      email: null,
+      password: null,
+      phone: null,
+      country: null,
+      ccNumber: null,
+      ccDate: null,
+      ccCVV: null,
       sho1: false,
       sho2: true,
       sho3: false,
@@ -155,10 +166,50 @@ export default {
       show6: true,
     };
   },
+
+  methods: {
+    postActionMoveToView() {
+      this.$router.push({ path: "/main-page" });
+    },
+
+    async saveAdditionalData(user, email, firstName, lastName, phone, country, ccNumber, ccDate, ccCVV) {
+      await setDoc(doc(db, "users", email), {
+        Email: email,
+        FirstName: firstName,
+        LastName: lastName,
+        Phone: phone,
+        Country: country,
+        CCNumber: ccNumber,
+        CCDate: ccDate,
+        CCCVV: ccCVV,
+        AuthorisationType: "USER",
+      });
+    },
+
+    registerUser() {
+      const email = this.email;
+      const password = this.password;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          const firstName = this.firstName;
+          const lastName = this.lastName;
+          const phone= this.phone;
+          const country = this.country;
+          const ccNumber= this.ccNumber;
+          const ccDate= this.ccDate;
+          const ccCVV= this.ccCVV;
+          this.saveAdditionalData(user, email, firstName, lastName, phone, country, ccNumber, ccDate, ccCVV);
+          this.postActionMoveToView();
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(error, errorCode, errorMessage);
+        });
+    },
+  },
 };
 </script>
-
-
-
 
 

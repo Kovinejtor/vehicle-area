@@ -76,14 +76,14 @@
           <v-row class="mt-9 justify-center align-center">
             <v-form>
               <v-text-field
-                v-model="firstName"
+                v-model="email"
                 label="E-mail"
                 outlined
                 style="width: 300px"
               ></v-text-field>
 
               <v-text-field
-                v-model="lastName"
+                v-model="password"
                 label="Password"
                 outlined
                 :value="myPass"
@@ -138,18 +138,34 @@
 
 
 <script>
+import {
+  auth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "../../firebase.js";
+
 export default {
   name: "LandingPage",
   methods: {
     login() {
-      this.$router.push({ name: "main-page" });
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.$router.push("/main-page");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     },
   },
 
-   data() {
-      return {
-        value: String,
-      };
-    },
+  data() {
+    return {
+      value: String,
+      email: null,
+      password: null,
+    };
+  },
 };
 </script>
