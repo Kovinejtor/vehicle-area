@@ -4,22 +4,23 @@ import { doc, addDoc, getDoc, setDoc, getDocs, getCount, getFirestore, collectio
 import { getAuth, updatePassword, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, beforeAuthStateChanged, onAuthStateChanged } from 'firebase/auth'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
+
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDbndxep9YbYwJxtfo0UGPeyZuP9pzzFEE",
-  authDomain: "vehicle-area.firebaseapp.com",
-  projectId: "vehicle-area",
-  storageBucket: "vehicle-area.appspot.com",
-  messagingSenderId: "429101457917",
-  appId: "1:429101457917:web:649fb8241e2fbb361c7994",
-  measurementId: "G-RH0XE3G3EQ"
+  apiKey: "AIzaSyCxNVSJXh1vMSus6ovg_KxjauHRo4YjqQk",
+  authDomain: "vehicle-area-447e1.firebaseapp.com",
+  projectId: "vehicle-area-447e1",
+  storageBucket: "vehicle-area-447e1.appspot.com",
+  messagingSenderId: "598987863108",
+  appId: "1:598987863108:web:c0971d52d4e1a56e4ef811",
+  measurementId: "G-XQ9QYYMKMH"
 };
 
 // Initialize Firebase
@@ -44,6 +45,6 @@ export { app, auth, storage,
   uploadBytes,
   getDownloadURL,
   signOut,
-  updatePassword
-
+  updatePassword,
+  collection,
 }

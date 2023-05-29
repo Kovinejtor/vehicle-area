@@ -182,7 +182,7 @@
                     <v-text-field
                       required
                       outlined
-                      label="Country"
+                      :label="user.country"
                       prepend-inner-icon="mdi-map-marker"
                     ></v-text-field>
                   </v-col>
@@ -395,12 +395,15 @@
 
 
 <script>
+import { doc, db } from "../../firebase.js";
 import Toolbar from "@/components/Toolbar.vue";
 
 export default {
   components: {
     Toolbar,
   },
+
+  name: "MyAccount",
 
   data() {
     return {
@@ -412,10 +415,33 @@ export default {
       show4: true,
       show5: false,
       show6: true,
+       user: {
+        country: "" // Initialize with default value
+      }
     };
   },
 
+  created() {
+    this.fetchUserData();
+  },
+
   methods: {
+    async fetchUserData() {
+      try {
+        const email = "user@example.com"; // Replace with the user's email or fetch it from Firebase Authentication
+        const userRef = doc(db, "users", email);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          this.user.country = userData.Country;
+        } else {
+          console.log("User document does not exist");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     redirectToLandingPage() {
       this.$router.push("/");
     },

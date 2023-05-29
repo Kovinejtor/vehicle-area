@@ -47,7 +47,7 @@
 
           <v-text-field
             prepend-inner-icon="mdi-key"
-            v-model="RePassword"
+            v-model="rePassword"
             :append-icon="sho3 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="sho3 ? 'text' : 'password'"
             name="input-10-1"
@@ -131,29 +131,25 @@
   </v-app>
 </template>
 
+
 <script>
-import {
-  doc,
-  auth,
-  db,
-  setDoc,
-  createUserWithEmailAndPassword,
-} from "../../firebase.js";
+import { addDoc, collection, createUserWithEmailAndPassword, auth, db } from "../../firebase.js";
 
 export default {
   name: "SignUp",
 
   data() {
     return {
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      phone: null,
-      country: null,
-      ccNumber: null,
-      ccDate: null,
-      ccCVV: null,
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      phone: "",
+      country: "",
+      ccNumber: "",
+      ccDate: "",
+      ccCVV: "",
+      rePassword: "",
       sho1: false,
       sho2: true,
       sho3: false,
@@ -168,48 +164,34 @@ export default {
   },
 
   methods: {
-    postActionMoveToView() {
-      this.$router.push({ path: "/main-page" });
-    },
-
-    async saveAdditionalData(user, email, firstName, lastName, phone, country, ccNumber, ccDate, ccCVV) {
-      await setDoc(doc(db, "users", email), {
-        Email: email,
-        FirstName: firstName,
-        LastName: lastName,
-        Phone: phone,
-        Country: country,
-        CCNumber: ccNumber,
-        CCDate: ccDate,
-        CCCVV: ccCVV,
-        AuthorisationType: "USER",
-      });
-    },
-
     registerUser() {
-      const email = this.email;
-      const password = this.password;
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          const firstName = this.firstName;
-          const lastName = this.lastName;
-          const phone= this.phone;
-          const country = this.country;
-          const ccNumber= this.ccNumber;
-          const ccDate= this.ccDate;
-          const ccCVV= this.ccCVV;
-          this.saveAdditionalData(user, email, firstName, lastName, phone, country, ccNumber, ccDate, ccCVV);
-          this.postActionMoveToView();
+
+          addDoc(collection(db, "users"), {
+            userId: user.uid,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            phone: this.phone,
+            country: this.country,
+            ccNumber: this.ccNumber,
+            ccDate: this.ccDate,
+            ccCVV: this.ccCVV,
+          })
+            .then(() => {
+              this.$router.push({ path: "/main-page" });
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+            });
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(error, errorCode, errorMessage);
+          console.error("Error registering user: ", error);
         });
     },
   },
 };
 </script>
-
 
