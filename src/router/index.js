@@ -7,6 +7,7 @@ import Buy from '@/views/Buy.vue';
 import Sell from '@/views/Sell.vue';
 import MyAccount from '@/views/MyAccount.vue';
 import Rent from '@/views/Rent.vue';
+import AllCategories from '@/views/AllCategories.vue';
 
 
 Vue.use(Router);
@@ -47,6 +48,11 @@ export default new Router({
       path: '/rent',
       name: 'rent',
       component: Rent
+    },
+    {
+      path: '/all-categories',
+      name: 'all-categories',
+      component: AllCategories
     }
   ]
 });

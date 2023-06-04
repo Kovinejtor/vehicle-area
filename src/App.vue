@@ -5,6 +5,12 @@
   
 </template>
 
+<style>
+  * {
+    font-family: Roboto;
+  }
+</style>
+
 
 
 

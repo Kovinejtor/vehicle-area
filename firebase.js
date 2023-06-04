@@ -1,9 +1,8 @@
 // Import the functions you need from the SDKs you need
-import firebase from 'firebase/compat/app'
-import { doc, addDoc, getDoc, setDoc, getDocs, getCount, getFirestore, collection } from 'firebase/firestore/lite'
-import { getAuth, updatePassword, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, beforeAuthStateChanged, onAuthStateChanged } from 'firebase/auth'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-
+import firebase from 'firebase/compat/app';
+import { doc, addDoc, getDoc, setDoc, getDocs, query, where, getFirestore, collection } from 'firebase/firestore/lite';
+import { getAuth, updatePassword, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, beforeAuthStateChanged, onAuthStateChanged } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -30,14 +29,17 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 const db = getFirestore(app);
 
-export { app, auth, storage,
+export {
+  app,
+  auth,
+  storage,
   getAuth,
-	db,
+  db,
   doc,
   getDoc,
-	setDoc,
+  setDoc,
   addDoc,
-	createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   onAuthStateChanged,
@@ -47,4 +49,7 @@ export { app, auth, storage,
   signOut,
   updatePassword,
   collection,
-}
+  getDocs,
+  query,
+  where
+};

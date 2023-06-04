@@ -99,18 +99,20 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      v-model="firstName"
                       required
                       outlined
-                      label="Name"
+                      label="First name"
                       prepend-inner-icon="mdi-account"
                     ></v-text-field>
                   </v-col>
 
                   <v-col>
                     <v-text-field
+                      v-model="lastName"
                       required
                       outlined
-                      label="Surname"
+                      label="Last name"
                       prepend-inner-icon="mdi-account-outline"
                     ></v-text-field>
                   </v-col>
@@ -120,7 +122,7 @@
                   <v-col>
                     <v-select
                       outlined
-                      v-model="selectItem"
+                      v-model="gender"
                       :items="items"
                       :rules="[(v) => !!v || 'Item is required']"
                       label="Gender"
@@ -141,7 +143,7 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
                             outlined
-                            v-model="date"
+                            v-model="bDate"
                             label="Birthday date"
                             prepend-inner-icon="mdi-calendar"
                             readonly
@@ -151,7 +153,7 @@
                         </template>
                         <v-date-picker
                           required
-                          v-model="date"
+                          v-model="bDate"
                           :active-picker.sync="activePicker"
                           :max="
                             new Date(
@@ -172,6 +174,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      v-model="phone"
                       required
                       outlined
                       label="Phone number"
@@ -180,9 +183,10 @@
                   </v-col>
                   <v-col>
                     <v-text-field
+                      v-model="country"
                       required
                       outlined
-                      :label="user.country"
+                      label="Country"
                       prepend-inner-icon="mdi-map-marker"
                     ></v-text-field>
                   </v-col>
@@ -191,6 +195,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      v-model="ccNumber"
                       required
                       outlined
                       label="Credit card number"
@@ -210,7 +215,7 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
                             outlined
-                            v-model="date"
+                            v-model="ccDate"
                             label="Credit card expiration date"
                             prepend-inner-icon="mdi-credit-card"
                             readonly
@@ -220,7 +225,7 @@
                         </template>
                         <v-date-picker
                           required
-                          v-model="date"
+                          v-model="ccDate"
                           :active-picker.sync="activePicker"
                           :max="
                             new Date(
@@ -241,6 +246,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      v-model="ccCVV"
                       required
                       outlined
                       label="Credit card CVV"
@@ -415,33 +421,10 @@ export default {
       show4: true,
       show5: false,
       show6: true,
-       user: {
-        country: "" // Initialize with default value
-      }
     };
   },
 
-  created() {
-    this.fetchUserData();
-  },
-
   methods: {
-    async fetchUserData() {
-      try {
-        const email = "user@example.com"; // Replace with the user's email or fetch it from Firebase Authentication
-        const userRef = doc(db, "users", email);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          this.user.country = userData.Country;
-        } else {
-          console.log("User document does not exist");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
     redirectToLandingPage() {
       this.$router.push("/");
     },

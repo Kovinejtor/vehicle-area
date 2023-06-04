@@ -41,7 +41,7 @@
 
     <div class="categories">
       <span class="vc-header">Vehicle categories</span>
-      <span class="more-c"
+      <span class="more-c" @click="AllCategories"
         >View all categories <v-icon>mdi-arrow-right</v-icon></span
       >
 
@@ -347,6 +347,10 @@ export default {
 
     redirectToRentPage() {
       this.$router.push("/rent");
+    },
+
+    AllCategories(){
+      this.$router.push('/all-categories');
     },
   },
 };

@@ -8,49 +8,24 @@
       @logout-clicked="redirectToLandingPage"
     />
 
-    <v-form class="vt-8">
-      <v-text-field
-        v-model="email"
-        name="input-10-1"
-        label="Email"
-        outlined
-        style="width: 350px; margin-top: 100px; margin-left: 50px;"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="password"
-        name="input-10-1"
-        label="Password"
-        outlined
-        style="width: 350px; margin-top: 20px; margin-left: 50px;"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="name"
-        name="input-10-1"
-        label="Name"
-        outlined
-        style="width: 350px; margin-top: 20px; margin-left: 50px;"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="surname"
-        name="input-10-1"
-        label="Surname"
-        outlined
-        style="width: 350px; margin-top: 20px; margin-left: 50px;"
-      ></v-text-field>
-
-      <v-btn class="ml-15" @click="registerUser">
-        OK
-      </v-btn>
-    </v-form>
+    <div v-if="userData">
+      <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
+      <p>Email: {{ userData.email }}</p>
+      <p>Phone: {{ userData.phone }}</p>
+      <p>Country: {{ userData.country }}</p>
+      <p>Gender: {{ userData.gender }}</p>
+      <p>Birth Date: {{ userData.bDate }}</p>
+      <p>Credit Card Number: {{ userData.ccNumber }}</p>
+      <p>Credit Card Expiry Date: {{ userData.ccDate }}</p>
+      <p>Credit Card CVV: {{ userData.ccCVV }}</p>
+      <!-- Display other properties as needed -->
+    </div>
   </v-app>
 </template>
 
 <script>
 import Toolbar from "@/components/Toolbar.vue";
-import { addDoc, collection, createUserWithEmailAndPassword, auth, db } from "../../firebase.js";
+import { auth, db, collection, getDocs, query, where } from "../../firebase.js";
 
 export default {
   components: {
@@ -59,34 +34,41 @@ export default {
 
   data() {
     return {
-      email: "",
-      password: "",
-      name: "",
-      surname: "",
+      userData: null,
     };
   },
 
-  methods: {
-    registerUser() {
-      createUserWithEmailAndPassword(auth, this.email, this.password)
-        .then((userCredential) => {
-          const user = userCredential.user;
+  created() {
+    this.fetchUserData();
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.fetchUserData();
+      } else {
+        this.userData = null;
+      }
+    });
+  },
 
-          addDoc(collection(db, "users"), {
-            userId: user.uid,
-            name: this.name,
-            surname: this.surname,
-          })
-            .then(() => {
-              this.$router.push({ path: "/main-page" });
-            })
-            .catch((error) => {
-              console.error("Error adding document: ", error);
-            });
-        })
-        .catch((error) => {
-          console.error("Error registering user: ", error);
-        });
+  methods: {
+    async fetchUserData() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("userId", "==", userId));
+          const querySnapshot = await getDocs(q);
+
+          querySnapshot.forEach((doc) => {
+            this.userData = doc.data();
+            console.log("Document data:", this.userData);
+          });
+        } else {
+          console.log("No user is currently logged in.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     },
 
     redirectToLandingPage() {

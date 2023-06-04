@@ -24,6 +24,51 @@
             style="width: 350px"
           ></v-text-field>
 
+          <v-select
+            outlined
+            v-model="gender"
+            :items="items"
+            :rules="[(v) => !!v || 'Item is required']"
+            label="Gender"
+            required
+            prepend-inner-icon="mdi-baby-face-outline"
+          ></v-select>
+
+          <div>
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  outlined
+                  v-model="bDate"
+                  label="Birthday date"
+                  prepend-inner-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                required
+                v-model="bDate"
+                :active-picker.sync="activePicker"
+                :max="
+                  new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                    .toISOString()
+                    .substr(0, 10)
+                "
+                min="1950-01-01"
+                @change="save"
+              ></v-date-picker>
+            </v-menu>
+          </div>
+
           <v-text-field
             prepend-inner-icon="mdi-email"
             v-model="email"
@@ -133,7 +178,13 @@
 
 
 <script>
-import { addDoc, collection, createUserWithEmailAndPassword, auth, db } from "../../firebase.js";
+import {
+  addDoc,
+  collection,
+  createUserWithEmailAndPassword,
+  auth,
+  db,
+} from "../../firebase.js";
 
 export default {
   name: "SignUp",
@@ -160,6 +211,7 @@ export default {
       show4: true,
       show5: false,
       show6: true,
+      items: ["Male", "Female"],
     };
   },
 
@@ -173,6 +225,8 @@ export default {
             userId: user.uid,
             firstName: this.firstName,
             lastName: this.lastName,
+            gender: this.gender,
+            bDate: this.bDate,
             email: this.email,
             phone: this.phone,
             country: this.country,

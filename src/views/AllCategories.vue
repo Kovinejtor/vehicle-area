@@ -1,0 +1,369 @@
+<template>
+  <v-app style="background-color: #7b7b7b">
+    <Toolbar
+      @explore-clicked="exploreClicked"
+      @buy-clicked="redirectToBuyPage"
+      @sell-clicked="redirectToSellPage"
+      @rent-clicked="redirectToRentPage"
+      @account-clicked="redirectToAccountPage"
+      @logout-clicked="redirectToLandingPage"
+    />
+
+    <v-container fluid>
+      <v-row class="align-center mt-16" style="height: 400px">
+        <v-col style="margin-left: 10%">
+          <v-row>
+            <span
+              style="
+                color: #ffffff;
+                font-size: 60px;
+                margin-right: 20px;
+                font-weight: bold;
+                line-height: 1.2;
+              "
+              >Search for the best <br />
+              vehicle in your area</span
+            >
+          </v-row>
+
+          <v-row class="mt-8 align-center">
+            <div class="search-container-wrapper">
+              <div class="search-container">
+                <v-icon class="search-icon">mdi-magnify</v-icon>
+                <input
+                  type="text"
+                  class="search-input"
+                  placeholder="Search for vehicle or category"
+                />
+              </div>
+            </div>
+            <v-btn color="#be123c" class="ml-3 text-none white--text"
+              >Search</v-btn
+            ></v-row
+          >
+        </v-col>
+        <v-col style="margin-left: 15%">
+          <v-img
+            src="@/assets/carr.png"
+            alt="Car Image"
+            style="width: 300px; height: auto"
+          ></v-img>
+        </v-col>
+      </v-row>
+    </v-container>
+
+
+    <div class="color-container" style="background-color: #f1f5f9">
+      <span class="group-words">Discover</span>
+      <span class="group-words">Drive</span>
+      <span class="group-words">Earn</span>
+      <span class="group-words">Save money</span>
+    </div>
+
+    <v-container
+      fluid
+      class="pt-16"
+      style="height: 760px;
+            background-color: #ffffff;"
+    >
+      <span
+        style="
+          color: #0f172a;
+          font-size: 28px;
+          margin-left: 160px;
+          font-weight: bold;
+        "
+        >Vehicle categories</span
+      >
+
+      <v-container>
+        <v-row class="mt-4 justify-center align-center">
+          <v-col>
+            <v-row>
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/cars.jpg"
+                  ><span class="card-text">Cars</span></v-img
+                >
+              </v-card>
+            </v-row>
+
+            <v-row class="mt-10">
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/boat.jpg"
+                  ><span class="card-text">Boat</span></v-img
+                >
+              </v-card>
+            </v-row>
+          </v-col>
+
+          <v-col>
+            <v-row>
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/moto.jpeg"
+                  ><span class="card-text">Motorcycles</span></v-img
+                >
+              </v-card>
+            </v-row>
+
+            <v-row class="mt-10">
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/bus.jpg"
+                  ><span class="card-text">Bus</span></v-img
+                >
+              </v-card>
+            </v-row>
+          </v-col>
+
+          <v-col>
+            <v-row>
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/bice.jpg"
+                  ><span class="card-text">Bicycles</span></v-img
+                >
+              </v-card>
+            </v-row>
+
+            <v-row class="mt-10">
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/helicopter.jpg"
+                  ><span class="card-text">Helicopter</span></v-img
+                >
+              </v-card>
+            </v-row>
+          </v-col>
+
+          <v-col>
+            <v-row>
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/truck.jpg"
+                  ><span class="card-text">Trucks</span></v-img
+                >
+              </v-card>
+            </v-row>
+
+            <v-row class="mt-10">
+              <v-card class="card-item">
+                <v-img class="card-image" src="@/assets/other.jpeg"
+                  ><span class="card-text">Others</span></v-img
+                >
+              </v-card>
+            </v-row>
+          </v-col>
+
+          <v-col>
+            <v-card class="card-item">
+              <v-img class="card-image" src="@/assets/romob.jpg"
+                ><span class="card-text">Romobiles</span></v-img
+              >
+            </v-card>
+
+            <div style="height: 287px"></div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-container>
+
+    <div class="latest">
+      <span class="l-vc-header">Latest offers</span>
+      <span class="more-l"
+        >Discover more vehicles <v-icon>mdi-arrow-right</v-icon></span
+      >
+
+      <div class="card-container">
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car1.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 1</span>
+            <span>Price: $10,000</span>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car2.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 2</span>
+            <span>Price: $20,000</span>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car3.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 3</span>
+            <span>Price: $30,000</span>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="l-card-item">
+          <div>
+            <v-img class="l-card-image" src="@/assets/car4.jpg"></v-img>
+          </div>
+          <v-card-text>
+            <span>Car Model 4</span>
+            <span>Price: $40,000</span>
+          </v-card-text>
+        </v-card>
+      </div>
+    </div>
+
+    <v-container class="friends" fluid>
+      <img src="@/assets/like.png" alt="tumb" class="tumb" />
+      <span class="bring">
+        Share your experience<br />
+        with your family or <br />
+        friends</span
+      >
+    </v-container>
+  </v-app>
+</template>
+
+<style>
+.car-image {
+  width: 300px;
+  height: auto;
+  margin-right: 240px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 400px;
+  height: 40px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 4px;
+}
+
+.search-container-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.color-container {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-words {
+  color: #94a3b8;
+  font-size: 18px;
+  margin: 30px;
+}
+
+.l-vc-header {
+  color: #0f172a;
+  font-size: 28px;
+  margin-left: 240px;
+  font-weight: bold;
+}
+
+.more-c {
+  margin-left: 660px;
+  color: #2563eb;
+}
+
+.more-l {
+  margin-left: 686px;
+  color: #2563eb;
+}
+
+.latest {
+  height: 460px;
+  background-color: #f1f5f9;
+  padding-top: 60px;
+}
+
+.card-item {
+  width: 170px;
+  height: 260px;
+}
+
+.card-text {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.l-card-item {
+  width: 220px;
+}
+
+.friends {
+  height: 420px;
+  background-color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.bring {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: bold;
+  margin-left: 100px;
+}
+</style>
+
+<script>
+import Toolbar from "@/components/Toolbar.vue";
+
+export default {
+  components: {
+    Toolbar,
+  },
+
+  methods: {
+    redirectToLandingPage() {
+      this.$router.push("/");
+    },
+
+    redirectToBuyPage() {
+      this.$router.push("/buy");
+    },
+
+    redirectToSellPage() {
+      this.$router.push("/sell");
+    },
+
+    redirectToAccountPage() {
+      this.$router.push("/my-account");
+    },
+
+    redirectToRentPage() {
+      this.$router.push("/rent");
+    },
+
+    AllCategories() {
+      this.$router.push("/all-categories");
+    },
+  },
+};
+</script>
