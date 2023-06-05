@@ -5,13 +5,12 @@
       @buy-clicked="redirectToBuyPage"
       @sell-clicked="redirectToSellPage"
       @rent-clicked="redirectToRentPage"
-      @account-clicked="redirectToAccountPage"
       @logout-clicked="redirectToLandingPage"
     />
     <v-row>
       <v-navigation-drawer class="mt-16">
         <v-list>
-          <v-list-item @click="redirectToBasicInfoPage">
+          <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-information</v-icon>
             </v-list-item-icon>
@@ -20,7 +19,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item @click="redirectToNotificationsPage">
+          <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-bell</v-icon>
             </v-list-item-icon>
@@ -29,7 +28,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item @click="redirectToChangePasswordPage">
+          <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-lock-reset</v-icon>
             </v-list-item-icon>
@@ -38,7 +37,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item @click="redirectToDeleteAccountPage">
+          <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-delete</v-icon>
             </v-list-item-icon>
@@ -104,6 +103,7 @@
                       outlined
                       label="First name"
                       prepend-inner-icon="mdi-account"
+                      :disabled="!isEditing"
                     ></v-text-field>
                   </v-col>
 
@@ -114,6 +114,7 @@
                       outlined
                       label="Last name"
                       prepend-inner-icon="mdi-account-outline"
+                      :disabled="!isEditing"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -128,13 +129,12 @@
                       label="Gender"
                       required
                       prepend-inner-icon="mdi-baby-face-outline"
+                      :disabled="!isEditing"
                     ></v-select>
                   </v-col>
                   <v-col>
                     <div>
                       <v-menu
-                        ref="menu"
-                        v-model="menu"
                         :close-on-content-click="false"
                         transition="scale-transition"
                         offset-y
@@ -146,6 +146,7 @@
                             v-model="bDate"
                             label="Birthday date"
                             prepend-inner-icon="mdi-calendar"
+                            :disabled="!isEditing"
                             readonly
                             v-bind="attrs"
                             v-on="on"
@@ -154,7 +155,6 @@
                         <v-date-picker
                           required
                           v-model="bDate"
-                          :active-picker.sync="activePicker"
                           :max="
                             new Date(
                               Date.now() -
@@ -164,7 +164,6 @@
                               .substr(0, 10)
                           "
                           min="1950-01-01"
-                          @change="save"
                         ></v-date-picker>
                       </v-menu>
                     </div>
@@ -179,6 +178,7 @@
                       outlined
                       label="Phone number"
                       prepend-inner-icon="mdi-phone"
+                      :disabled="!isEditing"
                     ></v-text-field>
                   </v-col>
                   <v-col>
@@ -188,6 +188,7 @@
                       outlined
                       label="Country"
                       prepend-inner-icon="mdi-map-marker"
+                      :disabled="!isEditing"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -200,13 +201,12 @@
                       outlined
                       label="Credit card number"
                       prepend-inner-icon="mdi-credit-card"
+                      :disabled="!isEditing"
                     ></v-text-field>
                   </v-col>
                   <v-col>
                     <div>
                       <v-menu
-                        ref="menu"
-                        v-model="menu"
                         :close-on-content-click="false"
                         transition="scale-transition"
                         offset-y
@@ -218,6 +218,7 @@
                             v-model="ccDate"
                             label="Credit card expiration date"
                             prepend-inner-icon="mdi-credit-card"
+                            :disabled="!isEditing"
                             readonly
                             v-bind="attrs"
                             v-on="on"
@@ -226,7 +227,6 @@
                         <v-date-picker
                           required
                           v-model="ccDate"
-                          :active-picker.sync="activePicker"
                           :max="
                             new Date(
                               Date.now() -
@@ -236,7 +236,6 @@
                               .substr(0, 10)
                           "
                           min="1950-01-01"
-                          @change="save"
                         ></v-date-picker>
                       </v-menu>
                     </div>
@@ -251,14 +250,16 @@
                       outlined
                       label="Credit card CVV"
                       prepend-inner-icon="mdi-credit-card"
+                      :disabled="!isEditing"
                     ></v-text-field>
                   </v-col>
                   <v-col>
                     <v-btn
                       style="background-color: #007074; color: #ffffff"
                       class="pa-5 mt-2"
+                      @click="toggleEditing"
                     >
-                      UPDATE
+                      {{ isEditing ? "SAVE" : "UPDATE" }}
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -287,7 +288,7 @@
                 <v-col>
                   <v-text-field
                     prepend-inner-icon="mdi-key"
-                    v-model="password"
+                    v-model="oldPassword"
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show1 ? 'text' : 'password'"
                     name="input-10-1"
@@ -300,7 +301,7 @@
                 <v-col>
                   <v-text-field
                     prepend-inner-icon="mdi-key"
-                    v-model="password2"
+                    v-model="newPassword"
                     :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show3 ? 'text' : 'password'"
                     name="input-10-1"
@@ -315,7 +316,7 @@
                 <v-col>
                   <v-text-field
                     prepend-inner-icon="mdi-key"
-                    v-model="password3"
+                    v-model="cNewPassword"
                     :append-icon="show5 ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show5 ? 'text' : 'password'"
                     name="input-10-1"
@@ -329,6 +330,7 @@
                   <v-btn
                     style="background-color: #007074; color: #ffffff"
                     class="pa-5 mt-2"
+                    @click="updatePassword"
                   >
                     UPDATE
                   </v-btn>
@@ -376,18 +378,19 @@
             <v-row>
               <v-checkbox
                 class="ml-10 mt-6"
-                v-model="ex4"
-                label="Comfirm that I want to delete my account"
+                label="Confirm that I want to delete my account"
                 color="error"
-                value="error"
+                v-model="deleteConfirmed"
                 hide-details
               ></v-checkbox>
             </v-row>
 
             <v-row class="mt-10" style="margin-left: 380px">
               <v-btn
+                v-if="deleteConfirmed"
                 style="background-color: #cb0a0a; color: #ffffff"
                 class="pa-5"
+                @click="deleteAccount"
               >
                 DELETE ACCOUNT
               </v-btn>
@@ -401,7 +404,17 @@
 
 
 <script>
-import { doc, db } from "../../firebase.js";
+import {
+  auth,
+  db,
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+  getAuth, deleteUser
+} from "../../firebase.js";
 import Toolbar from "@/components/Toolbar.vue";
 
 export default {
@@ -421,10 +434,72 @@ export default {
       show4: true,
       show5: false,
       show6: true,
+      firstName: "",
+      lastName: "",
+      gender: "",
+      country: "",
+      bDate: "",
+      phone: "",
+      ccNumber: "",
+      ccDate: "",
+      ccCVV: "",
+      isEditing: false,
+      oldPassword: "",
+      newPassword: "",
+      cNewPassword: "",
+      deleteConfirmed: false,
     };
   },
 
+  created() {
+    this.fetchUserData();
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.fetchUserData();
+      } else {
+        this.userData = null;
+      }
+    });
+  },
+
   methods: {
+    async fetchUserData() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("userId", "==", userId));
+          const querySnapshot = await getDocs(q);
+
+          querySnapshot.forEach((doc) => {
+            this.userData = doc.data();
+            console.log("Document data:", this.userData);
+
+            this.firstName = this.userData.firstName;
+            this.lastName = this.userData.lastName;
+            this.gender = this.userData.gender;
+            this.country = this.userData.country;
+            this.bDate = this.userData.bDate;
+            this.phone = this.userData.phone;
+            this.ccNumber = this.userData.ccNumber;
+            this.ccDate = this.userData.ccDate;
+            this.ccCVV = this.userData.ccCVV;
+          });
+        } /*else {
+          console.log("No user is currently logged in.");
+        }*/
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    },
+
+    
+
+    toggleEditing() {
+      this.isEditing = !this.isEditing; // Toggle the editing mode
+    },
+
     redirectToLandingPage() {
       this.$router.push("/");
     },

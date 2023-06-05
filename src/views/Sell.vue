@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background-color: #f1f5f9">
     <Toolbar
       @explore-clicked="redirectToExplorePage"
       @buy-clicked="redirectToBuyPage"
@@ -8,18 +8,156 @@
       @logout-clicked="redirectToLandingPage"
     />
 
-    <div v-if="userData" style="margin-top: 100px; background-color: #6666FF; height: 300px; width: 700px;">
-      <h2>{{ userData.name }}</h2>
-      <p>{{ userData.email }}</p>
-      <!-- Display other user data properties here -->
-    </div>
+    <v-row align="center" justify="center">
+      <v-col style="margin-left: 6%; margin-top: 6%">
+        <v-card width="600px" height="900px" align="center" justify="center">
+          <v-row class="justify-center font-weight-black text-h5">
+            <span style="margin-top: 5%">
+              Insert all the needed info for the <br />
+              vehicle that you are selling
+            </span>
+          </v-row>
+
+          <v-row class="mt-13" align="center" justify="center">
+            <v-col cols="12" sm="6" md="6" lg="5">
+              <v-form>
+                <v-select
+                  v-model="type"
+                  label="Type of vehicle"
+                  outlined
+                  :items="items"
+                  prepend-inner-icon="mdi-train-car"
+                ></v-select>
+
+                <v-text-field
+                  v-model="brand"
+                  label="Vehicle brand"
+                  outlined
+                  prepend-inner-icon="mdi-watermark"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="model"
+                  label="Vehicle model"
+                  outlined
+                  prepend-inner-icon="mdi-car-estate"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="location"
+                  label="Location of the vehicle"
+                  outlined
+                  prepend-inner-icon="mdi-map-marker"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="yearMan"
+                  label="Year of manufacture"
+                  outlined
+                  prepend-inner-icon="mdi-calendar-range"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="yearModel"
+                  label="Model year"
+                  outlined
+                  prepend-inner-icon="mdi-calendar-range"
+                ></v-text-field>
+
+                <v-text-field
+                  class="mt-10"
+                  v-model="post"
+                  label="Post name"
+                  outlined
+                  prepend-inner-icon="mdi-note-text-outline"
+                ></v-text-field>
+              </v-form>
+            </v-col>
+
+            <v-col cols="12" sm="6" md="6" lg="5">
+              <v-form>
+                <v-text-field
+                  v-model="state"
+                  label="State of the vehicle"
+                  outlined
+                  prepend-inner-icon="mdi-new-box"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="km"
+                  label="Kilometers traveled"
+                  outlined
+                  prepend-inner-icon="mdi-map-marker-distance"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="engine"
+                  label="Engine"
+                  outlined
+                  prepend-inner-icon="mdi-engine"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="power"
+                  label="Engine power"
+                  outlined
+                  prepend-inner-icon="mdi-engine"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="volume"
+                  label="Work volume"
+                  outlined
+                  prepend-inner-icon="mdi-engine-outline"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="gearbox"
+                  label="Gearbox"
+                  outlined
+                  prepend-inner-icon="mdi-account"
+                ></v-text-field>
+
+                <v-text-field
+                  class="mt-10"
+                  v-model="price"
+                  label="Price"
+                  outlined
+                  prepend-inner-icon="mdi-currency-eur"
+                ></v-text-field>
+              </v-form>
+            </v-col>
+          </v-row>
+
+          <v-row class="justify-center font-weight-black text-h5">
+            <v-btn
+              style="background-color: #007074; color: #ffffff"
+              class="pa-5 mt-2"
+            >
+              SELL
+            </v-btn>
+          </v-row>
+        </v-card>
+      </v-col>
+
+      <v-col style="margin-left: 6%">
+        <v-img width="400px" src="@/assets/upload.png" />
+      </v-col>
+    </v-row>
   </v-app>
 </template>
 
 <script>
 import Toolbar from "@/components/Toolbar.vue";
-import { auth, onAuthStateChanged, collection, getDocs, query, where, db } from "../../firebase.js";
-
+import {
+  auth,
+  onAuthStateChanged,
+  collection,
+  getDocs,
+  query,
+  where,
+  db,
+} from "../../firebase.js";
 
 export default {
   components: {
@@ -28,38 +166,21 @@ export default {
 
   data() {
     return {
-      userData: null,
+      items: [
+        "Car",
+        "Motorcycle",
+        "Bycicle",
+        "Truck",
+        "Romobile",
+        "Boat",
+        "Bus",
+        "Helicopter",
+        "Other",
+      ],
     };
   },
 
-  created() {
-  this.fetchUserData();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      this.fetchUserData();
-    }
-  });
-},
-
   methods: {
-    async fetchUserData() {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
-          const usersRef = collection(db, "users");
-          const querySnapshot = await getDocs(query(usersRef, where("userId", "==", userId)));
-          querySnapshot.forEach((doc) => {
-            this.userData = doc.data();
-          });
-        } else {
-          console.log("No user is currently logged in.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    },
-
     redirectToLandingPage() {
       this.$router.push("/");
     },
@@ -82,5 +203,3 @@ export default {
   },
 };
 </script>
-
-
