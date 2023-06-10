@@ -141,7 +141,47 @@
       </v-col>
 
       <v-col style="margin-left: 6%">
-        <v-img width="400px" src="@/assets/upload.png" />
+        <v-card
+          width="600px"
+          :height="(Math.ceil(imagePreview.length / 3) * 120) + 100 + 'px'"
+          align="center"
+          justify="center"
+          style="margin-top: 0px"
+        >
+          <div class="button-container">
+            <input
+              type="file"
+              multiple
+              @change="handleFileSelect"
+              ref="fileInput"
+              style="display: none"
+            />
+            <div class="button-group">
+              <v-btn color="primary" dark @click="openFilePicker"
+                >Select Images</v-btn
+              >
+              <v-btn color="success" dark @click="uploadImages"
+                >Upload Images</v-btn
+              >
+              <v-btn color="error" dark @click="clearImages"
+                >Clear Images</v-btn
+              >
+            </div>
+          </div>
+
+          <div class="image-preview-container">
+            <div
+              v-for="(preview, index) in imagePreview"
+              :key="preview"
+              class="image-preview"
+            >
+              <img :src="preview" class="image-preview-image" />
+              <div class="delete-icon" @click="deleteImage(index)">
+                <i class="mdi mdi-delete"></i>
+              </div>
+            </div>
+          </div>
+        </v-card>
       </v-col>
     </v-row>
   </v-app>
@@ -149,6 +189,8 @@
 
 <script>
 import Toolbar from "@/components/Toolbar.vue";
+//import MultipleImageUpload from "@/components/MultipleImageUpload.vue";
+
 import {
   auth,
   onAuthStateChanged,
@@ -158,6 +200,14 @@ import {
   where,
   db,
 } from "../../firebase.js";
+
+import { ref } from "vue";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 export default {
   components: {
@@ -177,10 +227,61 @@ export default {
         "Helicopter",
         "Other",
       ],
+      files: [],
+      imagePreview: [],
     };
   },
 
   methods: {
+    clearImages() {
+      this.files = [];
+      this.imagePreview = [];
+    },
+
+    openFilePicker() {
+      this.$refs.fileInput.click();
+    },
+
+    handleFileSelect(event) {
+      const selectedFiles = Array.from(event.target.files);
+
+      // Append selected files to the existing files array
+      this.files = this.files.concat(selectedFiles);
+
+      // Generate image previews for the newly selected files
+      for (const file of selectedFiles) {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          this.imagePreview.push(fileReader.result);
+        };
+        fileReader.readAsDataURL(file);
+      }
+    },
+
+    async uploadImages() {
+      const storage = getStorage();
+      const storageReference = storageRef(storage, "images");
+
+      for (const file of this.files) {
+        const timestamp = Date.now();
+        const fileName = `${timestamp}_${file.name}`;
+        const fileReference = storageRef(storageReference, fileName);
+
+        const uploadTask = uploadBytes(fileReference, file);
+        const snapshot = await uploadTask;
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        console.log("Download URL:", downloadURL);
+      }
+
+      // Clear selected files and image previews after upload
+      this.files = [];
+      this.imagePreview = [];
+    },
+
+    deleteImage(index) {
+      this.imagePreview.splice(index, 1);
+    },
+
     redirectToLandingPage() {
       this.$router.push("/");
     },
@@ -203,3 +304,63 @@ export default {
   },
 };
 </script>
+
+<style>
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.image-preview {
+  width: 170px;
+  height: 100px;
+  margin: 10px;
+  position: relative;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.image-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.delete-icon i {
+  font-size: 16px;
+}
+</style>
+
