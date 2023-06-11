@@ -1,7 +1,6 @@
 <template>
   <v-app style="background-color: #7b7b7b">
     <Toolbar
-      @explore-clicked="exploreClicked"
       @buy-clicked="redirectToBuyPage"
       @sell-clicked="redirectToSellPage"
       @rent-clicked="redirectToRentPage"
@@ -74,11 +73,16 @@
       </div>
     </div>
 
-    <div class="latest">
+    <div
+      style="
+      position: relative;
+        height: 460px !important;
+        background-color: #f1f5f9;
+        padding-top: 60px;
+      "
+      :style="{ height: latestHeight + 'px' }"
+    >
       <span class="l-vc-header">Latest offers</span>
-      <span class="more-l"
-        >Discover more vehicles <v-icon>mdi-arrow-right</v-icon></span
-      >
 
       <div class="card-container">
         <v-card class="l-card-item">
@@ -120,6 +124,17 @@
             <span>Price: $40,000</span>
           </v-card-text>
         </v-card>
+
+        
+      </div>
+      <div style="position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;">
+        <v-btn color="primary" @click="increaseLatestHeight"
+          >Show More Vehicles</v-btn
+        >
       </div>
     </div>
 
@@ -140,27 +155,6 @@
   font-size: 40px;
   font-weight: bold;
   margin-left: 100px;
-}
-
-.toolbar {
-  height: 60px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-}
-
-.header {
-  color: #afffd9;
-  font-size: 34px !important;
-  font-weight: bold;
-  margin-left: 60px;
-}
-
-.button {
-  color: #ffffff !important;
-  text-transform: none;
-  margin-right: 7px;
 }
 
 .big-container {
@@ -269,17 +263,6 @@
   color: #2563eb;
 }
 
-.more-l {
-  margin-left: 686px;
-  color: #2563eb;
-}
-
-.latest {
-  height: 460px;
-  background-color: #f1f5f9;
-  padding-top: 60px;
-}
-
 .card-container {
   display: flex;
   gap: 50px;
@@ -328,7 +311,17 @@ export default {
     Toolbar,
   },
 
+  data() {
+    return {
+      latestHeight: 460,
+    };
+  },
+
   methods: {
+    increaseLatestHeight() {
+      this.latestHeight += 230;
+    },
+
     redirectToLandingPage() {
       this.$router.push("/");
     },
@@ -349,8 +342,8 @@ export default {
       this.$router.push("/rent");
     },
 
-    AllCategories(){
-      this.$router.push('/all-categories');
+    AllCategories() {
+      this.$router.push("/all-categories");
     },
   },
 };

@@ -202,7 +202,7 @@
             <div class="button-group">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark v-on="on">Select Images</v-btn>
+                  <v-btn color="primary" dark v-on="on" @click="openFilePicker">Select Images</v-btn>
                 </template>
                 <span
                   >You need to put a minimum of 6 photos and you can put a
@@ -231,12 +231,12 @@
         </v-card>
 
         <div style="width: 600px; margin-top: 10px">
-          <!-- Add the condition to the v-if directive -->
+          
           <v-card elevation="4">
             <v-img
               v-if="imagePreview.length === 0"
               src="../assets/upl.jpg"
-              style="width: 100%;"
+              style="width: 100%"
             />
           </v-card>
         </div>
@@ -247,7 +247,6 @@
 
 <script>
 import Toolbar from "@/components/Toolbar.vue";
-//import MultipleImageUpload from "@/components/MultipleImageUpload.vue";
 
 import {
   auth,
@@ -362,14 +361,14 @@ export default {
     handleFileSelect(event) {
       const selectedFiles = Array.from(event.target.files);
 
-      // Limit the number of selected files to 15
+     
       const remainingSlots = 15 - this.imagePreview.length;
       const filesToAdd = selectedFiles.slice(0, remainingSlots);
 
-      // Append selected files to the existing files array
+      
       this.files = this.files.concat(filesToAdd);
 
-      // Generate image previews for the newly selected files
+      
       for (const file of filesToAdd) {
         const fileReader = new FileReader();
         fileReader.onload = () => {
@@ -383,7 +382,7 @@ export default {
       const storage = getStorage();
       const storageReference = storageRef(storage, "images");
 
-      const folderName = `${this.post}${Date.now()}`; // Generate a unique folder name based on the 'post' field
+      const folderName = `${this.post}${Date.now()}`; 
       const folderReference = storageRef(storageReference, folderName);
 
       const uploadPromises = this.files.map(async (file) => {
@@ -399,11 +398,11 @@ export default {
 
       await Promise.all(uploadPromises);
 
-      const user = auth.currentUser; // Get the currently authenticated user
+      const user = auth.currentUser; 
 
-      // Check if the user is authenticated before proceeding
+      
       if (user) {
-        // Access the user's UID using user.uid and store it along with other vehicle details
+        
         await addDoc(collection(db, "vehicles"), {
           userId: user.uid,
           type: this.type,
@@ -423,12 +422,12 @@ export default {
           folderName: folderName,
         });
 
-        // Clear selected files and image previews after upload
+        
         this.files = [];
         this.imagePreview = [];
         this.$router.push("/main-page");
       } else {
-        // Handle the case when the user is not authenticated
+        
         console.log("User is not authenticated");
       }
     },
@@ -464,8 +463,8 @@ export default {
 .image-preview-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Center the images horizontally */
-  align-items: center; /* Center the images vertically */
+  justify-content: center; 
+  align-items: center; 
   margin-top: 20px;
 }
 
@@ -475,8 +474,8 @@ export default {
   margin: 10px;
   position: relative;
   display: flex;
-  align-items: center; /* Center the image vertically */
-  justify-content: center; /* Center the image horizontally */
+  align-items: center; 
+  justify-content: center; 
 }
 
 .button-group {
@@ -523,7 +522,7 @@ export default {
 }
 
 .custom-text-field {
-  margin-bottom: -25px !important; /* Adjust the value as per your requirement */
+  margin-bottom: -25px !important; 
 }
 </style>
 
