@@ -18,121 +18,164 @@
             </span>
           </v-row>
 
-          <v-row class="mt-13" align="center" justify="center">
-            <v-col cols="12" sm="6" md="6" lg="5">
-              <v-form>
-                <v-select
-                  v-model="type"
-                  label="Type of vehicle"
-                  outlined
-                  :items="items"
-                  prepend-inner-icon="mdi-train-car"
-                ></v-select>
+          <v-form>
+            <v-container class="mt-15">
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    v-model="type"
+                    label="Type of vehicle"
+                    outlined
+                    :items="items"
+                    prepend-inner-icon="mdi-train-car"
+                    class="custom-text-field"
+                  ></v-select>
+                </v-col>
 
-                <v-text-field
-                  v-model="brand"
-                  label="Vehicle brand"
-                  outlined
-                  prepend-inner-icon="mdi-watermark"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="state"
+                    label="State of the vehicle"
+                    outlined
+                    prepend-inner-icon="mdi-new-box"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="model"
-                  label="Vehicle model"
-                  outlined
-                  prepend-inner-icon="mdi-car-estate"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="brand"
+                    label="Vehicle brand"
+                    outlined
+                    prepend-inner-icon="mdi-watermark"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="location"
-                  label="Location of the vehicle"
-                  outlined
-                  prepend-inner-icon="mdi-map-marker"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="km"
+                    label="Kilometers traveled"
+                    outlined
+                    prepend-inner-icon="mdi-map-marker-distance"
+                    :rules="[kmPositiveRule]"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="yearMan"
-                  label="Year of manufacture"
-                  outlined
-                  prepend-inner-icon="mdi-calendar-range"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="model"
+                    label="Vehicle model"
+                    outlined
+                    prepend-inner-icon="mdi-car-estate"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="yearModel"
-                  label="Model year"
-                  outlined
-                  prepend-inner-icon="mdi-calendar-range"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="engine"
+                    label="Engine"
+                    outlined
+                    prepend-inner-icon="mdi-engine"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  class="mt-10"
-                  v-model="post"
-                  label="Post name"
-                  outlined
-                  prepend-inner-icon="mdi-note-text-outline"
-                ></v-text-field>
-              </v-form>
-            </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="location"
+                    label="Location of the vehicle"
+                    outlined
+                    prepend-inner-icon="mdi-map-marker"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-            <v-col cols="12" sm="6" md="6" lg="5">
-              <v-form>
-                <v-text-field
-                  v-model="state"
-                  label="State of the vehicle"
-                  outlined
-                  prepend-inner-icon="mdi-new-box"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="power"
+                    label="Engine power"
+                    outlined
+                    prepend-inner-icon="mdi-engine"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="km"
-                  label="Kilometers traveled"
-                  outlined
-                  prepend-inner-icon="mdi-map-marker-distance"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="yearMan"
+                    label="Year of manufacture"
+                    outlined
+                    prepend-inner-icon="mdi-calendar-range"
+                    :rules="[yearManRangeRule]"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="engine"
-                  label="Engine"
-                  outlined
-                  prepend-inner-icon="mdi-engine"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="volume"
+                    label="Work volume"
+                    outlined
+                    prepend-inner-icon="mdi-engine-outline"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="power"
-                  label="Engine power"
-                  outlined
-                  prepend-inner-icon="mdi-engine"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="yearModel"
+                    label="Model year"
+                    outlined
+                    prepend-inner-icon="mdi-calendar-range"
+                    :rules="[yearModelRangeRule]"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="volume"
-                  label="Work volume"
-                  outlined
-                  prepend-inner-icon="mdi-engine-outline"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="gearbox"
+                    label="Gearbox"
+                    outlined
+                    prepend-inner-icon="mdi-account"
+                    class="custom-text-field"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  v-model="gearbox"
-                  label="Gearbox"
-                  outlined
-                  prepend-inner-icon="mdi-account"
-                ></v-text-field>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    class="mt-10"
+                    v-model="post"
+                    label="Post name"
+                    outlined
+                    prepend-inner-icon="mdi-note-text-outline"
+                    :rules="[postMinLengthRule, postMaxLengthRule]"
+                  ></v-text-field>
+                </v-col>
 
-                <v-text-field
-                  class="mt-10"
-                  v-model="price"
-                  label="Price"
-                  outlined
-                  prepend-inner-icon="mdi-currency-eur"
-                ></v-text-field>
-              </v-form>
-            </v-col>
-          </v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    class="mt-10"
+                    v-model="price"
+                    label="Price"
+                    outlined
+                    prepend-inner-icon="mdi-currency-eur"
+                    :rules="[priceNumberRule, pricePositiveRule]"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
 
           <v-row class="justify-center font-weight-black text-h5">
             <v-btn
+              :disabled="!isFormValid || imagePreview.length < 6"
               style="background-color: #007074; color: #ffffff"
               class="pa-5 mt-2"
+              @click="uploadImages"
             >
               SELL
             </v-btn>
@@ -143,7 +186,7 @@
       <v-col style="margin-left: 6%">
         <v-card
           width="600px"
-          :height="(Math.ceil(imagePreview.length / 3) * 120) + 100 + 'px'"
+          :height="Math.ceil(imagePreview.length / 3) * 120 + 100 + 'px'"
           align="center"
           justify="center"
           style="margin-top: 0px"
@@ -157,12 +200,16 @@
               style="display: none"
             />
             <div class="button-group">
-              <v-btn color="primary" dark @click="openFilePicker"
-                >Select Images</v-btn
-              >
-              <v-btn color="success" dark @click="uploadImages"
-                >Upload Images</v-btn
-              >
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn color="primary" dark v-on="on">Select Images</v-btn>
+                </template>
+                <span
+                  >You need to put a minimum of 6 photos and you can put a
+                  maximum of 15 photos.</span
+                >
+              </v-tooltip>
+
               <v-btn color="error" dark @click="clearImages"
                 >Clear Images</v-btn
               >
@@ -182,6 +229,17 @@
             </div>
           </div>
         </v-card>
+
+        <div style="width: 600px; margin-top: 10px">
+          <!-- Add the condition to the v-if directive -->
+          <v-card elevation="4">
+            <v-img
+              v-if="imagePreview.length === 0"
+              src="../assets/upl.jpg"
+              style="width: 100%;"
+            />
+          </v-card>
+        </div>
       </v-col>
     </v-row>
   </v-app>
@@ -199,6 +257,7 @@ import {
   query,
   where,
   db,
+  addDoc,
 } from "../../firebase.js";
 
 import { ref } from "vue";
@@ -216,6 +275,20 @@ export default {
 
   data() {
     return {
+      type: "",
+      brand: "",
+      model: "",
+      location: "",
+      yearMan: "",
+      yearModel: "",
+      post: "",
+      state: "",
+      km: "",
+      engine: "",
+      power: "",
+      volume: "",
+      gearbox: "",
+      price: "",
       items: [
         "Car",
         "Motorcycle",
@@ -229,7 +302,51 @@ export default {
       ],
       files: [],
       imagePreview: [],
+      postMinLengthRule: (v) =>
+        (v && v.length >= 3) || "Post name must be at least 3 characters long.",
+
+      postMaxLengthRule: (v) =>
+        (v && v.length <= 50) || "Post name must not exceed 50 characters.",
+
+      priceNumberRule: (v) =>
+        (!isNaN(parseFloat(v)) && isFinite(v)) ||
+        "Price must be a valid number.",
+
+      pricePositiveRule: (v) =>
+        v >= 0 || "Price must be a non-negative number.",
+
+      yearManRangeRule: (v) =>
+        (v >= 1880 && v <= new Date().getFullYear()) ||
+        "Year of manufacture must be between 1880 and the current year.",
+
+      yearModelRangeRule: (v) =>
+        (v >= 1880 && v <= new Date().getFullYear()) ||
+        "Model year must be between 1880 and the current year.",
+
+      kmPositiveRule: (v) =>
+        v >= 0 || "Kilometers traveled must be a non-negative number.",
     };
+  },
+
+  computed: {
+    isFormValid() {
+      return (
+        this.type &&
+        this.brand &&
+        this.model &&
+        this.location &&
+        this.yearMan &&
+        this.yearModel &&
+        this.post &&
+        this.state &&
+        this.km &&
+        this.engine &&
+        this.power &&
+        this.volume &&
+        this.gearbox &&
+        this.price
+      );
+    },
   },
 
   methods: {
@@ -245,11 +362,15 @@ export default {
     handleFileSelect(event) {
       const selectedFiles = Array.from(event.target.files);
 
+      // Limit the number of selected files to 15
+      const remainingSlots = 15 - this.imagePreview.length;
+      const filesToAdd = selectedFiles.slice(0, remainingSlots);
+
       // Append selected files to the existing files array
-      this.files = this.files.concat(selectedFiles);
+      this.files = this.files.concat(filesToAdd);
 
       // Generate image previews for the newly selected files
-      for (const file of selectedFiles) {
+      for (const file of filesToAdd) {
         const fileReader = new FileReader();
         fileReader.onload = () => {
           this.imagePreview.push(fileReader.result);
@@ -262,20 +383,54 @@ export default {
       const storage = getStorage();
       const storageReference = storageRef(storage, "images");
 
-      for (const file of this.files) {
+      const folderName = `${this.post}${Date.now()}`; // Generate a unique folder name based on the 'post' field
+      const folderReference = storageRef(storageReference, folderName);
+
+      const uploadPromises = this.files.map(async (file) => {
         const timestamp = Date.now();
         const fileName = `${timestamp}_${file.name}`;
-        const fileReference = storageRef(storageReference, fileName);
+        const fileReference = storageRef(folderReference, fileName);
 
         const uploadTask = uploadBytes(fileReference, file);
         const snapshot = await uploadTask;
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log("Download URL:", downloadURL);
-      }
+      });
 
-      // Clear selected files and image previews after upload
-      this.files = [];
-      this.imagePreview = [];
+      await Promise.all(uploadPromises);
+
+      const user = auth.currentUser; // Get the currently authenticated user
+
+      // Check if the user is authenticated before proceeding
+      if (user) {
+        // Access the user's UID using user.uid and store it along with other vehicle details
+        await addDoc(collection(db, "vehicles"), {
+          userId: user.uid,
+          type: this.type,
+          brand: this.brand,
+          model: this.model,
+          location: this.location,
+          yearMan: this.yearMan,
+          yearModel: this.yearModel,
+          post: this.post,
+          state: this.state,
+          km: this.km,
+          engine: this.engine,
+          power: this.power,
+          volume: this.volume,
+          gearbox: this.gearbox,
+          price: this.price,
+          folderName: folderName,
+        });
+
+        // Clear selected files and image previews after upload
+        this.files = [];
+        this.imagePreview = [];
+        this.$router.push("/main-page");
+      } else {
+        // Handle the case when the user is not authenticated
+        console.log("User is not authenticated");
+      }
     },
 
     deleteImage(index) {
@@ -309,7 +464,8 @@ export default {
 .image-preview-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center; /* Center the images horizontally */
+  align-items: center; /* Center the images vertically */
   margin-top: 20px;
 }
 
@@ -318,6 +474,9 @@ export default {
   height: 100px;
   margin: 10px;
   position: relative;
+  display: flex;
+  align-items: center; /* Center the image vertically */
+  justify-content: center; /* Center the image horizontally */
 }
 
 .button-group {
@@ -361,6 +520,10 @@ export default {
 
 .delete-icon i {
   font-size: 16px;
+}
+
+.custom-text-field {
+  margin-bottom: -25px !important; /* Adjust the value as per your requirement */
 }
 </style>
 
