@@ -74,64 +74,48 @@
     </div>
 
     <div
-      style="
-      position: relative;
-        height: 460px !important;
-        background-color: #f1f5f9;
-        padding-top: 60px;
-      "
+      style="position: relative; background-color: #f1f5f9; padding-top: 60px"
       :style="{ height: latestHeight + 'px' }"
     >
       <span class="l-vc-header">Latest offers</span>
 
       <div class="card-container">
-        <v-card class="l-card-item">
+        <v-card
+          class="l-card-item"
+          v-for="vehicle in vehicles.slice(0, visibleVehicles)"
+          :key="vehicle.id"
+          @click="showVehicleDetails(vehicle)"
+        >
           <div>
-            <v-img class="l-card-image" src="@/assets/car1.jpg"></v-img>
+            <v-img style="height: 130px" :src="vehicle.imageUrl"></v-img>
           </div>
+
           <v-card-text>
-            <span>Car Model 1</span>
-            <span>Price: $10,000</span>
+            <div>
+              <span>{{ vehicle.post }}</span>
+            </div>
+            <div>
+              <span>Price: {{ vehicle.price }}</span>
+            </div>
           </v-card-text>
         </v-card>
-
-        <v-card class="l-card-item">
-          <div>
-            <v-img class="l-card-image" src="@/assets/car2.jpg"></v-img>
-          </div>
-          <v-card-text>
-            <span>Car Model 2</span>
-            <span>Price: $20,000</span>
-          </v-card-text>
-        </v-card>
-
-        <v-card class="l-card-item">
-          <div>
-            <v-img class="l-card-image" src="@/assets/car3.jpg"></v-img>
-          </div>
-          <v-card-text>
-            <span>Car Model 3</span>
-            <span>Price: $30,000</span>
-          </v-card-text>
-        </v-card>
-
-        <v-card class="l-card-item">
-          <div>
-            <v-img class="l-card-image" src="@/assets/car4.jpg"></v-img>
-          </div>
-          <v-card-text>
-            <span>Car Model 4</span>
-            <span>Price: $40,000</span>
-          </v-card-text>
-        </v-card>
-
-        
       </div>
-      <div style="position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
-  text-align: center;">
+
+      <v-dialog v-model="dialogVisible" max-width="500px">
+    <v-card>
+      <vehicle-details v-if="selectedVehicle" :vehicle="selectedVehicle" />
+    </v-card>
+  </v-dialog>
+
+      <div
+        style="
+          position: absolute;
+          bottom: 20px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+        "
+      >
         <v-btn color="primary" @click="increaseLatestHeight"
           >Show More Vehicles</v-btn
         >
@@ -148,6 +132,130 @@
     </v-container>
   </v-app>
 </template>
+
+
+
+<script>
+import {
+  db,
+  collection,
+  getDocs,
+  storage,
+  ref,
+  listAll,
+  getDownloadURL,
+} from "../../firebase.js";
+import Toolbar from "@/components/Toolbar.vue";
+import VehicleDetails from "@/components/VehicleDetails.vue";
+
+export default {
+  components: {
+    Toolbar,
+    VehicleDetails,
+  },
+
+  data() {
+    return {
+      latestHeight: 510,
+      dynamicDivCount: 1,
+      vehicles: [],
+      visibleVehicles: 5,
+      dialogVisible: false,
+      selectedVehicle: null,
+    };
+  },
+
+  created() {
+    this.fetchVehicles();
+  },
+
+  methods: {
+    async fetchVehicles() {
+      const vehiclesCollection = collection(db, "vehicles");
+      const querySnapshot = await getDocs(vehiclesCollection);
+
+      const vehicles = [];
+
+      // Create an array of promises to fetch the images asynchronously
+      const imagePromises = querySnapshot.docs.map(async (doc) => {
+        const vehicleData = doc.data();
+        const folderName = vehicleData.folderName;
+
+        const imagesFolderRef = ref(storage, `images/${folderName}`);
+        const imagesList = await listAll(imagesFolderRef);
+        const firstImageRef = imagesList.items[0];
+        const imageUrl = await getDownloadURL(firstImageRef);
+
+        return {
+          id: doc.id,
+          post: vehicleData.post,
+          price: vehicleData.price,
+          imageUrl,
+          model: vehicleData.model,
+          yearModel: vehicleData.yearModel,
+          location: vehicleData.location,
+          power: vehicleData.power,
+          km: vehicleData.km,
+          state: vehicleData.state,
+          volume: vehicleData.volume,
+          yearMan: vehicleData.yearMan,
+          type: vehicleData.type,
+          power: vehicleData.power,
+          gearbox: vehicleData.gearbox,
+          engine: vehicleData.engine,
+          brand: vehicleData.brand,
+        };
+      });
+
+      // Wait for all the image promises to resolve
+      const images = await Promise.all(imagePromises);
+
+      vehicles.push(...images);
+
+      this.vehicles = vehicles;
+    },
+
+    increaseLatestHeight() {
+      this.latestHeight += 260;
+      this.dynamicDivCount++;
+      this.visibleVehicles += 5;
+
+      window.scrollTo(0, document.body.scrollHeight);
+    },
+
+    showVehicleDetails(vehicle) {
+      this.selectedVehicle = vehicle;
+      this.dialogVisible = true;
+    },
+
+    redirectToLandingPage() {
+      this.$router.push("/");
+    },
+
+    redirectToBuyPage() {
+      this.$router.push("/buy");
+    },
+
+    redirectToSellPage() {
+      this.$router.push("/sell");
+    },
+
+    redirectToAccountPage() {
+      this.$router.push("/my-account");
+    },
+
+    redirectToRentPage() {
+      this.$router.push("/rent");
+    },
+
+    AllCategories() {
+      this.$router.push("/all-categories");
+    },
+  },
+};
+</script>
+
+
 
 <style>
 .bring {
@@ -254,7 +362,7 @@
 .l-vc-header {
   color: #0f172a;
   font-size: 28px;
-  margin-left: 240px;
+  margin-left: 110px !important;
   font-weight: bold;
 }
 
@@ -265,9 +373,10 @@
 
 .card-container {
   display: flex;
+  flex-wrap: wrap; /* Added flex-wrap property */
+  justify-content: center;
   gap: 50px;
   margin-top: 40px;
-  justify-content: center;
 }
 
 .card-item {
@@ -302,49 +411,3 @@
   padding: 10px;
 }
 </style>
-
-<script>
-import Toolbar from "@/components/Toolbar.vue";
-
-export default {
-  components: {
-    Toolbar,
-  },
-
-  data() {
-    return {
-      latestHeight: 460,
-    };
-  },
-
-  methods: {
-    increaseLatestHeight() {
-      this.latestHeight += 230;
-    },
-
-    redirectToLandingPage() {
-      this.$router.push("/");
-    },
-
-    redirectToBuyPage() {
-      this.$router.push("/buy");
-    },
-
-    redirectToSellPage() {
-      this.$router.push("/sell");
-    },
-
-    redirectToAccountPage() {
-      this.$router.push("/my-account");
-    },
-
-    redirectToRentPage() {
-      this.$router.push("/rent");
-    },
-
-    AllCategories() {
-      this.$router.push("/all-categories");
-    },
-  },
-};
-</script>
