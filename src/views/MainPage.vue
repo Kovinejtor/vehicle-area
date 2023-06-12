@@ -204,6 +204,7 @@ export default {
           gearbox: vehicleData.gearbox,
           engine: vehicleData.engine,
           brand: vehicleData.brand,
+          folderName: vehicleData.folderName,
         };
       });
 
