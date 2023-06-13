@@ -2,15 +2,14 @@
   <v-app style="background-color: #f1f5f9">
     <Toolbar
       @explore-clicked="redirectToExplorePage"
-      @buy-clicked="redirectToBuyPage"
       @rent-clicked="redirectToRentPage"
       @account-clicked="redirectToAccountPage"
       @logout-clicked="redirectToLandingPage"
     />
 
     <v-row align="center" justify="center">
-      <v-col style="margin-left: 6%; margin-top: 6%">
-        <v-card width="600px" height="900px" align="center" justify="center">
+      <v-col style="margin-left: 6%; margin-top: 6%" cols="5">
+        <v-card height="900px" align="center" justify="center">
           <v-row class="justify-center font-weight-black text-h5">
             <span style="margin-top: 5%">
               Insert all the needed info for the <br />
@@ -21,7 +20,7 @@
           <v-form>
             <v-container class="mt-15">
               <v-row>
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-select
                     v-model="type"
                     label="Type of vehicle"
@@ -32,7 +31,7 @@
                   ></v-select>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="state"
                     label="State of the vehicle"
@@ -42,7 +41,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="brand"
                     label="Vehicle brand"
@@ -52,7 +51,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="km"
                     label="Kilometers traveled"
@@ -63,7 +62,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="model"
                     label="Vehicle model"
@@ -73,7 +72,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="engine"
                     label="Engine"
@@ -83,7 +82,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="location"
                     label="Location of the vehicle"
@@ -93,7 +92,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="power"
                     label="Engine power"
@@ -103,7 +102,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="yearMan"
                     label="Year of manufacture"
@@ -114,7 +113,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="volume"
                     label="Work volume"
@@ -124,7 +123,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="yearModel"
                     label="Model year"
@@ -135,7 +134,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     v-model="gearbox"
                     label="Gearbox"
@@ -145,7 +144,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     class="mt-10"
                     v-model="post"
@@ -156,7 +155,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
                   <v-text-field
                     class="mt-10"
                     v-model="price"
@@ -183,63 +182,70 @@
         </v-card>
       </v-col>
 
-      <v-col style="margin-left: 6%">
-        <v-card
-          width="600px"
-          :height="Math.ceil(imagePreview.length / 3) * 120 + 100 + 'px'"
-          align="center"
-          justify="center"
-          style="margin-top: 0px"
-        >
-          <div class="button-container">
-            <input
-              type="file"
-              multiple
-              @change="handleFileSelect"
-              ref="fileInput"
-              style="display: none"
-            />
-            <div class="button-group">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark v-on="on" @click="openFilePicker">Select Images</v-btn>
-                </template>
-                <span
-                  >You need to put a minimum of 6 photos and you can put a
-                  maximum of 15 photos.</span
+      <v-col style="margin-left: 6%" cols="5">
+        <v-row>
+          <v-card
+            width="600px"
+            :height="Math.ceil(imagePreview.length / 3) * 120 + 100 + 'px'"
+            style="margin-top: 0px"
+          >
+            <div class="button-container">
+              <input
+                type="file"
+                multiple
+                @change="handleFileSelect"
+                ref="fileInput"
+                style="display: none"
+              />
+              <div class="button-group">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      color="primary"
+                      dark
+                      v-on="on"
+                      @click="openFilePicker"
+                      >Select Images</v-btn
+                    >
+                  </template>
+                  <span
+                    >You need to put a minimum of 6 photos and you can put a
+                    maximum of 15 photos.</span
+                  >
+                </v-tooltip>
+
+                <v-btn color="error" dark @click="clearImages"
+                  >Clear Images</v-btn
                 >
-              </v-tooltip>
-
-              <v-btn color="error" dark @click="clearImages"
-                >Clear Images</v-btn
-              >
-            </div>
-          </div>
-
-          <div class="image-preview-container">
-            <div
-              v-for="(preview, index) in imagePreview"
-              :key="preview"
-              class="image-preview"
-            >
-              <img :src="preview" class="image-preview-image" />
-              <div class="delete-icon" @click="deleteImage(index)">
-                <i class="mdi mdi-delete"></i>
               </div>
             </div>
-          </div>
-        </v-card>
 
-        <div style="width: 600px; margin-top: 10px">
-          
-          <v-card elevation="4">
-            <v-img
-              v-if="imagePreview.length === 0"
-              src="../assets/upl.jpg"
-              style="width: 100%"
-            />
+            <div class="image-preview-container">
+              <div
+                v-for="(preview, index) in imagePreview"
+                :key="preview"
+                class="image-preview"
+              >
+                <img :src="preview" class="image-preview-image" />
+                <div class="delete-icon" @click="deleteImage(index)">
+                  <i class="mdi mdi-delete"></i>
+                </div>
+              </div>
+            </div>
           </v-card>
-        </div>
+        </v-row>
+
+        <v-row>
+          <div style="width: 600px; margin-top: 10px">
+            <v-card elevation="4">
+              <v-img
+                v-if="imagePreview.length === 0"
+                src="../assets/upl.jpg"
+                style="width: 100%"
+              />
+            </v-card>
+          </div>
+        </v-row>
       </v-col>
     </v-row>
   </v-app>
@@ -361,14 +367,11 @@ export default {
     handleFileSelect(event) {
       const selectedFiles = Array.from(event.target.files);
 
-     
       const remainingSlots = 15 - this.imagePreview.length;
       const filesToAdd = selectedFiles.slice(0, remainingSlots);
 
-      
       this.files = this.files.concat(filesToAdd);
 
-      
       for (const file of filesToAdd) {
         const fileReader = new FileReader();
         fileReader.onload = () => {
@@ -382,7 +385,7 @@ export default {
       const storage = getStorage();
       const storageReference = storageRef(storage, "images");
 
-      const folderName = `${this.post}${Date.now()}`; 
+      const folderName = `${this.post}${Date.now()}`;
       const folderReference = storageRef(storageReference, folderName);
 
       const uploadPromises = this.files.map(async (file) => {
@@ -398,11 +401,9 @@ export default {
 
       await Promise.all(uploadPromises);
 
-      const user = auth.currentUser; 
+      const user = auth.currentUser;
 
-      
       if (user) {
-        
         await addDoc(collection(db, "vehicles"), {
           userId: user.uid,
           type: this.type,
@@ -420,14 +421,13 @@ export default {
           gearbox: this.gearbox,
           price: this.price,
           folderName: folderName,
+          action: "Buy",
         });
 
-        
         this.files = [];
         this.imagePreview = [];
         this.$router.push("/main-page");
       } else {
-        
         console.log("User is not authenticated");
       }
     },
@@ -442,10 +442,6 @@ export default {
 
     redirectToExplorePage() {
       this.$router.push("/main-page");
-    },
-
-    redirectToBuyPage() {
-      this.$router.push("/buy");
     },
 
     redirectToAccountPage() {
@@ -463,8 +459,8 @@ export default {
 .image-preview-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
 }
 
@@ -474,8 +470,8 @@ export default {
   margin: 10px;
   position: relative;
   display: flex;
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
+  justify-content: center;
 }
 
 .button-group {
@@ -522,7 +518,7 @@ export default {
 }
 
 .custom-text-field {
-  margin-bottom: -25px !important; 
+  margin-bottom: -25px !important;
 }
 </style>
 

@@ -1,7 +1,6 @@
 <template>
   <v-app style="background-color: #7b7b7b">
     <Toolbar
-      @buy-clicked="redirectToBuyPage"
       @sell-clicked="redirectToSellPage"
       @rent-clicked="redirectToRentPage"
       @account-clicked="redirectToAccountPage"
@@ -38,11 +37,12 @@
       <span class="group-words">Save money</span>
     </div>
 
-    <div class="categories">
+    <div class="categories" :style="{ height: categoriesHeight + 'px' }">
       <span class="vc-header">Vehicle categories</span>
-      <span class="more-c" @click="AllCategories"
-        >View all categories <v-icon>mdi-arrow-right</v-icon></span
-      >
+      <span class="more-c" @click="toggleSecondDiv">
+        {{ showSecondDiv ? "View less categories" : "View all categories" }}
+        <v-icon>mdi-arrow-right</v-icon>
+      </span>
 
       <div class="card-container">
         <v-card class="card-item">
@@ -71,6 +71,33 @@
           >
         </v-card>
       </div>
+      <div class="card-container" v-show="showSecondDiv">
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/helicopter.jpg"
+            ><span class="card-text">Helicopter</span></v-img
+          >
+        </v-card>
+
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/boat.jpg"
+            ><span class="card-text">Boat</span></v-img
+          >
+        </v-card>
+
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/other.jpeg"
+            ><span class="card-text">Others</span></v-img
+          >
+        </v-card>
+
+        <v-card class="card-item">
+          <v-img class="card-image" src="@/assets/bus.jpg"
+            ><span class="card-text">Bus</span></v-img
+          >
+        </v-card>
+
+        <v-card class="card-item invisible-card"></v-card>
+      </div>
     </div>
 
     <div
@@ -88,6 +115,9 @@
         >
           <div>
             <v-img style="height: 130px" :src="vehicle.imageUrl"></v-img>
+            <div class="action-label">
+              {{ vehicle.action }}
+            </div>
           </div>
 
           <v-card-text>
@@ -95,17 +125,17 @@
               <span>{{ vehicle.post }}</span>
             </div>
             <div>
-              <span>Price: {{ vehicle.price }}</span>
+              <span>Price: {{ vehicle.price }}€</span>
             </div>
           </v-card-text>
         </v-card>
       </div>
 
       <v-dialog v-model="dialogVisible" max-width="500px">
-    <v-card>
-      <vehicle-details v-if="selectedVehicle" :vehicle="selectedVehicle" />
-    </v-card>
-  </v-dialog>
+        <v-card>
+          <vehicle-details v-if="selectedVehicle" :vehicle="selectedVehicle" />
+        </v-card>
+      </v-dialog>
 
       <div
         style="
@@ -116,9 +146,22 @@
           text-align: center;
         "
       >
-        <v-btn color="primary" @click="increaseLatestHeight"
-          >Show More Vehicles</v-btn
+        <v-btn
+          v-if="isExpanded"
+          color="primary"
+          class="mr-2"
+          @click="increaseLatestHeight"
         >
+          Show More Vehicles
+        </v-btn>
+
+        <v-btn
+          v-if="visibleVehicles > 10"
+          color="error"
+          @click="decreaseLatestHeight"
+        >
+          Show Less Vehicles
+        </v-btn>
       </div>
     </div>
 
@@ -156,27 +199,52 @@ export default {
 
   data() {
     return {
-      latestHeight: 510,
+      latestHeight: 710,
       dynamicDivCount: 1,
       vehicles: [],
-      visibleVehicles: 5,
+      visibleVehicles: 10,
       dialogVisible: false,
       selectedVehicle: null,
+      showSecondDiv: false,
+      categoriesHeight: 480,
+      isExpanded: false,
     };
   },
 
   created() {
     this.fetchVehicles();
+    this.isExpanded = true;
   },
 
   methods: {
+    decreaseLatestHeight() {
+      const additionalVisibleVehicles = 5;
+      const totalVisibleVehicles =
+        this.visibleVehicles - additionalVisibleVehicles;
+
+      if (totalVisibleVehicles >= 10) {
+        this.visibleVehicles = totalVisibleVehicles;
+        this.latestHeight -= 260;
+        this.isExpanded = true;
+      } else {
+        this.visibleVehicles = 10;
+        this.latestHeight = 710;
+        this.isExpanded = true;
+      }
+    },
+
+    toggleSecondDiv() {
+      this.showSecondDiv = !this.showSecondDiv;
+      this.categoriesHeight = this.showSecondDiv ? 780 : 480;
+      this.isExpanded = this.showSecondDiv;
+    },
+
     async fetchVehicles() {
       const vehiclesCollection = collection(db, "vehicles");
       const querySnapshot = await getDocs(vehiclesCollection);
 
       const vehicles = [];
 
-      // Create an array of promises to fetch the images asynchronously
       const imagePromises = querySnapshot.docs.map(async (doc) => {
         const vehicleData = doc.data();
         const folderName = vehicleData.folderName;
@@ -205,10 +273,10 @@ export default {
           engine: vehicleData.engine,
           brand: vehicleData.brand,
           folderName: vehicleData.folderName,
+          action: vehicleData.action,
         };
       });
 
-      // Wait for all the image promises to resolve
       const images = await Promise.all(imagePromises);
 
       vehicles.push(...images);
@@ -217,9 +285,21 @@ export default {
     },
 
     increaseLatestHeight() {
-      this.latestHeight += 260;
-      this.dynamicDivCount++;
-      this.visibleVehicles += 5;
+      const additionalVisibleVehicles = 5;
+      const totalVisibleVehicles =
+        this.visibleVehicles + additionalVisibleVehicles;
+
+      if (totalVisibleVehicles <= this.vehicles.length) {
+        this.visibleVehicles = totalVisibleVehicles;
+        this.latestHeight += 260;
+      } else {
+        this.visibleVehicles = this.vehicles.length;
+        this.latestHeight = 710 + this.dynamicDivCount * 260;
+      }
+
+      if (this.visibleVehicles >= this.vehicles.length) {
+        this.isExpanded = false;
+      }
 
       window.scrollTo(0, document.body.scrollHeight);
     },
@@ -233,10 +313,6 @@ export default {
       this.$router.push("/");
     },
 
-    redirectToBuyPage() {
-      this.$router.push("/buy");
-    },
-
     redirectToSellPage() {
       this.$router.push("/sell");
     },
@@ -248,10 +324,6 @@ export default {
     redirectToRentPage() {
       this.$router.push("/rent");
     },
-
-    AllCategories() {
-      this.$router.push("/all-categories");
-    },
   },
 };
 </script>
@@ -259,6 +331,27 @@ export default {
 
 
 <style>
+.action-label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: #F1F5F9; /* Green background color */
+  color: #000000; /* White text color */
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 20px;
+  border: 1px solid #000000;
+}
+
+
+
+
+
+
+
+
+
 .bring {
   color: #ffffff;
   font-size: 40px;
@@ -299,7 +392,7 @@ export default {
   display: flex;
   align-items: center;
   width: 400px;
-  height: 40px;
+  height: 44px;
   background-color: white;
   border-radius: 4px;
   padding: 4px;
@@ -309,7 +402,7 @@ export default {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
   padding: 4px;
 }
 
@@ -318,7 +411,7 @@ export default {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 11px 22px;
+  padding: 10px 22px;
   cursor: pointer;
   margin-left: 8px;
 }
@@ -327,10 +420,6 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 8px;
-}
-
-* {
-  font-family: Roboto;
 }
 
 .color-container {
@@ -410,5 +499,11 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 10px;
+}
+
+.invisible-card {
+  visibility: hidden;
+  width: 170px;
+  height: 270px;
 }
 </style>

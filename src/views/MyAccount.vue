@@ -2,52 +2,12 @@
   <v-app style="background-color: #7b7b7b">
     <Toolbar
       @explore-clicked="redirectToExplorePage"
-      @buy-clicked="redirectToBuyPage"
       @sell-clicked="redirectToSellPage"
       @rent-clicked="redirectToRentPage"
       @logout-clicked="redirectToLandingPage"
     />
+
     <v-row>
-      <v-navigation-drawer class="mt-16">
-        <v-list>
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-information</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Basic information</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-bell</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Notifications</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-lock-reset</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Change password</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Delete account</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
-
       <v-col class="justify-center align-center">
         <v-container
           class="justify-center align-center text-center elevation-4"
@@ -55,41 +15,12 @@
             border-radius: 10px;
             margin-top: 80px;
             width: 50%;
-            height: 800px;
+            height: 650px;
             background-color: #ffffff;
           "
         >
           <v-row class="justify-center mt-4 font-weight-black text-h5">
             <span>Basic information</span>
-          </v-row>
-
-          <v-row class="ml-16 mt-16">
-            <v-badge
-              bordered
-              bottom
-              color="#00997E"
-              offset-x="14 "
-              offset-y="14"
-              icon="mdi-pencil"
-            >
-              <v-avatar size="60">
-                <v-img
-                  src="https://cdn.vuetifyjs.com/images/lists/2.jpg"
-                ></v-img>
-              </v-avatar>
-            </v-badge>
-
-            <div
-              style="
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                margin-left: 30px;
-              "
-            >
-              <p style="margin: 0; padding-left: 10px">Profile picture</p>
-              <p style="margin: 0; padding-left: 10px">Your profile will be</p>
-            </div>
           </v-row>
 
           <v-row class="mt-14 justify-center">
@@ -330,7 +261,8 @@
                   <v-btn
                     style="background-color: #007074; color: #ffffff"
                     class="pa-5 mt-2"
-                    @click="updatePassword"
+                    @click="showLoginDialog = true"
+                    :disabled="!passwordFieldsValid"
                   >
                     UPDATE
                   </v-btn>
@@ -339,6 +271,36 @@
             </v-form>
           </v-container>
         </v-row>
+
+        <v-dialog v-model="showLoginDialog" max-width="400px">
+          <v-card>
+            <v-card-title class="headline"
+              >Login to Update Password</v-card-title
+            >
+            <v-card-text>
+              <v-form ref="loginForm" @submit.prevent="login">
+                <v-text-field
+                  v-model="email"
+                  label="Email"
+                  outlined
+                  required
+                  type="email"
+                ></v-text-field>
+                <v-text-field
+                  v-model="password"
+                  label="Password"
+                  outlined
+                  required
+                  type="password"
+                ></v-text-field>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" type="submit">Login</v-btn>
+                </v-card-actions>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
 
         <v-row>
           <v-container
@@ -387,14 +349,44 @@
 
             <v-row class="mt-10" style="margin-left: 380px">
               <v-btn
-                v-if="deleteConfirmed"
                 style="background-color: #cb0a0a; color: #ffffff"
                 class="pa-5"
-                @click="deleteAccount"
+                :disabled="!deleteConfirmed"
+                @click="showLoginDialog2 = true"
               >
                 DELETE ACCOUNT
               </v-btn>
             </v-row>
+
+            <v-dialog v-model="showLoginDialog2" max-width="400px">
+              <v-card>
+                <v-card-title class="headline"
+                  >Login to Delete Password</v-card-title
+                >
+                <v-card-text>
+                  <v-form ref="loginForm" @submit.prevent="login2">
+                    <v-text-field
+                      v-model="email"
+                      label="Email"
+                      outlined
+                      required
+                      type="email"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="password"
+                      label="Password"
+                      outlined
+                      required
+                      type="password"
+                    ></v-text-field>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" type="submit">Login</v-btn>
+                    </v-card-actions>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </v-container>
         </v-row>
       </v-col>
@@ -413,9 +405,31 @@ import {
   where,
   updateDoc,
   doc,
-  getAuth, deleteUser
+  getAuth,
+  deleteUser,
+  updatePassword,
+  signInWithEmailAndPassword,
+  storage,
+  firestore,
 } from "../../firebase.js";
 import Toolbar from "@/components/Toolbar.vue";
+
+function deleteDocumentFromCollection(collectionName, documentId) {
+  return firestore.collection(collectionName).doc(documentId).delete();
+}
+
+function getDocumentsFromCollection(collectionName, fieldName, fieldValue) {
+  return firestore.collection(collectionName).where(fieldName, '==', fieldValue).get();
+}
+
+function deleteFolderFromStorage(folderName) {
+  const storageRef = storage.ref().child(folderName);
+  return storageRef.delete();
+}
+
+function deleteDocument(collectionName, documentId) {
+  return firestore.collection(collectionName).doc(documentId).delete();
+}
 
 export default {
   components: {
@@ -448,6 +462,10 @@ export default {
       newPassword: "",
       cNewPassword: "",
       deleteConfirmed: false,
+      showLoginDialog: false,
+      email: "",
+      password: "",
+      showLoginDialog2: false,
     };
   },
 
@@ -462,7 +480,100 @@ export default {
     });
   },
 
+  computed: {
+    passwordFieldsValid() {
+      return (
+        this.oldPassword.length > 0 &&
+        this.newPassword.length > 0 &&
+        this.cNewPassword.length > 0 &&
+        this.newPassword === this.cNewPassword
+      );
+    },
+  },
+
   methods: {
+    async login() {
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.showLoginDialog = false;
+          this.updatePassword();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+
+    async login2() {
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.showLoginDialog2 = false;
+          this.deleteAccount();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+
+    async deleteAccount() {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const userId = user.uid;
+
+     
+      await deleteDocumentFromCollection("users", userId);
+
+   
+      const vehiclesSnapshot = await getDocumentsFromCollection(
+        "vehicles",
+        "userId",
+        userId
+      );
+      const deletePromises = [];
+
+      vehiclesSnapshot.forEach((vehicleDoc) => {
+        const folderName = vehicleDoc.data().folderName;
+
+        deletePromises.push(deleteFolderFromStorage(folderName));
+
+        deletePromises.push(deleteDocument("vehicles", vehicleDoc.id));
+      });
+
+      await Promise.all(deletePromises);
+
+      alert("Account deleted successfully!");
+      this.redirectToLandingPage();
+    }
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    alert("Error deleting account. Please try again.");
+  }
+},
+
+    async updatePassword() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const newPassword = this.newPassword;
+          await updatePassword(user, newPassword);
+        
+          this.oldPassword = "";
+          this.newPassword = "";
+          this.cNewPassword = "";
+          
+          alert("Password updated successfully!");
+        }
+      } catch (error) {
+        console.error("Error updating password:", error);
+    
+        alert("Error updating password. Please try again.");
+      }
+    },
+
     async fetchUserData() {
       try {
         const user = auth.currentUser;
@@ -494,10 +605,8 @@ export default {
       }
     },
 
-    
-
     toggleEditing() {
-      this.isEditing = !this.isEditing; // Toggle the editing mode
+      this.isEditing = !this.isEditing;
     },
 
     redirectToLandingPage() {
@@ -510,10 +619,6 @@ export default {
 
     redirectToSellPage() {
       this.$router.push("/sell");
-    },
-
-    redirectToBuyPage() {
-      this.$router.push("/buy");
     },
 
     redirectToRentPage() {

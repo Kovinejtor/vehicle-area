@@ -46,49 +46,54 @@
       <v-row>
         <v-col cols="12" md="6">
           <div>
-            <span>Post: {{ vehicle.post }}</span>
+            <strong>Post:</strong> {{ vehicle.post }}
           </div>
           <div>
-            <span>Type: {{ vehicle.type }}</span>
+            <strong>Type:</strong> {{ vehicle.type }}
           </div>
           <div>
-            <span>Model: {{ vehicle.model }}</span>
+            <strong>Model:</strong> {{ vehicle.model }}
           </div>
           <div>
-            <span>Brand: {{ vehicle.brand }}</span>
+            <strong>Brand:</strong> {{ vehicle.brand }}
           </div>
           <div>
-            <span>Model Year: {{ vehicle.yearModel }}</span>
+            <strong>Model Year:</strong> {{ vehicle.yearModel }}
           </div>
           <div>
-            <span>Year of Manufacture: {{ vehicle.yearMan }}</span>
+            <strong>Year of Manufacture:</strong> {{ vehicle.yearMan }}
           </div>
           <div>
-            <span>Location: {{ vehicle.location }}</span>
+            <strong>Location:</strong> {{ vehicle.location }}
           </div>
         </v-col>
         <v-col cols="12" md="6">
           <div>
-            <span>State: {{ vehicle.state }}</span>
+            <strong>State:</strong> {{ vehicle.state }}
           </div>
           <div>
-            <span>Kilometers Traveled: {{ vehicle.km }}</span>
+            <strong>Kilometers Traveled:</strong> {{ vehicle.km }}
           </div>
           <div>
-            <span>Engine: {{ vehicle.engine }}</span>
+            <strong>Engine:</strong> {{ vehicle.engine }}
           </div>
           <div>
-            <span>Power: {{ vehicle.power }}</span>
+            <strong>Power:</strong> {{ vehicle.power }}
           </div>
           <div>
-            <span>Volume: {{ vehicle.volume }}</span>
+            <strong>Volume:</strong> {{ vehicle.volume }}
           </div>
           <div>
-            <span>Gearbox: {{ vehicle.gearbox }}</span>
+            <strong>Gearbox:</strong> {{ vehicle.gearbox }}
           </div>
           <div>
-            <span>Price: {{ vehicle.price }}</span>
+            <strong>Price:</strong> {{ vehicle.price }}€
           </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" class="text-center">
+          <v-btn color="primary" dark>{{ vehicle.action }}</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -107,14 +112,26 @@ export default {
     },
   },
 
-  mounted() {
-    this.fetchImages();
+  data() {
+    return {
+      images: [],
+    };
+  },
+
+  watch: {
+    vehicle: {
+      immediate: true,
+      handler() {
+        this.fetchImages();
+      },
+    },
   },
 
   methods: {
     async fetchImages() {
       try {
         const folderRef = ref(storage, `images/${this.vehicle.folderName}`);
+         
         const folderImages = await listAll(folderRef);
 
         const imagePromises = folderImages.items.map(async (itemRef) => {

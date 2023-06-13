@@ -14,6 +14,7 @@
             outlined
             style="width: 350px"
             class="mt-14"
+            :rules="[(v) => !!v || 'Name is required']"
           ></v-text-field>
 
           <v-text-field
@@ -22,13 +23,14 @@
             label="Surname"
             outlined
             style="width: 350px"
+            :rules="[(v) => !!v || 'Surname is required']"
           ></v-text-field>
 
           <v-select
             outlined
             v-model="gender"
             :items="items"
-            :rules="[(v) => !!v || 'Item is required']"
+            :rules="[(v) => !!v || 'Gender is required']"
             label="Gender"
             required
             prepend-inner-icon="mdi-baby-face-outline"
@@ -52,17 +54,17 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  :rules="[
+                    (v) => !!v || 'Date of birth is required',
+                    (v) => isAdult(v) || 'You must be at least 18 years old',
+                  ]"
                 ></v-text-field>
               </template>
               <v-date-picker
                 required
                 v-model="bDate"
                 :active-picker.sync="activePicker"
-                :max="
-                  new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-                    .toISOString()
-                    .substr(0, 10)
-                "
+                :max="maxDate"
                 min="1950-01-01"
                 @change="save"
               ></v-date-picker>
@@ -76,6 +78,14 @@
             outlined
             style="width: 350px"
             class="mt-10"
+            :rules="[
+              (v) => !!v || 'E-mail is required',
+              (v) =>
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Invalid e-mail format',
+              (v) =>
+                /^[a-zA-Z0-9@._-]+$/.test(v) ||
+                'E-mail contains invalid characters',
+            ]"
           ></v-text-field>
 
           <v-text-field
@@ -88,6 +98,12 @@
             @click:append="sho1 = !sho1"
             outlined
             style="width: 350px"
+            :rules="[
+              (v) => !!v || 'Password is required',
+              (v) =>
+                (v && v.length >= 8) ||
+                'Password must be at least 8 characters long',
+            ]"
           ></v-text-field>
 
           <v-text-field
@@ -100,6 +116,10 @@
             @click:append="sho3 = !sho3"
             outlined
             style="width: 350px"
+            :rules="[
+              (v) => !!v || 'Repeat password is required',
+              (v) => v === password || 'Passwords do not match',
+            ]"
           ></v-text-field>
 
           <v-text-field
@@ -109,6 +129,11 @@
             outlined
             style="width: 350px"
             class="mt-10"
+            :rules="[
+              (v) => !!v || 'Country is required',
+              (v) =>
+                /^[a-zA-Z]+$/.test(v) || 'Country must contain only letters',
+            ]"
           ></v-text-field>
 
           <v-text-field
@@ -117,6 +142,11 @@
             label="Phone number"
             outlined
             style="width: 350px"
+            :rules="[
+              (v) => !!v || 'Phone number is required',
+              (v) =>
+                /^\d+$/.test(v) || 'Phone number must contain only numbers',
+            ]"
           ></v-text-field>
 
           <v-text-field
@@ -130,6 +160,12 @@
             outlined
             style="width: 350px"
             class="mt-10"
+            :rules="[
+              (v) => !!v || 'Credit card number is required',
+              (v) =>
+                /^\d+$/.test(v) ||
+                'Credit card number must contain only numbers',
+            ]"
           ></v-text-field>
 
           <v-text-field
@@ -142,6 +178,7 @@
             @click:append="show3 = !show3"
             outlined
             style="width: 350px"
+            :rules="[(v) => !!v || 'Credit card expiration date is required']"
           ></v-text-field>
 
           <v-text-field
@@ -154,6 +191,11 @@
             @click:append="show5 = !show5"
             outlined
             style="width: 350px"
+            :rules="[
+              (v) => !!v || 'Credit card CVV is required',
+              (v) =>
+                /^\d+$/.test(v) || 'Credit card CVV must contain only numbers',
+            ]"
           ></v-text-field>
         </v-form>
       </v-row>
@@ -168,6 +210,7 @@
             font-size: 17px;
           "
           @click="registerUser"
+          :disabled="!isFormValid"
         >
           Create account
         </v-btn>
@@ -215,7 +258,51 @@ export default {
     };
   },
 
+  computed: {
+    isFormValid() {
+      return (
+        this.firstName &&
+        this.lastName &&
+        this.email &&
+        this.password &&
+        this.phone &&
+        this.country &&
+        this.ccNumber &&
+        this.ccDate &&
+        this.ccCVV &&
+        this.gender &&
+        this.bDate
+      );
+    },
+
+    maxDate() {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear() - 18;
+      const month = currentDate.getMonth() + 1;
+      const day = currentDate.getDate();
+      return `${year}-${month.toString().padStart(2, "0")}-${day
+        .toString()
+        .padStart(2, "0")}`;
+    },
+  },
+
   methods: {
+    isAdult(date) {
+      const today = new Date();
+      const birthDate = new Date(date);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      return age >= 18;
+    },
+
     registerUser() {
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {

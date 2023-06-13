@@ -3,11 +3,10 @@ import Router from 'vue-router';
 import LandingPage from '@/views/LandingPage.vue';
 import MainPage from '@/views/MainPage.vue';
 import SignUp from '@/views/SignUp.vue';
-import Buy from '@/views/Buy.vue';
 import Sell from '@/views/Sell.vue';
 import MyAccount from '@/views/MyAccount.vue';
 import Rent from '@/views/Rent.vue';
-import AllCategories from '@/views/AllCategories.vue';
+
 
 
 Vue.use(Router);
@@ -30,11 +29,6 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/buy',
-      name: 'buy',
-      component: Buy
-    },
-    {
       path: '/sell',
       name: 'sell',
       component: Sell
@@ -49,11 +43,7 @@ export default new Router({
       name: 'rent',
       component: Rent
     },
-    {
-      path: '/all-categories',
-      name: 'all-categories',
-      component: AllCategories
-    }
+    
   ]
 });
 

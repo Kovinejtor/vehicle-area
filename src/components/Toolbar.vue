@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="#7b7b7b" fixed height="70px">
+  <v-app-bar app color="#7b7b7b" fixed height="70px" :scroll-target="'#app'">
     <v-toolbar-title
       style="
         color: #afffd9;
@@ -14,7 +14,6 @@
     <v-spacer></v-spacer>
 
     <v-btn text class="button" @click="exploreClicked">Explore</v-btn>
-    <v-btn text class="button" @click="buyClicked">Buy</v-btn>
     <v-btn text class="button" @click="sellClicked">Sell</v-btn>
     <v-btn text class="button" @click="rentClicked">Rent</v-btn>
     <v-btn text class="button" @click="accountClicked">My account</v-btn>
@@ -24,12 +23,16 @@
 
 <script>
 export default {
+  props: {
+    mobileBreakpoint: {
+      type: Number,
+      default: 960
+    }
+  },
+
   methods: {
     exploreClicked() {
       this.$emit("explore-clicked");
-    },
-    buyClicked() {
-      this.$emit("buy-clicked");
     },
     sellClicked() {
       this.$emit("sell-clicked");
