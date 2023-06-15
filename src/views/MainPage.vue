@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background-color: #7b7b7b">
+  <v-app>
     <Toolbar
       @sell-clicked="redirectToSellPage"
       @rent-clicked="redirectToRentPage"
@@ -7,182 +7,312 @@
       @logout-clicked="redirectToLandingPage"
     />
 
-    <v-container class="big-container ml-16" fluid>
-      <v-container class="small-container">
-        <span class="text"
-          >Search for the best <br />
-          vehicle in your area</span
-        >
-        <br />
-        <br />
-        <div class="search-container-wrapper">
-          <div class="search-container">
-            <v-icon class="search-icon">mdi-magnify</v-icon>
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Search for vehicle or category"
-            />
-          </div>
-          <button class="search-button">Search</button>
-        </div>
+    <v-main>
+      <v-container fluid>
+        <v-row class="align-center justify-center text-center">
+          <v-container fluid style="background-color: #7b7b7b">
+            <v-row>
+              <v-col cols="8" xs="4" class="d-flex align-center justify-center">
+                <v-container>
+                  <v-responsive>
+                    <v-col cols="12" class="d-flex align-center justify-center">
+                      <span
+                        class="text-h4 text-md-h2 text-sm-h3 text-xs-h4"
+                        style="
+                          color: #ffffff;
+                          margin-right: 20px;
+                          font-weight: bold;
+                          line-height: 1.2;
+                        "
+                      >
+                        Search for the best <br />
+                        vehicle in your area
+                      </span>
+                    </v-col>
+                  </v-responsive>
+
+                  <v-col
+                    cols="12"
+                    class="d-flex align-center justify-center search-container-wrapper"
+                  >
+                    <div class="search-container">
+                      <v-icon class="search-icon">mdi-magnify</v-icon>
+                      <input
+                        type="text"
+                        class="search-input"
+                        placeholder="Search for vehicle or category"
+                      />
+                    </div>
+                    <v-btn
+                      style="
+                        background-color: #be123c;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        padding: 10px 22px;
+                        cursor: pointer;
+                        margin-left: 16px;
+                      "
+                      >Search</v-btn
+                    >
+                  </v-col>
+                </v-container>
+              </v-col>
+
+              <v-col cols="4" class="d-flex align-center">
+                <v-img
+                  src="@/assets/carr.png"
+                  alt="Car Image"
+                  class="car-image"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-row>
+
+        <v-row class="align-center justify-center text-center">
+          <v-container
+            fluid
+            class="color-row pt-6 pb-6"
+            style="background-color: #f1f5f9"
+          >
+            <span class="group-words">Discover</span>
+            <span class="group-words">Drive</span>
+            <span class="group-words">Earn</span>
+            <span class="group-words">Save money</span>
+          </v-container>
+        </v-row>
+
+        <v-row>
+          <v-container fluid style="background-color: #ffffff" class="pb-10">
+            <v-row class="mt-8">
+              <v-col
+                cols="6"
+                offset-sm="2"
+                ofsset-xs="2"
+                class="d-flex justify-start"
+              >
+                <span style="font-weight: bold; font-size: 20px">
+                  Vehicle categories
+                </span>
+              </v-col>
+
+              <v-col cols="6" xs="6" sm="4" class="mt-1">
+                <span
+                  style="color: blue; cursor: pointer"
+                  @click="toggleSecondDiv"
+                >
+                  {{
+                    showSecondDiv
+                      ? "View less categories"
+                      : "View all categories"
+                  }}
+                  <v-icon>mdi-arrow-right</v-icon>
+                </span>
+              </v-col>
+            </v-row>
+
+            <v-row class="align-center justify-center text-center">
+              <v-container>
+                <v-row class="align-center justify-center text-center">
+                  <v-col cols="6" md="2">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/cars.jpg"
+                        ><span class="card-text">Cars</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/moto.jpeg"
+                        ><span class="card-text">Motorcycles</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/bice.jpg"
+                        ><span class="card-text">Bicycles</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/truck.jpg"
+                        ><span class="card-text">Trucks</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="3">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/romob.jpg"
+                        ><span class="card-text">Romobiles</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="6" md="2" v-show="showSecondDiv">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/helicopter.jpg"
+                        ><span class="card-text">Helicopter</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2" v-show="showSecondDiv">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/boat.jpg"
+                        ><span class="card-text">Boat</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2" v-show="showSecondDiv">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/other.jpeg"
+                        ><span class="card-text">Others</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2" v-show="showSecondDiv">
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/bus.jpg"
+                        ><span class="card-text">Bus</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="3" v-show="showSecondDiv">
+                    <v-card
+                      class="card-item invisible-card"
+                      style="opacity: 0"
+                    ></v-card>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-row>
+          </v-container>
+        </v-row>
+
+        <v-row>
+          <v-container
+            fluid
+            class="color-row"
+            style="background-color: #f1f5f9; position: relative"
+          >
+            <v-row class="mt-8">
+              <v-col
+                cols="6"
+                offset-sm="2"
+                ofsset-xs="2"
+                class="d-flex justify-start"
+              >
+                <span style="font-weight: bold; font-size: 20px">
+                  Latest offers
+                </span>
+              </v-col>
+            </v-row>
+
+            <v-row class="align-center justify-center text-center">
+              <v-container class="card-container">
+                <v-card
+                  class="l-card-item"
+                  v-for="vehicle in vehicles.slice(0, visibleVehicles)"
+                  :key="vehicle.id"
+                  @click="showVehicleDetails(vehicle)"
+                >
+                  <div>
+                    <v-img
+                      style="height: 130px"
+                      :src="vehicle.imageUrl"
+                    ></v-img>
+                    <div
+                      class="action-label"
+                      :class="{
+                        'buy-label': vehicle.action === 'Buy',
+                        'rent-label': vehicle.action === 'Rent',
+                      }"
+                    >
+                      {{ vehicle.action }}
+                    </div>
+                  </div>
+
+                  <v-card-text>
+                    <div>
+                      <span>{{ vehicle.post }}</span>
+                    </div>
+                    <div v-if="vehicle.action === 'Buy'">
+                      <strong>Price:</strong> {{ vehicle.price }}€
+                    </div>
+                    <div v-if="vehicle.action === 'Rent'">
+                      <strong>Price for hour:</strong> {{ vehicle.priceph }}€
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-container>
+
+              <v-dialog v-model="dialogVisible" max-width="500px">
+                <v-card>
+                  <vehicle-details
+                    v-if="selectedVehicle"
+                    :vehicle="selectedVehicle"
+                  />
+                </v-card>
+              </v-dialog>
+            </v-row>
+            <v-row style="margin-top: 100px">
+              <div
+                style="
+                  position: absolute;
+                  bottom: 20px;
+                  left: 0;
+                  width: 100%;
+                  text-align: center;
+                "
+              >
+                <v-btn
+                  v-if="isExpanded"
+                  color="primary"
+                  class="mr-2"
+                  @click="increaseLatestHeight"
+                >
+                  Show More Vehicles
+                </v-btn>
+
+                <v-btn
+                  v-if="visibleVehicles > 8"
+                  color="error"
+                  @click="decreaseLatestHeight"
+                >
+                  Show Less Vehicles
+                </v-btn>
+              </div>
+            </v-row>
+          </v-container>
+        </v-row>
+
+        <v-row class="align-center justify-center text-center">
+          <v-container fluid style="background-color: #0f172a">
+            <v-row class="justify-center align-center">
+              <v-col cols="12" sm="5" class="mr-7">
+                <v-img
+                  src="@/assets/like.png"
+                  alt="tumb"
+                  style="max-width: 500px"
+                />
+              </v-col>
+              <v-col cols="12" sm="3" xs="6">
+                <span
+                  class="text-h4 text-md-h4 text-sm-h3 text-xs-h4"
+                  style="color: #ffffff; font-size: 40px; font-weight: bold"
+                >
+                  Share your experience with your family and friends</span
+                >
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-row>
       </v-container>
-      <v-img src="@/assets/carr.png" alt="Car Image" class="car-image" />
-    </v-container>
-
-    <div class="color-container" style="background-color: #f1f5f9">
-      <span class="group-words">Discover</span>
-      <span class="group-words">Drive</span>
-      <span class="group-words">Earn</span>
-      <span class="group-words">Save money</span>
-    </div>
-
-    <div class="categories" :style="{ height: categoriesHeight + 'px' }">
-      <span class="vc-header">Vehicle categories</span>
-      <span class="more-c" @click="toggleSecondDiv">
-        {{ showSecondDiv ? "View less categories" : "View all categories" }}
-        <v-icon>mdi-arrow-right</v-icon>
-      </span>
-
-      <div class="card-container">
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/cars.jpg"
-            ><span class="card-text">Cars</span></v-img
-          >
-        </v-card>
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/moto.jpeg"
-            ><span class="card-text">Motorcycles</span></v-img
-          >
-        </v-card>
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/bice.jpg"
-            ><span class="card-text">Bicycles</span></v-img
-          >
-        </v-card>
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/truck.jpg"
-            ><span class="card-text">Trucks</span></v-img
-          >
-        </v-card>
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/romob.jpg"
-            ><span class="card-text">Romobiles</span></v-img
-          >
-        </v-card>
-      </div>
-      <div class="card-container" v-show="showSecondDiv">
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/helicopter.jpg"
-            ><span class="card-text">Helicopter</span></v-img
-          >
-        </v-card>
-
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/boat.jpg"
-            ><span class="card-text">Boat</span></v-img
-          >
-        </v-card>
-
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/other.jpeg"
-            ><span class="card-text">Others</span></v-img
-          >
-        </v-card>
-
-        <v-card class="card-item">
-          <v-img class="card-image" src="@/assets/bus.jpg"
-            ><span class="card-text">Bus</span></v-img
-          >
-        </v-card>
-
-        <v-card class="card-item invisible-card"></v-card>
-      </div>
-    </div>
-
-    <div
-      style="position: relative; background-color: #f1f5f9; padding-top: 60px"
-      :style="{ height: latestHeight + 'px' }"
-    >
-      <span class="l-vc-header">Latest offers</span>
-
-      <div class="card-container">
-        <v-card
-          class="l-card-item"
-          v-for="vehicle in vehicles.slice(0, visibleVehicles)"
-          :key="vehicle.id"
-          @click="showVehicleDetails(vehicle)"
-        >
-          <div>
-            <v-img style="height: 130px" :src="vehicle.imageUrl"></v-img>
-            <div class="action-label" :class="{
-            'buy-label': vehicle.action === 'Buy',
-            'rent-label': vehicle.action === 'Rent'
-          }">
-              {{ vehicle.action }}
-            </div>
-          </div>
-
-          <v-card-text>
-            <div>
-              <span>{{ vehicle.post }}</span>
-            </div>
-            <div v-if="vehicle.action === 'Buy'">
-            <strong>Price:</strong> {{ vehicle.price }}€
-          </div>
-          <div v-if="vehicle.action === 'Rent'">
-            <strong>Price for hour:</strong> {{ vehicle.priceph }}€
-          </div>
-          </v-card-text>
-        </v-card>
-      </div>
-
-      <v-dialog v-model="dialogVisible" max-width="500px">
-        <v-card>
-          <vehicle-details v-if="selectedVehicle" :vehicle="selectedVehicle" />
-        </v-card>
-      </v-dialog>
-
-      <div
-        style="
-          position: absolute;
-          bottom: 20px;
-          left: 0;
-          width: 100%;
-          text-align: center;
-        "
-      >
-        <v-btn
-          v-if="isExpanded"
-          color="primary"
-          class="mr-2"
-          @click="increaseLatestHeight"
-        >
-          Show More Vehicles
-        </v-btn>
-
-        <v-btn
-          v-if="visibleVehicles > 10"
-          color="error"
-          @click="decreaseLatestHeight"
-        >
-          Show Less Vehicles
-        </v-btn>
-      </div>
-    </div>
-
-    <v-container class="friends" fluid>
-      <img src="@/assets/like.png" alt="tumb" class="tumb" />
-      <span class="bring">
-        Share your experience<br />
-        with your family or <br />
-        friends</span
-      >
-    </v-container>
+    </v-main>
   </v-app>
 </template>
-
-
 
 <script>
 import {
@@ -203,16 +333,15 @@ export default {
     VehicleDetails,
   },
 
+  name: "Explore",
+
   data() {
     return {
-      latestHeight: 710,
-      dynamicDivCount: 1,
       vehicles: [],
-      visibleVehicles: 10,
+      visibleVehicles: 8,
       dialogVisible: false,
       selectedVehicle: null,
       showSecondDiv: false,
-      categoriesHeight: 480,
       isExpanded: false,
     };
   },
@@ -223,26 +352,41 @@ export default {
   },
 
   methods: {
+    increaseLatestHeight() {
+      const additionalVisibleVehicles = 4;
+      const totalVisibleVehicles =
+        this.visibleVehicles + additionalVisibleVehicles;
+
+      if (totalVisibleVehicles <= this.vehicles.length) {
+        this.visibleVehicles = totalVisibleVehicles;
+      } else {
+        this.visibleVehicles = this.vehicles.length;
+      }
+
+      if (this.visibleVehicles >= this.vehicles.length) {
+        this.isExpanded = false;
+      }
+
+      window.scrollTo(0, document.body.scrollHeight);
+    },
+
     decreaseLatestHeight() {
-      const additionalVisibleVehicles = 5;
+      const additionalVisibleVehicles = 4;
       const totalVisibleVehicles =
         this.visibleVehicles - additionalVisibleVehicles;
 
-      if (totalVisibleVehicles >= 10) {
+      if (totalVisibleVehicles >= 8) {
         this.visibleVehicles = totalVisibleVehicles;
-        this.latestHeight -= 260;
         this.isExpanded = true;
       } else {
-        this.visibleVehicles = 10;
-        this.latestHeight = 710;
+        this.visibleVehicles = 8;
         this.isExpanded = true;
       }
     },
 
-    toggleSecondDiv() {
-      this.showSecondDiv = !this.showSecondDiv;
-      this.categoriesHeight = this.showSecondDiv ? 780 : 480;
-      this.isExpanded = this.showSecondDiv;
+    showVehicleDetails(vehicle) {
+      this.selectedVehicle = vehicle;
+      this.dialogVisible = true;
     },
 
     async fetchVehicles() {
@@ -292,29 +436,8 @@ export default {
       this.vehicles = vehicles;
     },
 
-    increaseLatestHeight() {
-      const additionalVisibleVehicles = 5;
-      const totalVisibleVehicles =
-        this.visibleVehicles + additionalVisibleVehicles;
-
-      if (totalVisibleVehicles <= this.vehicles.length) {
-        this.visibleVehicles = totalVisibleVehicles;
-        this.latestHeight += 260;
-      } else {
-        this.visibleVehicles = this.vehicles.length;
-        this.latestHeight = 710 + this.dynamicDivCount * 260;
-      }
-
-      if (this.visibleVehicles >= this.vehicles.length) {
-        this.isExpanded = false;
-      }
-
-      window.scrollTo(0, document.body.scrollHeight);
-    },
-
-    showVehicleDetails(vehicle) {
-      this.selectedVehicle = vehicle;
-      this.dialogVisible = true;
+    toggleSecondDiv() {
+      this.showSecondDiv = !this.showSecondDiv;
     },
 
     redirectToLandingPage() {
@@ -339,102 +462,9 @@ export default {
 
 
 <style>
-.action-label {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 20px;
-  border: 1px solid #000000;
-}
-
-.buy-label {
-  background-color: #F1F5F9;
-  color: #292524;
-}
-
-.rent-label {
-  background-color: #F3E8FF;
-  color: #6B21A8;
-}
-
-.bring {
-  color: #ffffff;
-  font-size: 40px;
-  font-weight: bold;
-  margin-left: 100px;
-}
-
-.big-container {
-  background-color: #7b7b7b;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  height: 420px;
-  margin-top: 60px;
-}
-
-.small-container {
-  text-align: left;
-  margin-left: 170px;
-}
-
-.text {
-  color: #ffffff;
-  font-size: 60px;
-  margin-right: 20px;
-  font-weight: bold;
-  line-height: 1.2;
-}
-
-.car-image {
-  width: 300px;
-  height: auto;
-  margin-right: 240px;
-}
-
-
-.color-container {
-  height: 80px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.categories {
-  height: 480px;
-  background-color: #ffffff;
-  padding-top: 60px;
-}
-
-.vc-header {
-  color: #0f172a;
-  font-size: 28px;
-  margin-left: 235px;
-  font-weight: bold;
-}
-
-.l-vc-header {
-  color: #0f172a;
-  font-size: 28px;
-  margin-left: 110px !important;
-  font-weight: bold;
-}
-
-.more-c {
-  margin-left: 660px;
-  color: #2563eb;
-}
-
 .card-container {
   display: flex;
-  flex-wrap: wrap; /* Added flex-wrap property */
+  flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
   margin-top: 40px;
@@ -442,6 +472,7 @@ export default {
 
 .card-item {
   width: 170px;
+  height: 250px;
 }
 
 .card-text {
@@ -463,18 +494,80 @@ export default {
   width: 220px;
 }
 
-.friends {
-  height: 420px;
-  background-color: #0f172a;
+.search-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 10px;
+  width: 400px;
+  height: 44px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 4px;
 }
 
-.invisible-card {
-  visibility: hidden;
-  width: 170px;
-  height: 270px;
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  padding: 4px;
+}
+
+.search-container-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+}
+
+.group-words {
+  color: #94a3b8;
+  font-size: 18px;
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+.action-label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 20px;
+  border: 1px solid #000000;
+}
+
+.buy-label {
+  background-color: #F1F5F9;
+  color: #292524;
+}
+
+.rent-label {
+  background-color: #F3E8FF;
+  color: #6B21A8;
+}
+@media (max-width: 768px) {
+  .search-container-wrapper {
+    margin-left: 62px;
+  }
+
+  .car-image {
+    margin-bottom: 60px;
+    min-width: 115px;
+  }
+
+  .group-words {
+    margin-left: 13px;
+    margin-right: 13px;
+  }
+}
+
+@media (min-width: 768px) {
+  .car-image {
+    margin-bottom: 60px;
+    max-width: 290px;
+    margin-top: 60px;
+  }
 }
 </style>
+
+

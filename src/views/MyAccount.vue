@@ -1,5 +1,5 @@
-<template>
-  <v-app>
+<<template>
+  <v-app style="background-color: #222e50">
     <Toolbar
       @explore-clicked="redirectToExplorePage"
       @sell-clicked="redirectToSellPage"
@@ -10,201 +10,471 @@
     <v-main>
       <v-container fluid>
         <v-row class="align-center justify-center text-center">
-          <v-container fluid style="background-color: #7b7b7b">
-            <v-row>
-              <v-col cols="8" xs="4" class="d-flex align-center justify-center">
-                <v-container>
-                  <v-responsive>
-                    <v-col cols="12" class="d-flex align-center justify-center">
-                      <span
-                        class="text-h4 text-md-h2 text-sm-h3 text-xs-h4"
-                        style="
-                          color: #ffffff;
-                          margin-right: 20px;
-                          font-weight: bold;
-                          line-height: 1.2;
-                        "
-                      >
-                        Search for the best <br />
-                        vehicle in your area
-                      </span>
+          <v-col cols="12" sm="8">
+            <v-card>
+              <v-card-title>
+                <span>Basic information</span>
+              </v-card-title>
+              <v-card-text>
+                <v-list>
+                    <v-row>
+                        <v-col>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">First name:</v-list-item-title>
+                            <v-list-item-subtitle>{{firstName}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Last name:</v-list-item-title>
+                            <v-list-item-subtitle>{{lastName}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+</v-col>
+<v-col>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Email:</v-list-item-title>
+                            <v-list-item-subtitle>{{em}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Phone:</v-list-item-title>
+                            <v-list-item-subtitle>{{phone}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+</v-col>
+
+<v-col>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Gender:</v-list-item-title>
+                            <v-list-item-subtitle>{{gender}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Birthday:</v-list-item-title>
+                            <v-list-item-subtitle>{{bDate}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+</v-col>
+<v-col>
+                    <v-list-item>
+                        <v-list-item-content class="info-container">
+                            <v-list-item-title class="info-title">Country:</v-list-item-title>
+                            <v-list-item-subtitle>{{ country }}</v-list-item-subtitle>
+                        </v-list-item-content>
+                </v-list-item>
+
+
+                <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Credit card number:</v-list-item-title>
+                            <v-list-item-subtitle>{{ccNumber}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+</v-col>
+<v-col>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Credit card expiration date:</v-list-item-title>
+                            <v-list-item-subtitle>{{ccDate}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="info-title">Credit card CVV:</v-list-item-title>
+                            <v-list-item-subtitle>{{ccCVV}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
                     </v-col>
-                  </v-responsive>
-
-                  <v-col
-                    cols="12"
-                    class="d-flex align-center justify-center search-container-wrapper"
-                  >
-                    <div class="search-container">
-                      <v-icon class="search-icon">mdi-magnify</v-icon>
-                      <input
-                        type="text"
-                        class="search-input"
-                        placeholder="Search for vehicle or category"
-                      />
-                    </div>
-                    <v-btn
-                      style="
-                        background-color: #be123c;
-                        color: white;
-                        border: none;
-                        border-radius: 4px;
-                        padding: 10px 22px;
-                        cursor: pointer;
-                        margin-left: 16px;
-                      "
-                      >Search</v-btn
-                    >
-                  </v-col>
-                </v-container>
-              </v-col>
-
-              <v-col cols="4" class="d-flex align-center">
-                <v-img
-                  src="@/assets/carr.png"
-                  alt="Car Image"
-                  class="car-image"
-                  style="min-width: 115px"
-                />
-              </v-col>
-            </v-row>
-          </v-container>
+                    </v-row>
+                </v-list>
+              </v-card-text>
+        </v-card>
+          </v-col>
         </v-row>
 
         <v-row class="align-center justify-center text-center">
-          <v-container
-            fluid
-            class="color-row pt-6 pb-6"
-            style="background-color: #f1f5f9"
-          >
-            <span class="group-words">Discover</span>
-            <span class="group-words">Drive</span>
-            <span class="group-words">Earn</span>
-            <span class="group-words">Save money</span>
-          </v-container>
-        </v-row>
+          <v-col cols="12" sm="8">
+            <v-card>
+              <v-card-title>
+                <span>My vehicles that are in the store</span>
+              </v-card-title>
+              
+                <v-row class="align-center justify-center text-center">
+                    <v-container class="card-container">
+                        <v-card
+                        class="l-card-item"
+                        v-for="vehicle in vehicles"
+                        :key="vehicle.id"
+                        @click="showVehicleDetails(vehicle)"
+                        >
+                            <div>
+                                <v-img
+                                style="height: 130px"
+                                :src="vehicle.imageUrl"
+                                ></v-img>
+                                <div
+                                class="action-label"
+                                :class="{
+                                    'buy-label': vehicle.action === 'Buy',
+                                    'rent-label': vehicle.action === 'Rent',
+                                }"
+                                >
+                                {{ vehicle.action }}
+                                </div>
+                            </div>
 
-        <v-row>
-          <v-container
-            fluid
-            class="color-row"
-            style="background-color: #ffffff"
-          >
-            <v-row class="mt-8">
-              <v-col cols="6" offset-sm="2" ofsset-xs="2" class="d-flex justify-start" >
-                <span style="font-weight: bold; font-size: 20px">
-                  Vehicle categories
-                </span>
-              </v-col>
-
-              <v-col cols="6" xs="6" sm="4" class="mt-1">
-                <span>View all categories<v-icon>mdi-arrow-right</v-icon></span>
-              </v-col>
-            </v-row>
-
-            <v-row class="align-center justify-center text-center">
-              there
-            </v-row>
-          </v-container>
-        </v-row>
-
-        <v-row>
-          <v-container
-            fluid
-            class="color-row"
-            style="background-color: #f1f5f9"
-          >
-          </v-container>
+                            <v-card-text>
+                                <div>
+                                <span>{{ vehicle.post }}</span>
+                                </div>
+                                <div v-if="vehicle.action === 'Buy'">
+                                <strong>Price:</strong> {{ vehicle.price }}€
+                                </div>
+                                <div v-if="vehicle.action === 'Rent'">
+                                <strong>Price for hour:</strong> {{ vehicle.priceph }}€
+                                </div>
+                            </v-card-text>
+                        </v-card>
+                    </v-container>
+                    <v-dialog v-model="dialogVisible" max-width="500px">
+                <v-card>
+                  <vehicle-details
+                    v-if="selectedVehicle"
+                    :vehicle="selectedVehicle"
+                  />
+                </v-card>
+              </v-dialog>
+                </v-row>
+            </v-card>
+          </v-col>
         </v-row>
 
         <v-row class="align-center justify-center text-center">
-          <v-container fluid style="background-color: #0f172a">
-            <v-row class="justify-center align-center">
-              <v-col cols="12" sm="5" class="mr-7">
-                <v-img
-                  src="@/assets/like.png"
-                  alt="tumb"
-                  style="max-width: 500px"
-                />
-              </v-col>
-              <v-col cols="12" sm="3" xs="6">
-                <span
-                class="text-h4 text-md-h4 text-sm-h3 text-xs-h4"
-                  style="color: #ffffff; font-size: 40px; font-weight: bold"
-                >
-                  Share your experience with your family and friends</span
-                >
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-col cols="12" sm="8">
+            <v-card>
+              <v-card-title>
+                <span>Vehicles that I bought</span>
+              </v-card-title>
+              <v-card-text>
+                <!-- Card content -->
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row class="align-center justify-center text-center">
+          <v-col cols="12" sm="8">
+            <v-card>
+              <v-card-title>
+                <span>Vehicles that I rent</span>
+              </v-card-title>
+              <v-card-text>
+                <!-- Card content -->
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row class="align-center justify-center text-center">
+          <v-col cols="12" sm="8">
+            <v-card>
+              <v-card-title>
+                <span>Changing the password</span>
+              </v-card-title>
+              <v-card-text>
+                <!-- Card content -->
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row class="align-center justify-center text-center">
+          <v-col cols="12" sm="8">
+            <v-card>
+              <v-card-title>
+                <span>Deleting the account</span>
+              </v-card-title>
+              <v-card-text>
+                <!-- Card content -->
+              </v-card-text>
+            </v-card>
+          </v-col>
         </v-row>
       </v-container>
     </v-main>
   </v-app>
 </template>
 
-<style>
-.search-container {
-  display: flex;
-  align-items: center;
-  width: 400px;
-  height: 44px;
-  background-color: white;
-  border-radius: 4px;
-  padding: 4px;
-}
 
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  padding: 4px;
-}
-
-.search-container-wrapper {
-  display: flex;
-  align-items: center;
-  margin-left: 0;
-}
-
-.group-words {
-  color: #94a3b8;
-  font-size: 18px;
-  margin-left: 35px;
-  margin-right: 35px;
-}
-
-@media (max-width: 768px) {
-  .search-container-wrapper {
-    margin-left: 62px;
-  }
-
-  .car-image {
-    margin-bottom: 60px;
-  }
-
-  .group-words {
-    margin-left: 13px;
-    margin-right: 13px;
-  }
-}
-</style>
 
 <script>
+import {
+  auth,
+  db,
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+  getAuth,
+  deleteUser,
+  updatePassword,
+  signInWithEmailAndPassword,
+  storage,
+  ref,
+  listAll,
+  getDownloadURL,
+} from "../../firebase.js";
 import Toolbar from "@/components/Toolbar.vue";
+import VehicleDetails from "@/components/VehicleDetails.vue";
+
 export default {
   components: {
     Toolbar,
+    VehicleDetails,
   },
 
-  name: "Explore",
+  name: "MyAccount",
 
   data() {
-    return {};
+    return {
+      selectedItem: "",
+      items: ["Male", "Female"],
+      show1: false,
+      show2: true,
+      show3: false,
+      show4: true,
+      show5: false,
+      show6: true,
+      firstName: "",
+      lastName: "",
+      gender: "",
+      country: "",
+      bDate: "",
+      phone: "",
+      ccNumber: "",
+      ccDate: "",
+      ccCVV: "",
+      isEditing: false,
+      oldPassword: "",
+      newPassword: "",
+      cNewPassword: "",
+      deleteConfirmed: false,
+      showLoginDialog: false,
+      email: "",
+      password: "",
+      showLoginDialog2: false,
+      em: "",
+      vehicles: [],
+      dialogVisible: false,
+      selectedVehicle: null,
+    };
+  },
+
+  created() {
+    this.fetchVehicles();
+    this.fetchUserData();
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.fetchUserData();
+      } else {
+        this.userData = null;
+      }
+    });
+  },
+
+  computed: {
+    passwordFieldsValid() {
+      return (
+        this.oldPassword.length > 0 &&
+        this.newPassword.length > 0 &&
+        this.cNewPassword.length > 0 &&
+        this.newPassword === this.cNewPassword
+      );
+    },
   },
 
   methods: {
+    showVehicleDetails(vehicle) {
+      this.selectedVehicle = vehicle;
+      this.dialogVisible = true;
+    },
+
+    async login() {
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.showLoginDialog = false;
+          this.updatePassword();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+
+    async login2() {
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.showLoginDialog2 = false;
+          this.deleteAccount();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+
+    async deleteAccount() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+
+          await deleteDocumentFromCollection("users", userId);
+
+          const vehiclesSnapshot = await getDocumentsFromCollection(
+            "vehicles",
+            "userId",
+            userId
+          );
+          const deletePromises = [];
+
+          vehiclesSnapshot.forEach((vehicleDoc) => {
+            const folderName = vehicleDoc.data().folderName;
+
+            deletePromises.push(deleteFolderFromStorage(folderName));
+
+            deletePromises.push(deleteDocument("vehicles", vehicleDoc.id));
+          });
+
+          await Promise.all(deletePromises);
+
+          alert("Account deleted successfully!");
+          this.redirectToLandingPage();
+        }
+      } catch (error) {
+        console.error("Error deleting account:", error);
+        alert("Error deleting account. Please try again.");
+      }
+    },
+
+    async updatePassword() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const newPassword = this.newPassword;
+          await updatePassword(user, newPassword);
+
+          this.oldPassword = "";
+          this.newPassword = "";
+          this.cNewPassword = "";
+
+          alert("Password updated successfully!");
+        }
+      } catch (error) {
+        console.error("Error updating password:", error);
+
+        alert("Error updating password. Please try again.");
+      }
+    },
+
+    async fetchUserData() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("userId", "==", userId));
+          const querySnapshot = await getDocs(q);
+
+          querySnapshot.forEach((doc) => {
+            this.userData = doc.data();
+            console.log("Document data:", this.userData);
+
+            this.firstName = this.userData.firstName;
+            this.lastName = this.userData.lastName;
+            this.gender = this.userData.gender;
+            this.country = this.userData.country;
+            this.bDate = this.userData.bDate;
+            this.phone = this.userData.phone;
+            this.ccNumber = this.userData.ccNumber;
+            this.ccDate = this.userData.ccDate;
+            this.ccCVV = this.userData.ccCVV;
+            this.em = this.userData.email;
+          });
+        } /*else {
+          console.log("No user is currently logged in.");
+        }*/
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    },
+
+    async fetchVehicles() {
+      const vehiclesCollection = collection(db, "vehicles");
+      const querySnapshot = await getDocs(vehiclesCollection);
+
+      const vehicles = [];
+
+      const imagePromises = querySnapshot.docs.map(async (doc) => {
+        const vehicleData = doc.data();
+        const folderName = vehicleData.folderName;
+
+        const imagesFolderRef = ref(storage, `images/${folderName}`);
+        const imagesList = await listAll(imagesFolderRef);
+        const firstImageRef = imagesList.items[0];
+        const imageUrl = await getDownloadURL(firstImageRef);
+
+        return {
+          id: doc.id,
+          post: vehicleData.post,
+          price: vehicleData.price,
+          imageUrl,
+          model: vehicleData.model,
+          yearModel: vehicleData.yearModel,
+          location: vehicleData.location,
+          power: vehicleData.power,
+          km: vehicleData.km,
+          state: vehicleData.state,
+          volume: vehicleData.volume,
+          yearMan: vehicleData.yearMan,
+          type: vehicleData.type,
+          power: vehicleData.power,
+          gearbox: vehicleData.gearbox,
+          engine: vehicleData.engine,
+          brand: vehicleData.brand,
+          folderName: vehicleData.folderName,
+          action: vehicleData.action,
+          priceph: vehicleData.priceph,
+          max: vehicleData.max,
+          vehicles: [],
+        };
+      });
+
+      const images = await Promise.all(imagePromises);
+
+      vehicles.push(...images);
+
+      this.vehicles = vehicles;
+    },
+
+    toggleEditing() {
+      this.isEditing = !this.isEditing;
+    },
+
     redirectToLandingPage() {
       this.$router.push("/");
     },
@@ -223,3 +493,47 @@ export default {
   },
 };
 </script>
+
+<style>
+.info-title {
+  font-weight: bold;
+  color: #d7263d;
+}
+
+.l-card-item {
+  width: 220px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 40px;
+}
+
+.action-label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 20px;
+  border: 1px solid #000000;
+}
+
+.buy-label {
+  background-color: #F1F5F9;
+  color: #292524;
+}
+
+.rent-label {
+  background-color: #F3E8FF;
+  color: #6B21A8;
+}
+</style>
+
+
+
+
