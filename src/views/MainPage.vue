@@ -396,39 +396,6 @@ export default {
   margin-right: 240px;
 }
 
-.search-container {
-  display: flex;
-  align-items: center;
-  width: 400px;
-  height: 44px;
-  background-color: white;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  padding: 4px;
-}
-
-.search-button {
-  background-color: #be123c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 22px;
-  cursor: pointer;
-  margin-left: 8px;
-}
-
-.search-container-wrapper {
-  display: flex;
-  align-items: center;
-  margin-left: 8px;
-}
 
 .color-container {
   height: 80px;
@@ -438,11 +405,7 @@ export default {
   justify-content: center;
 }
 
-.group-words {
-  color: #94a3b8;
-  font-size: 18px;
-  margin: 30px;
-}
+
 
 .categories {
   height: 480px;
