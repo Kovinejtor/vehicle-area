@@ -115,7 +115,10 @@
         >
           <div>
             <v-img style="height: 130px" :src="vehicle.imageUrl"></v-img>
-            <div class="action-label">
+            <div class="action-label" :class="{
+            'buy-label': vehicle.action === 'Buy',
+            'rent-label': vehicle.action === 'Rent'
+          }">
               {{ vehicle.action }}
             </div>
           </div>
@@ -124,9 +127,12 @@
             <div>
               <span>{{ vehicle.post }}</span>
             </div>
-            <div>
-              <span>Price: {{ vehicle.price }}€</span>
-            </div>
+            <div v-if="vehicle.action === 'Buy'">
+            <strong>Price:</strong> {{ vehicle.price }}€
+          </div>
+          <div v-if="vehicle.action === 'Rent'">
+            <strong>Price for hour:</strong> {{ vehicle.priceph }}€
+          </div>
           </v-card-text>
         </v-card>
       </div>
@@ -274,6 +280,8 @@ export default {
           brand: vehicleData.brand,
           folderName: vehicleData.folderName,
           action: vehicleData.action,
+          priceph: vehicleData.priceph,
+          max: vehicleData.max,
         };
       });
 
@@ -335,8 +343,6 @@ export default {
   position: absolute;
   top: 5px;
   left: 5px;
-  background-color: #F1F5F9; /* Green background color */
-  color: #000000; /* White text color */
   font-size: 11px;
   font-weight: bold;
   padding: 4px 8px;
@@ -344,13 +350,15 @@ export default {
   border: 1px solid #000000;
 }
 
+.buy-label {
+  background-color: #F1F5F9;
+  color: #292524;
+}
 
-
-
-
-
-
-
+.rent-label {
+  background-color: #F3E8FF;
+  color: #6B21A8;
+}
 
 .bring {
   color: #ffffff;

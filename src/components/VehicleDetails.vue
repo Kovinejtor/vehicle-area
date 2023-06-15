@@ -45,49 +45,33 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="6">
-          <div>
-            <strong>Post:</strong> {{ vehicle.post }}
-          </div>
-          <div>
-            <strong>Type:</strong> {{ vehicle.type }}
-          </div>
-          <div>
-            <strong>Model:</strong> {{ vehicle.model }}
-          </div>
-          <div>
-            <strong>Brand:</strong> {{ vehicle.brand }}
-          </div>
-          <div>
-            <strong>Model Year:</strong> {{ vehicle.yearModel }}
-          </div>
-          <div>
-            <strong>Year of Manufacture:</strong> {{ vehicle.yearMan }}
-          </div>
-          <div>
-            <strong>Location:</strong> {{ vehicle.location }}
-          </div>
+          <div><strong>Post:</strong> {{ vehicle.post }}</div>
+          <div><strong>Type:</strong> {{ vehicle.type }}</div>
+          <div><strong>Model:</strong> {{ vehicle.model }}</div>
+          <div><strong>Brand:</strong> {{ vehicle.brand }}</div>
+          <div><strong>Model Year:</strong> {{ vehicle.yearModel }}</div>
+          <div><strong>Year of Manufacture:</strong> {{ vehicle.yearMan }}</div>
+          <div><strong>Location:</strong> {{ vehicle.location }}</div>
         </v-col>
         <v-col cols="12" md="6">
-          <div>
+          <div v-if="vehicle.action === 'Buy'">
             <strong>State:</strong> {{ vehicle.state }}
           </div>
-          <div>
-            <strong>Kilometers Traveled:</strong> {{ vehicle.km }}
+          <div v-if="vehicle.action === 'Rent'">
+            <strong>Maximum hours:</strong> {{ vehicle.max }}
           </div>
-          <div>
-            <strong>Engine:</strong> {{ vehicle.engine }}
-          </div>
-          <div>
-            <strong>Power:</strong> {{ vehicle.power }}
-          </div>
-          <div>
-            <strong>Volume:</strong> {{ vehicle.volume }}
-          </div>
-          <div>
-            <strong>Gearbox:</strong> {{ vehicle.gearbox }}
-          </div>
-          <div>
+
+          <div><strong>Kilometers Traveled:</strong> {{ vehicle.km }}</div>
+          <div><strong>Engine:</strong> {{ vehicle.engine }}</div>
+          <div><strong>Power:</strong> {{ vehicle.power }}</div>
+          <div><strong>Volume:</strong> {{ vehicle.volume }}</div>
+          <div><strong>Gearbox:</strong> {{ vehicle.gearbox }}</div>
+
+          <div v-if="vehicle.action === 'Buy'">
             <strong>Price:</strong> {{ vehicle.price }}€
+          </div>
+          <div v-if="vehicle.action === 'Rent'">
+            <strong>Price for hour:</strong> {{ vehicle.priceph }}€
           </div>
         </v-col>
       </v-row>
@@ -131,7 +115,7 @@ export default {
     async fetchImages() {
       try {
         const folderRef = ref(storage, `images/${this.vehicle.folderName}`);
-         
+
         const folderImages = await listAll(folderRef);
 
         const imagePromises = folderImages.items.map(async (itemRef) => {

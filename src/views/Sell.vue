@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background-color: #f1f5f9">
+  <v-app style="background-color: #222e50">
     <Toolbar
       @explore-clicked="redirectToExplorePage"
       @rent-clicked="redirectToRentPage"
@@ -7,247 +7,234 @@
       @logout-clicked="redirectToLandingPage"
     />
 
-    <v-row align="center" justify="center">
-      <v-col style="margin-left: 6%; margin-top: 6%" cols="5">
-        <v-card height="900px" align="center" justify="center">
-          <v-row class="justify-center font-weight-black text-h5">
-            <span style="margin-top: 5%">
-              Insert all the needed info for the <br />
-              vehicle that you are selling
-            </span>
-          </v-row>
-
-          <v-form>
-            <v-container class="mt-15">
-              <v-row>
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-select
-                    v-model="type"
-                    label="Type of vehicle"
-                    outlined
-                    :items="items"
-                    prepend-inner-icon="mdi-train-car"
-                    class="custom-text-field"
-                  ></v-select>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="state"
-                    label="State of the vehicle"
-                    outlined
-                    prepend-inner-icon="mdi-new-box"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="brand"
-                    label="Vehicle brand"
-                    outlined
-                    prepend-inner-icon="mdi-watermark"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="km"
-                    label="Kilometers traveled"
-                    outlined
-                    prepend-inner-icon="mdi-map-marker-distance"
-                    :rules="[kmPositiveRule]"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="model"
-                    label="Vehicle model"
-                    outlined
-                    prepend-inner-icon="mdi-car-estate"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="engine"
-                    label="Engine"
-                    outlined
-                    prepend-inner-icon="mdi-engine"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="location"
-                    label="Location of the vehicle"
-                    outlined
-                    prepend-inner-icon="mdi-map-marker"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="power"
-                    label="Engine power"
-                    outlined
-                    prepend-inner-icon="mdi-engine"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="yearMan"
-                    label="Year of manufacture"
-                    outlined
-                    prepend-inner-icon="mdi-calendar-range"
-                    :rules="[yearManRangeRule]"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="volume"
-                    label="Work volume"
-                    outlined
-                    prepend-inner-icon="mdi-engine-outline"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="yearModel"
-                    label="Model year"
-                    outlined
-                    prepend-inner-icon="mdi-calendar-range"
-                    :rules="[yearModelRangeRule]"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    v-model="gearbox"
-                    label="Gearbox"
-                    outlined
-                    prepend-inner-icon="mdi-account"
-                    class="custom-text-field"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    class="mt-10"
-                    v-model="post"
-                    label="Post name"
-                    outlined
-                    prepend-inner-icon="mdi-note-text-outline"
-                    :rules="[postMinLengthRule, postMaxLengthRule]"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" xs="1" sm="3" md="4" lg="6" xl="6">
-                  <v-text-field
-                    class="mt-10"
-                    v-model="price"
-                    label="Price"
-                    outlined
-                    prepend-inner-icon="mdi-currency-eur"
-                    :rules="[priceNumberRule, pricePositiveRule]"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-
-          <v-row class="justify-center font-weight-black text-h5">
-            <v-btn
-              :disabled="!isFormValid || imagePreview.length < 6"
-              style="background-color: #007074; color: #ffffff"
-              class="pa-5 mt-2"
-              @click="uploadImages"
-            >
-              SELL
-            </v-btn>
-          </v-row>
-        </v-card>
-      </v-col>
-
-      <v-col style="margin-left: 6%" cols="5">
-        <v-row>
-          <v-card
-            width="600px"
-            :height="Math.ceil(imagePreview.length / 3) * 120 + 100 + 'px'"
-            style="margin-top: 0px"
+    <v-main>
+      <v-container fluid>
+        <v-row class="align-center justify-center">
+          <v-col
+            cols="12"
+            sm="7"
+            md="6"
+            lg="5"
+            class="align-center justify-center"
           >
-            <div class="button-container">
-              <input
-                type="file"
-                multiple
-                @change="handleFileSelect"
-                ref="fileInput"
-                style="display: none"
-              />
-              <div class="button-group">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      color="primary"
-                      dark
-                      v-on="on"
-                      @click="openFilePicker"
-                      >Select Images</v-btn
+            <v-card class="mb-4 pa-10">
+              <div class="text-center">
+                <h2 class="headline" style="font-weight: bold">
+                  Insert all the needed info for the <br />
+                  vehicle that you are selling
+                </h2>
+
+                <v-row class="mt-8 align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-select
+                      v-model="type"
+                      label="Type of vehicle"
+                      outlined
+                      :items="items"
+                      prepend-inner-icon="mdi-train-car"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="state"
+                      label="State of the vehicle"
+                      outlined
+                      prepend-inner-icon="mdi-new-box"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-row class="align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="brand"
+                      label="Vehicle brand"
+                      outlined
+                      prepend-inner-icon="mdi-watermark"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="km"
+                      label="Kilometers traveled"
+                      outlined
+                      prepend-inner-icon="mdi-map-marker-distance"
+                      :rules="[kmPositiveRule]"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-row class="align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="model"
+                      label="Vehicle model"
+                      outlined
+                      prepend-inner-icon="mdi-car-estate"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="engine"
+                      label="Engine"
+                      outlined
+                      prepend-inner-icon="mdi-engine"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-row class="align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="location"
+                      label="Location of the vehicle"
+                      outlined
+                      prepend-inner-icon="mdi-map-marker"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="power"
+                      label="Engine power"
+                      outlined
+                      prepend-inner-icon="mdi-engine"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-row class="align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="yearMan"
+                      label="Year of manufacture"
+                      outlined
+                      prepend-inner-icon="mdi-calendar-range"
+                      :rules="[yearManRangeRule]"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="volume"
+                      label="Work volume"
+                      outlined
+                      prepend-inner-icon="mdi-engine-outline"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-row class="align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="yearModel"
+                      label="Model year"
+                      outlined
+                      prepend-inner-icon="mdi-calendar-range"
+                      :rules="[yearModelRangeRule]"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      v-model="gearbox"
+                      label="Gearbox"
+                      outlined
+                      prepend-inner-icon="mdi-account"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-row class="align-center justify-center">
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      class="mt-6"
+                      v-model="post"
+                      label="Post name"
+                      outlined
+                      prepend-inner-icon="mdi-note-text-outline"
+                      :rules="[postMinLengthRule, postMaxLengthRule]"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="9" md="6" lg="5">
+                    <v-text-field
+                      class="mt-6"
+                      v-model="price"
+                      label="Price"
+                      outlined
+                      prepend-inner-icon="mdi-currency-eur"
+                      :rules="[priceNumberRule, pricePositiveRule]"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12" sm="7" md="6" lg="5">
+            <v-row class="d-flex align-center justify-center">
+              <v-card class="mb-4" style="max-width: 400px">
+                <v-col cols="12" class="text-center">
+                  <input
+                    type="file"
+                    multiple
+                    @change="handleFileSelect"
+                    ref="fileInput"
+                    style="display: none"
+                  />
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="primary"
+                        dark
+                        v-on="on"
+                        class="mr-9"
+                        @click="openFilePicker"
+                        >Select Images</v-btn
+                      >
+                    </template>
+                    <span
+                      >You need to put a minimum of 6 photos and you can put a
+                      maximum of 15 photos.</span
                     >
-                  </template>
-                  <span
-                    >You need to put a minimum of 6 photos and you can put a
-                    maximum of 15 photos.</span
+                  </v-tooltip>
+                  <v-btn color="error" dark @click="clearImages"
+                    >Clear Images</v-btn
                   >
-                </v-tooltip>
-
-                <v-btn color="error" dark @click="clearImages"
-                  >Clear Images</v-btn
-                >
-              </div>
-            </div>
-
-            <div class="image-preview-container">
-              <div
-                v-for="(preview, index) in imagePreview"
-                :key="preview"
-                class="image-preview"
-              >
-                <img :src="preview" class="image-preview-image" />
-                <div class="delete-icon" @click="deleteImage(index)">
-                  <i class="mdi mdi-delete"></i>
-                </div>
-              </div>
-            </div>
-          </v-card>
-        </v-row>
-
-        <v-row>
-          <div style="width: 600px; margin-top: 10px">
-            <v-card elevation="4">
+                </v-col>
+              </v-card>
+            </v-row>
+            <v-card class="mb-4">
               <v-img
                 v-if="imagePreview.length === 0"
                 src="../assets/upl.jpg"
                 style="width: 100%"
               />
+              <div class="image-preview-container">
+                <div
+                  v-for="(preview, index) in imagePreview"
+                  :key="preview"
+                  class="image-preview"
+                >
+                  <img :src="preview" class="image-preview-image" />
+                  <div class="delete-icon" @click="deleteImage(index)">
+                    <i class="mdi mdi-delete"></i>
+                  </div>
+                </div>
+              </div>
             </v-card>
-          </div>
+            <v-card class="mb-4" style="max-width: 100px; margin: 0 auto">
+              <div class="d-flex align-center justify-center pa-4">
+                <v-btn
+                  :disabled="!isFormValid || imagePreview.length < 6"
+                  style="background-color: #007074; color: #ffffff"
+                  @click="uploadImages"
+                >
+                  SELL
+                </v-btn>
+              </div>
+            </v-card>
+          </v-col>
         </v-row>
-      </v-col>
-    </v-row>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
@@ -455,6 +442,8 @@ export default {
 };
 </script>
 
+
+
 <style>
 .image-preview-container {
   display: flex;
@@ -474,24 +463,10 @@ export default {
   justify-content: center;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
-}
-
 .image-preview-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-top: 20px;
 }
 
 .delete-icon {
@@ -516,9 +491,4 @@ export default {
 .delete-icon i {
   font-size: 16px;
 }
-
-.custom-text-field {
-  margin-bottom: -25px !important;
-}
 </style>
-
