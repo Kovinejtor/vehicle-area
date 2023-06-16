@@ -113,7 +113,7 @@
                     <v-container class="card-container">
                         <v-card
                         class="l-card-item"
-                        v-for="vehicle in vehicles"
+                        v-for="vehicle in vehicles.slice(0, visibleVehicles)"
                         :key="vehicle.id"
                         @click="showVehicleDetails(vehicle)"
                         >
@@ -159,6 +159,35 @@
                 </v-card>
               </v-dialog>
                 </v-row>
+
+                <v-row style="margin-top: 100px">
+              <div
+                style="
+                  position: absolute;
+                  bottom: 20px;
+                  left: 0;
+                  width: 100%;
+                  text-align: center;
+                "
+              >
+                <v-btn
+                  v-if="isExpanded"
+                  color="primary"
+                  class="mr-2"
+                  @click="increaseLatestHeight"
+                >
+                  Show all vehicles
+                </v-btn>
+
+                <v-btn
+                  v-if="!isExpanded"
+                  color="error"
+                  @click="decreaseLatestHeight"
+                >
+                  Show less Vehicles
+                </v-btn>
+              </div>
+            </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -169,9 +198,56 @@
               <v-card-title>
                 <span>Vehicles that I bought</span>
               </v-card-title>
-              <v-card-text>
-                <!-- Card content -->
-              </v-card-text>
+              <v-row class="align-center justify-center text-center">
+                    <v-container class="card-container">
+                        <v-card
+                        class="l-card-item"
+                        v-for="vehicle in vehiclesBought"
+                        :key="vehicle.id"
+                        @click="showVehicleDetails(vehicle)"
+                        >
+                            <div>
+                                <v-img
+                                style="height: 130px"
+                                :src="vehicle.imageUrl"
+                                >
+                                  <div class="delete-icon" @click="deleteVehicle(vehicle)">
+                                    <i class="mdi mdi-delete"></i>
+                                  </div>
+                                </v-img>
+                                <div
+                                class="action-label"
+                                :class="{
+                                    'buy-label': vehicle.action === 'Buy',
+                                    'rent-label': vehicle.action === 'Rent',
+                                }"
+                                >
+                                {{ vehicle.action }}
+                                </div>
+                            </div>
+
+                            <v-card-text>
+                                <div>
+                                <span>{{ vehicle.post }}</span>
+                                </div>
+                                <div v-if="vehicle.action === 'Buy'">
+                                <strong>Price:</strong> {{ vehicle.price }}€
+                                </div>
+                                <div v-if="vehicle.action === 'Rent'">
+                                <strong>Price for hour:</strong> {{ vehicle.priceph }}€
+                                </div>
+                            </v-card-text>
+                        </v-card>
+                    </v-container>
+                    <v-dialog v-model="dialogVisible" max-width="500px">
+                      <v-card>
+                        <vehicle-details
+                          v-if="selectedVehicle"
+                          :vehicle="selectedVehicle"
+                        />
+                      </v-card>
+                    </v-dialog>
+                </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -182,9 +258,56 @@
               <v-card-title>
                 <span>Vehicles that I rent</span>
               </v-card-title>
-              <v-card-text>
-                <!-- Card content -->
-              </v-card-text>
+              <v-row class="align-center justify-center text-center">
+                    <v-container class="card-container">
+                        <v-card
+                        class="l-card-item"
+                        v-for="vehicle in vehiclesRent"
+                        :key="vehicle.id"
+                        @click="showVehicleDetails(vehicle)"
+                        >
+                            <div>
+                                <v-img
+                                style="height: 130px"
+                                :src="vehicle.imageUrl"
+                                >
+                                  <div class="delete-icon" @click="deleteVehicle(vehicle)">
+                                    <i class="mdi mdi-delete"></i>
+                                  </div>
+                                </v-img>
+                                <div
+                                class="action-label"
+                                :class="{
+                                    'buy-label': vehicle.action === 'Buy',
+                                    'rent-label': vehicle.action === 'Rent',
+                                }"
+                                >
+                                {{ vehicle.action }}
+                                </div>
+                            </div>
+
+                            <v-card-text>
+                                <div>
+                                <span>{{ vehicle.post }}</span>
+                                </div>
+                                <div v-if="vehicle.action === 'Buy'">
+                                <strong>Price:</strong> {{ vehicle.price }}€
+                                </div>
+                                <div v-if="vehicle.action === 'Rent'">
+                                <strong>Price for hour:</strong> {{ vehicle.priceph }}€
+                                </div>
+                            </v-card-text>
+                        </v-card>
+                    </v-container>
+                    <v-dialog v-model="dialogVisible" max-width="500px">
+                      <v-card>
+                        <vehicle-details
+                          v-if="selectedVehicle"
+                          :vehicle="selectedVehicle"
+                        />
+                      </v-card>
+                    </v-dialog>
+                </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -288,12 +411,19 @@ export default {
       vehicles: [],
       dialogVisible: false,
       selectedVehicle: null,
+      vehiclesBought: [],
+      vehiclesRent: [],
+      isExpanded: false,
+      visibleVehicles: 3,
     };
   },
 
   created() {
     this.fetchVehicles();
     this.fetchUserData();
+    this.fetchBoughtVehicles();
+    this.fetchRentVehicles();
+    this.isExpanded = true;
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.fetchUserData();
@@ -315,6 +445,38 @@ export default {
   },
 
   methods: {
+    async increaseLatestHeight() {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          // User is not signed in, return or handle accordingly
+          return;
+        }
+        const userId = user.uid;
+
+        const usersCollectionRef = collection(db, "vehicles");
+        const q = query(usersCollectionRef, where("userId", "==", userId));
+
+        const querySnapshot = await getDocs(q);
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          // Increment the count for each document that matches the criteria
+          count++;
+        });
+        this.visibleVehicles = count;
+        this.isExpanded = false;
+        console.log(`Number of documents: ${count}`);
+      } catch (error) {
+        console.error("Error counting documents:", error);
+      }
+    },
+
+    decreaseLatestHeight() {
+      this.visibleVehicles = 3;
+      this.isExpanded = true;
+    },
+
     async deleteVehicle(vehicle) {
       try {
         const vehicleId = vehicle.id;
@@ -526,6 +688,145 @@ export default {
         console.error("Failed to fetch vehicles:", error);
       }
     },
+
+    async fetchBoughtVehicles() {
+      // Get the current user's ID
+      const user = auth.currentUser;
+      if (!user) {
+        // User is not signed in, return or handle accordingly
+        return;
+      }
+      const userId = user.uid;
+
+      // Create a query to fetch vehicles with matching userId
+      const vehiclesCollection = collection(db, "br-vehicles");
+      const q = query(
+        vehiclesCollection,
+        where("buyer", "==", userId),
+        where("action", "==", "Buy")
+      );
+
+      try {
+        const querySnapshot = await getDocs(q);
+
+        const vehiclesBought = [];
+
+        const imagePromises = querySnapshot.docs.map(async (doc) => {
+          const vehicleData = doc.data();
+          const folderName = vehicleData.folderName;
+
+          const imagesFolderRef = ref(storage, `images/${folderName}`);
+          const imagesList = await listAll(imagesFolderRef);
+          const firstImageRef = imagesList.items[0];
+          const imageUrl = await getDownloadURL(firstImageRef); // Define imageUrl within the scope
+
+          return {
+            id: doc.id,
+            post: vehicleData.post,
+            price: vehicleData.price,
+            imageUrl, // Use the defined imageUrl variable
+            model: vehicleData.model,
+            yearModel: vehicleData.yearModel,
+            location: vehicleData.location,
+            power: vehicleData.power,
+            km: vehicleData.km,
+            state: vehicleData.state,
+            volume: vehicleData.volume,
+            yearMan: vehicleData.yearMan,
+            type: vehicleData.type,
+            power: vehicleData.power,
+            gearbox: vehicleData.gearbox,
+            engine: vehicleData.engine,
+            brand: vehicleData.brand,
+            folderName: vehicleData.folderName,
+            action: vehicleData.action,
+            priceph: vehicleData.priceph,
+            max: vehicleData.max,
+            vehiclesBought: [],
+            userId: vehicleData.userId,
+            buyer: vehicleData.buyer,
+          };
+        });
+
+        const images = await Promise.all(imagePromises);
+
+        vehiclesBought.push(...images);
+
+        this.vehiclesBought = vehiclesBought;
+      } catch (error) {
+        console.error("Failed to fetch vehicles:", error);
+      }
+    },
+
+    async fetchRentVehicles() {
+      // Get the current user's ID
+      const user = auth.currentUser;
+      if (!user) {
+        // User is not signed in, return or handle accordingly
+        return;
+      }
+      const userId = user.uid;
+
+      // Create a query to fetch vehicles with matching userId
+      const vehiclesCollection = collection(db, "br-vehicles");
+      const q = query(
+        vehiclesCollection,
+        where("buyer", "==", userId),
+        where("action", "==", "Rent")
+      );
+
+      try {
+        const querySnapshot = await getDocs(q);
+
+        const vehiclesRent = [];
+
+        const imagePromises = querySnapshot.docs.map(async (doc) => {
+          const vehicleData = doc.data();
+          const folderName = vehicleData.folderName;
+
+          const imagesFolderRef = ref(storage, `images/${folderName}`);
+          const imagesList = await listAll(imagesFolderRef);
+          const firstImageRef = imagesList.items[0];
+          const imageUrl = await getDownloadURL(firstImageRef); // Define imageUrl within the scope
+
+          return {
+            id: doc.id,
+            post: vehicleData.post,
+            price: vehicleData.price,
+            imageUrl, // Use the defined imageUrl variable
+            model: vehicleData.model,
+            yearModel: vehicleData.yearModel,
+            location: vehicleData.location,
+            power: vehicleData.power,
+            km: vehicleData.km,
+            state: vehicleData.state,
+            volume: vehicleData.volume,
+            yearMan: vehicleData.yearMan,
+            type: vehicleData.type,
+            power: vehicleData.power,
+            gearbox: vehicleData.gearbox,
+            engine: vehicleData.engine,
+            brand: vehicleData.brand,
+            folderName: vehicleData.folderName,
+            action: vehicleData.action,
+            priceph: vehicleData.priceph,
+            max: vehicleData.max,
+            vehiclesRent: [],
+            userId: vehicleData.userId,
+            buyer: vehicleData.buyer,
+          };
+        });
+
+        const images = await Promise.all(imagePromises);
+
+        vehiclesRent.push(...images);
+
+        this.vehiclesRent = vehiclesRent;
+      } catch (error) {
+        console.error("Failed to fetch vehicles:", error);
+      }
+    },
+
     toggleEditing() {
       this.isEditing = !this.isEditing;
     },

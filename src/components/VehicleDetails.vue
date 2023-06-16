@@ -52,6 +52,7 @@
           <div><strong>Model Year:</strong> {{ vehicle.yearModel }}</div>
           <div><strong>Year of Manufacture:</strong> {{ vehicle.yearMan }}</div>
           <div><strong>Location:</strong> {{ vehicle.location }}</div>
+          <div v-if="vehicle.buyer"><strong>Phone:</strong> {{ phone }}</div>
         </v-col>
         <v-col cols="12" md="6">
           <div v-if="vehicle.action === 'Buy'">
@@ -73,12 +74,13 @@
           <div v-if="vehicle.action === 'Rent'">
             <strong>Price for hour:</strong> {{ vehicle.priceph }}€
           </div>
+          <div v-if="vehicle.buyer"><strong>Email:</strong> {{ email }}</div>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" class="text-center">
           <v-btn
-            v-if="vehicle.userId !== userId"
+            v-if="vehicle.userId !== userId && !vehicle.buyer"
             color="primary"
             dark
             @click="addNewVehicleDocument"
@@ -103,6 +105,9 @@ import {
   getAuth,
   deleteDoc,
   doc,
+  query,
+  where,
+  getDocs,
 } from "../../firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -119,6 +124,8 @@ export default {
     return {
       images: [],
       userId: null,
+      email: "",
+      phone: "",
     };
   },
 
@@ -133,9 +140,31 @@ export default {
 
   created() {
     this.subscribeToAuthState();
+    this.fetchUserData();
   },
 
   methods: {
+    async fetchUserData() {
+      try {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("userId", "==", this.vehicle.userId));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          this.userData = doc.data();
+          console.log("Document data:", this.userData);
+
+          this.phone = this.userData.phone;
+          this.email = this.userData.email;
+        });
+        /*else {
+          console.log("No user is currently logged in.");
+        }*/
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    },
+
     async addNewVehicleDocument() {
       try {
         const { currentUser } = auth;
@@ -195,7 +224,15 @@ export default {
 
         const vehiclesCollectionRef = collection(db, "vehicles");
         const vehicleDocRef = doc(vehiclesCollectionRef, this.vehicle.id);
-        await deleteDoc(vehicleDocRef);
+
+        if (this.vehicle.action === "Buy") {
+          await deleteDoc(vehicleDocRef);
+          console.log("Vehicle document deleted successfully!");
+        } else {
+          console.log(
+            "Vehicle document not deleted because the action is not 'Buy'."
+          );
+        }
 
         this.$router.push("/my-account");
 
