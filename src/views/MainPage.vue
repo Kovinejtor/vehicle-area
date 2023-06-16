@@ -426,6 +426,7 @@ export default {
           action: vehicleData.action,
           priceph: vehicleData.priceph,
           max: vehicleData.max,
+          userId: vehicleData.userId,
         };
       });
 

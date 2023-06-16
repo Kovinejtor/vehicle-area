@@ -121,7 +121,11 @@
                                 <v-img
                                 style="height: 130px"
                                 :src="vehicle.imageUrl"
-                                ></v-img>
+                                >
+                                <div class="delete-icon" @click="deleteVehicle(vehicle)">
+                    <i class="mdi mdi-delete"></i>
+                  </div>
+                                </v-img>
                                 <div
                                 class="action-label"
                                 :class="{
@@ -235,7 +239,12 @@ import {
   ref,
   listAll,
   getDownloadURL,
+  deleteDoc,
+  getMetadata,
+  deleteObject,
 } from "../../firebase.js";
+
+import { onAuthStateChanged } from "firebase/auth";
 import Toolbar from "@/components/Toolbar.vue";
 import VehicleDetails from "@/components/VehicleDetails.vue";
 
@@ -306,6 +315,37 @@ export default {
   },
 
   methods: {
+    async deleteVehicle(vehicle) {
+      try {
+        const vehicleId = vehicle.id;
+        const folderName = vehicle.folderName;
+
+        console.log("Vehicle ID:", vehicleId);
+        console.log("Folder Name:", folderName);
+
+        // Remove the vehicle from the vehicles array
+        this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+        console.log("Removed from visual.");
+
+        // Delete the document from the "vehicles" collection
+        await deleteDoc(doc(db, "vehicles", vehicleId));
+        console.log("Vehicle document deleted.");
+
+        // Delete files within the folder
+        const folderRef = ref(storage, `images/${folderName}`);
+        const folderSnapshot = await listAll(folderRef);
+        const files = folderSnapshot.items;
+        for (const fileRef of files) {
+          await deleteObject(fileRef);
+        }
+
+        // Delete the folder itself
+        await deleteObject(folderRef);
+      } catch (error) {
+        console.error("Error deleting vehicle:", error);
+      }
+    },
+
     showVehicleDetails(vehicle) {
       this.selectedVehicle = vehicle;
       this.dialogVisible = true;
@@ -424,53 +464,68 @@ export default {
     },
 
     async fetchVehicles() {
+      // Get the current user's ID
+      const user = auth.currentUser;
+      if (!user) {
+        // User is not signed in, return or handle accordingly
+        return;
+      }
+      const userId = user.uid;
+
+      // Create a query to fetch vehicles with matching userId
       const vehiclesCollection = collection(db, "vehicles");
-      const querySnapshot = await getDocs(vehiclesCollection);
+      const q = query(vehiclesCollection, where("userId", "==", userId));
 
-      const vehicles = [];
+      try {
+        const querySnapshot = await getDocs(q);
 
-      const imagePromises = querySnapshot.docs.map(async (doc) => {
-        const vehicleData = doc.data();
-        const folderName = vehicleData.folderName;
+        const vehicles = [];
 
-        const imagesFolderRef = ref(storage, `images/${folderName}`);
-        const imagesList = await listAll(imagesFolderRef);
-        const firstImageRef = imagesList.items[0];
-        const imageUrl = await getDownloadURL(firstImageRef);
+        const imagePromises = querySnapshot.docs.map(async (doc) => {
+          const vehicleData = doc.data();
+          const folderName = vehicleData.folderName;
 
-        return {
-          id: doc.id,
-          post: vehicleData.post,
-          price: vehicleData.price,
-          imageUrl,
-          model: vehicleData.model,
-          yearModel: vehicleData.yearModel,
-          location: vehicleData.location,
-          power: vehicleData.power,
-          km: vehicleData.km,
-          state: vehicleData.state,
-          volume: vehicleData.volume,
-          yearMan: vehicleData.yearMan,
-          type: vehicleData.type,
-          power: vehicleData.power,
-          gearbox: vehicleData.gearbox,
-          engine: vehicleData.engine,
-          brand: vehicleData.brand,
-          folderName: vehicleData.folderName,
-          action: vehicleData.action,
-          priceph: vehicleData.priceph,
-          max: vehicleData.max,
-          vehicles: [],
-        };
-      });
+          const imagesFolderRef = ref(storage, `images/${folderName}`);
+          const imagesList = await listAll(imagesFolderRef);
+          const firstImageRef = imagesList.items[0];
+          const imageUrl = await getDownloadURL(firstImageRef); // Define imageUrl within the scope
 
-      const images = await Promise.all(imagePromises);
+          return {
+            id: doc.id,
+            post: vehicleData.post,
+            price: vehicleData.price,
+            imageUrl, // Use the defined imageUrl variable
+            model: vehicleData.model,
+            yearModel: vehicleData.yearModel,
+            location: vehicleData.location,
+            power: vehicleData.power,
+            km: vehicleData.km,
+            state: vehicleData.state,
+            volume: vehicleData.volume,
+            yearMan: vehicleData.yearMan,
+            type: vehicleData.type,
+            power: vehicleData.power,
+            gearbox: vehicleData.gearbox,
+            engine: vehicleData.engine,
+            brand: vehicleData.brand,
+            folderName: vehicleData.folderName,
+            action: vehicleData.action,
+            priceph: vehicleData.priceph,
+            max: vehicleData.max,
+            vehicles: [],
+            userId: vehicleData.userId,
+          };
+        });
 
-      vehicles.push(...images);
+        const images = await Promise.all(imagePromises);
 
-      this.vehicles = vehicles;
+        vehicles.push(...images);
+
+        this.vehicles = vehicles;
+      } catch (error) {
+        console.error("Failed to fetch vehicles:", error);
+      }
     },
-
     toggleEditing() {
       this.isEditing = !this.isEditing;
     },
@@ -524,13 +579,36 @@ export default {
 }
 
 .buy-label {
-  background-color: #F1F5F9;
+  background-color: #f1f5f9;
   color: #292524;
 }
 
 .rent-label {
-  background-color: #F3E8FF;
-  color: #6B21A8;
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.delete-icon i {
+  font-size: 16px;
 }
 </style>
 

@@ -77,7 +77,13 @@
       </v-row>
       <v-row>
         <v-col cols="12" class="text-center">
-          <v-btn color="primary" dark>{{ vehicle.action }}</v-btn>
+          <v-btn
+            v-if="vehicle.userId !== userId"
+            color="primary"
+            dark
+            @click="addNewVehicleDocument"
+            >{{ vehicle.action }}</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
@@ -85,7 +91,20 @@
 </template>
 
 <script>
-import { storage, ref, listAll, getDownloadURL } from "../../firebase.js";
+import {
+  auth,
+  storage,
+  ref,
+  listAll,
+  getDownloadURL,
+  addDoc,
+  collection,
+  db,
+  getAuth,
+  deleteDoc,
+  doc,
+} from "../../firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   props: {
@@ -99,6 +118,7 @@ export default {
   data() {
     return {
       images: [],
+      userId: null,
     };
   },
 
@@ -111,7 +131,94 @@ export default {
     },
   },
 
+  created() {
+    this.subscribeToAuthState();
+  },
+
   methods: {
+    async addNewVehicleDocument() {
+      try {
+        const { currentUser } = auth;
+
+        const {
+          post,
+          type,
+          model,
+          brand,
+          yearModel,
+          yearMan,
+          location,
+          state,
+          max,
+          km,
+          engine,
+          power,
+          volume,
+          gearbox,
+          price,
+          priceph,
+          action,
+          userId,
+          folderName,
+        } = this.vehicle;
+
+        const docData = {
+          post: post || "",
+          type: type || "",
+          model: model || "",
+          brand: brand || "",
+          yearModel: yearModel || "",
+          yearMan: yearMan || "",
+          location: location || "",
+          state: state || "",
+          max: max || "",
+          km: km || "",
+          engine: engine || "",
+          power: power || "",
+          volume: volume || "",
+          gearbox: gearbox || "",
+          price: price || "",
+          priceph: priceph || "",
+          action: action || "",
+          userId: userId || "",
+          folderName: folderName || "",
+          buyer: currentUser ? currentUser.uid : "",
+        };
+
+        // Add the new document to the "br-vehicles" collection
+        await addDoc(collection(db, "br-vehicles"), docData);
+
+        const folderRef = ref(storage, `images/${this.vehicle.folderName}`);
+        const folderImages = await listAll(folderRef);
+
+        console.log("Pictures transferred successfully!");
+
+        const vehiclesCollectionRef = collection(db, "vehicles");
+        const vehicleDocRef = doc(vehiclesCollectionRef, this.vehicle.id);
+        await deleteDoc(vehicleDocRef);
+
+        this.$router.push("/my-account");
+
+        console.log("Vehicle document deleted successfully!");
+      } catch (error) {
+        console.error("Error adding new vehicle document:", error);
+        alert("Error adding new vehicle document. Please try again.");
+      }
+    },
+
+    subscribeToAuthState() {
+      // Listen for changes in the user's authentication state
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, update the userId data property
+          this.userId = user.uid;
+        } else {
+          // User is signed out, reset the userId data property
+          this.userId = null;
+        }
+      });
+    },
+
     async fetchImages() {
       try {
         const folderRef = ref(storage, `images/${this.vehicle.folderName}`);

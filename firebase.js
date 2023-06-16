@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import firebase from 'firebase/compat/app';
-import { doc, addDoc, getDoc, setDoc, getDocs, query, where, getFirestore, collection, updateDoc } from 'firebase/firestore/lite';
+import { doc, addDoc, getDoc, setDoc, getDocs, query, where, getFirestore, collection, updateDoc, deleteDoc } from 'firebase/firestore/lite';
 import { getAuth, updatePassword, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, beforeAuthStateChanged, onAuthStateChanged, deleteUser, } from 'firebase/auth';
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll, getMetadata, deleteObject } from 'firebase/storage';
 
 
 // Import the functions you need from the SDKs you need
@@ -56,4 +56,7 @@ export {
   updateDoc,
   listAll,
   deleteUser,
+  deleteDoc,
+  getMetadata, 
+  deleteObject,
 };
