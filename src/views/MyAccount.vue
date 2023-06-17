@@ -161,33 +161,33 @@
                 </v-row>
 
                 <v-row style="margin-top: 100px">
-              <div
-                style="
-                  position: absolute;
-                  bottom: 20px;
-                  left: 0;
-                  width: 100%;
-                  text-align: center;
-                "
-              >
-                <v-btn
-                  v-if="isExpanded"
-                  color="primary"
-                  class="mr-2"
-                  @click="increaseLatestHeight"
-                >
-                  Show all vehicles
-                </v-btn>
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 20px;
+                      left: 0;
+                      width: 100%;
+                      text-align: center;
+                    "
+                   >
+                      <v-btn
+                        v-if="isExpanded && vehicleCount > 3"
+                        color="primary"
+                        class="mr-2"
+                        @click="increaseLatestHeight"
+                      >
+                        Show all vehicles
+                      </v-btn>
 
-                <v-btn
-                  v-if="!isExpanded"
-                  color="error"
-                  @click="decreaseLatestHeight"
-                >
-                  Show less Vehicles
-                </v-btn>
-              </div>
-            </v-row>
+                      <v-btn
+                        v-if="!isExpanded && vehicleCount > 3"
+                        color="error"
+                        @click="decreaseLatestHeight"
+                      >
+                        Show less Vehicles
+                      </v-btn>
+                   </div>
+               </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -202,7 +202,7 @@
                     <v-container class="card-container">
                         <v-card
                         class="l-card-item"
-                        v-for="vehicle in vehiclesBought"
+                        v-for="vehicle in vehiclesBought.slice(0, visibleVehiclesBought)"
                         :key="vehicle.id"
                         @click="showVehicleDetails(vehicle)"
                         >
@@ -211,7 +211,7 @@
                                 style="height: 130px"
                                 :src="vehicle.imageUrl"
                                 >
-                                  <div class="delete-icon" @click="deleteVehicle(vehicle)">
+                                  <div class="delete-icon" @click="deleteVehicleBought(vehicle)">
                                     <i class="mdi mdi-delete"></i>
                                   </div>
                                 </v-img>
@@ -248,6 +248,34 @@
                       </v-card>
                     </v-dialog>
                 </v-row>
+                <v-row style="margin-top: 100px">
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 20px;
+                      left: 0;
+                      width: 100%;
+                      text-align: center;
+                    "
+                   >
+                      <v-btn
+                        v-if="isExpandedBought && vehicleBoughtCount > 3"
+                        color="primary"
+                        class="mr-2"
+                        @click="increaseBoughtHeight"
+                      >
+                        Show all vehicles
+                      </v-btn>
+
+                      <v-btn
+                        v-if="!isExpandedBought && vehicleBoughtCount > 3"
+                        color="error"
+                        @click="decreaseBoughtHeight"
+                      >
+                        Show less Vehicles
+                      </v-btn>
+                   </div>
+               </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -262,7 +290,7 @@
                     <v-container class="card-container">
                         <v-card
                         class="l-card-item"
-                        v-for="vehicle in vehiclesRent"
+                        v-for="vehicle in vehiclesRent.slice(0, visibleVehiclesRent)"
                         :key="vehicle.id"
                         @click="showVehicleDetails(vehicle)"
                         >
@@ -271,7 +299,7 @@
                                 style="height: 130px"
                                 :src="vehicle.imageUrl"
                                 >
-                                  <div class="delete-icon" @click="deleteVehicle(vehicle)">
+                                  <div class="delete-icon" @click="deleteVehicleRent(vehicle)">
                                     <i class="mdi mdi-delete"></i>
                                   </div>
                                 </v-img>
@@ -308,6 +336,34 @@
                       </v-card>
                     </v-dialog>
                 </v-row>
+                <v-row style="margin-top: 100px">
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 20px;
+                      left: 0;
+                      width: 100%;
+                      text-align: center;
+                    "
+                   >
+                      <v-btn
+                        v-if="isExpandedRent && vehicleRentCount > 3" 
+                        color="primary"
+                        class="mr-2"
+                        @click="increaseRentHeight"
+                      >
+                        Show all vehicles
+                      </v-btn>
+
+                      <v-btn
+                        v-if="!isExpandedRent && vehicleRentCount > 3"
+                        color="error"
+                        @click="decreaseRentHeight"
+                      >
+                        Show less Vehicles
+                      </v-btn>
+                   </div>
+               </v-row>
             </v-card>
           </v-col>
         </v-row>
@@ -415,6 +471,13 @@ export default {
       vehiclesRent: [],
       isExpanded: false,
       visibleVehicles: 3,
+      vehicleCount: 0,
+      isExpandedBought: false,
+      visibleVehiclesBought: 3,
+      vehicleBoughtCount: 0,
+      isExpandedRent: false,
+      visibleVehiclesRent: 3,
+      vehicleRentCount: 0,
     };
   },
 
@@ -424,13 +487,66 @@ export default {
     this.fetchBoughtVehicles();
     this.fetchRentVehicles();
     this.isExpanded = true;
+    this.isExpandedBought = true;
+    this.isExpandedRent = true;
     auth.onAuthStateChanged((user) => {
       if (user) {
+        this.fetchVehicles();
         this.fetchUserData();
+        this.fetchBoughtVehicles();
+        this.fetchRentVehicles();
       } else {
         this.userData = null;
       }
     });
+  },
+
+  mounted() {
+    const userId = auth.currentUser.uid;
+
+    const vehiclesCollection = collection(db, "vehicles");
+    const vehiclesQuery = query(
+      vehiclesCollection,
+      where("userId", "==", userId)
+    );
+
+    getDocs(vehiclesQuery)
+      .then((snapshot) => {
+        this.vehicleCount = snapshot.size;
+      })
+      .catch((error) => {
+        console.error("Error getting vehicle count:", error);
+      });
+
+
+    const vehiclesCollectionBought = collection(db, "br-vehicles");
+    const vehiclesQueryBought = query(
+      vehiclesCollectionBought,
+      where("buyer", "==", userId)
+    );
+
+    getDocs(vehiclesQueryBought)
+      .then((snapshot) => {
+        this.vehicleBoughtCount = snapshot.size;
+      })
+      .catch((error) => {
+        console.error("Error getting vehicle count:", error);
+      });
+
+
+    const vehiclesCollectionRent = collection(db, "br-vehicles");
+    const vehiclesQueryRent = query(
+      vehiclesCollectionRent,
+      where("buyer", "==", userId)
+    );
+
+    getDocs(vehiclesQueryRent)
+      .then((snapshot) => {
+        this.vehicleRentCount = snapshot.size;
+      })
+      .catch((error) => {
+        console.error("Error getting vehicle count:", error);
+      });
   },
 
   computed: {
@@ -477,35 +593,170 @@ export default {
       this.isExpanded = true;
     },
 
-    async deleteVehicle(vehicle) {
+    async increaseBoughtHeight() {
       try {
-        const vehicleId = vehicle.id;
-        const folderName = vehicle.folderName;
-
-        console.log("Vehicle ID:", vehicleId);
-        console.log("Folder Name:", folderName);
-
-        // Remove the vehicle from the vehicles array
-        this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
-        console.log("Removed from visual.");
-
-        // Delete the document from the "vehicles" collection
-        await deleteDoc(doc(db, "vehicles", vehicleId));
-        console.log("Vehicle document deleted.");
-
-        // Delete files within the folder
-        const folderRef = ref(storage, `images/${folderName}`);
-        const folderSnapshot = await listAll(folderRef);
-        const files = folderSnapshot.items;
-        for (const fileRef of files) {
-          await deleteObject(fileRef);
+        const user = auth.currentUser;
+        if (!user) {
+          // User is not signed in, return or handle accordingly
+          return;
         }
+        const userId = user.uid;
 
-        // Delete the folder itself
-        await deleteObject(folderRef);
+        const usersCollectionRef = collection(db, "br-vehicles");
+        const q = query(usersCollectionRef, where("buyer", "==", userId));
+
+        const querySnapshot = await getDocs(q);
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          // Increment the count for each document that matches the criteria
+          count++;
+        });
+        this.visibleVehiclesBought = count;
+        this.isExpandedBought = false;
+        console.log(`Number of documents: ${count}`);
       } catch (error) {
-        console.error("Error deleting vehicle:", error);
+        console.error("Error counting documents:", error);
       }
+    },
+
+    decreaseBoughtHeight() {
+      this.visibleVehiclesBought = 3;
+      this.isExpandedBought = true;
+    },
+
+    async increaseRentHeight() {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          // User is not signed in, return or handle accordingly
+          return;
+        }
+        const userId = user.uid;
+
+        const usersCollectionRef = collection(db, "br-vehicles");
+        const q = query(usersCollectionRef, where("buyer", "==", userId));
+
+        const querySnapshot = await getDocs(q);
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          // Increment the count for each document that matches the criteria
+          count++;
+        });
+        this.visibleVehiclesRent = count;
+        this.isExpandedRent = false;
+        console.log(`Number of documents: ${count}`);
+      } catch (error) {
+        console.error("Error counting documents:", error);
+      }
+    },
+
+    decreaseRentHeight() {
+      this.visibleVehiclesRent = 3;
+      this.isExpandedRent = true;
+    },
+
+    async deleteVehicle(vehicle) {
+      const vehicleId = vehicle.id;
+      const folderName = vehicle.folderName;
+
+      console.log("Vehicle ID:", vehicleId);
+      console.log("Folder Name:", folderName);
+
+      // Remove the vehicle from the vehicles array
+      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+      console.log("Removed from visual.");
+
+      // Delete the document from the "vehicles" collection
+      await deleteDoc(doc(db, "vehicles", vehicleId));
+      console.log("Vehicle document deleted.");
+
+      // Delete files within the folder
+      const folderRef = ref(storage, `images/${folderName}`);
+      const folderSnapshot = await listAll(folderRef);
+      const files = folderSnapshot.items;
+      for (const fileRef of files) {
+        await deleteObject(fileRef);
+      }
+
+      this.vehicleCount -= 1;
+
+      // Check if the condition is still valid and update button visibility
+      if (this.isExpanded && this.vehicleCount <= 3) {
+        this.isExpanded = false;
+      }
+
+      // Reload the page
+      window.location.reload();
+    },
+
+
+    async deleteVehicleBought(vehicle) {
+      const vehicleId = vehicle.id;
+      const folderName = vehicle.folderName;
+
+      console.log("Vehicle ID:", vehicleId);
+      console.log("Folder Name:", folderName);
+
+      // Remove the vehicle from the vehicles array
+      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+      console.log("Removed from visual.");
+
+      await deleteDoc(doc(db, "br-vehicles", vehicleId));
+      console.log("Vehicle document deleted.");
+
+      // Delete files within the folder
+      const folderRef = ref(storage, `images/${folderName}`);
+      const folderSnapshot = await listAll(folderRef);
+      const files = folderSnapshot.items;
+      for (const fileRef of files) {
+        await deleteObject(fileRef);
+      }
+
+      this.vehicleBoughtCount -= 1;
+
+      // Check if the condition is still valid and update button visibility
+      if (this.isExpandedBought && this.vehicleBoughtCount <= 3) {
+        this.isExpandedBought = false;
+      }
+
+      // Reload the page
+      window.location.reload();
+    },
+
+
+    async deleteVehicleRent(vehicle) {
+      const vehicleId = vehicle.id;
+      const folderName = vehicle.folderName;
+
+      console.log("Vehicle ID:", vehicleId);
+      console.log("Folder Name:", folderName);
+
+      // Remove the vehicle from the vehicles array
+      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+      console.log("Removed from visual.");
+
+      await deleteDoc(doc(db, "br-vehicles", vehicleId));
+      console.log("Vehicle document deleted.");
+
+      // Delete files within the folder
+      const folderRef = ref(storage, `images/${folderName}`);
+      const folderSnapshot = await listAll(folderRef);
+      const files = folderSnapshot.items;
+      for (const fileRef of files) {
+        await deleteObject(fileRef);
+      }
+
+      this.vehicleRentCount -= 1;
+
+      // Check if the condition is still valid and update button visibility
+      if (this.isExpandedRent && this.vehicleRentCount <= 3) {
+        this.isExpandedRent = false;
+      }
+
+      // Reload the page
+      window.location.reload();
     },
 
     showVehicleDetails(vehicle) {
@@ -626,67 +877,64 @@ export default {
     },
 
     async fetchVehicles() {
-      // Get the current user's ID
-      const user = auth.currentUser;
-      if (!user) {
-        // User is not signed in, return or handle accordingly
-        return;
-      }
-      const userId = user.uid;
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const userId = user.uid;
 
-      // Create a query to fetch vehicles with matching userId
-      const vehiclesCollection = collection(db, "vehicles");
-      const q = query(vehiclesCollection, where("userId", "==", userId));
+          const vehiclesCollection = collection(db, "vehicles");
+          const q = query(vehiclesCollection, where("userId", "==", userId));
 
-      try {
-        const querySnapshot = await getDocs(q);
+          const querySnapshot = await getDocs(q);
 
-        const vehicles = [];
+          const vehicles = [];
 
-        const imagePromises = querySnapshot.docs.map(async (doc) => {
-          const vehicleData = doc.data();
-          const folderName = vehicleData.folderName;
+          const imagePromises = querySnapshot.docs.map(async (doc) => {
+            const vehicleData = doc.data();
+            const folderName = vehicleData.folderName;
 
-          const imagesFolderRef = ref(storage, `images/${folderName}`);
-          const imagesList = await listAll(imagesFolderRef);
-          const firstImageRef = imagesList.items[0];
-          const imageUrl = await getDownloadURL(firstImageRef); // Define imageUrl within the scope
+            const imagesFolderRef = ref(storage, `images/${folderName}`);
+            const imagesList = await listAll(imagesFolderRef);
+            const firstImageRef = imagesList.items[0];
+            const imageUrl = await getDownloadURL(firstImageRef);
 
-          return {
-            id: doc.id,
-            post: vehicleData.post,
-            price: vehicleData.price,
-            imageUrl, // Use the defined imageUrl variable
-            model: vehicleData.model,
-            yearModel: vehicleData.yearModel,
-            location: vehicleData.location,
-            power: vehicleData.power,
-            km: vehicleData.km,
-            state: vehicleData.state,
-            volume: vehicleData.volume,
-            yearMan: vehicleData.yearMan,
-            type: vehicleData.type,
-            power: vehicleData.power,
-            gearbox: vehicleData.gearbox,
-            engine: vehicleData.engine,
-            brand: vehicleData.brand,
-            folderName: vehicleData.folderName,
-            action: vehicleData.action,
-            priceph: vehicleData.priceph,
-            max: vehicleData.max,
-            vehicles: [],
-            userId: vehicleData.userId,
-          };
-        });
+            return {
+              id: doc.id,
+              post: vehicleData.post,
+              price: vehicleData.price,
+              imageUrl,
+              model: vehicleData.model,
+              yearModel: vehicleData.yearModel,
+              location: vehicleData.location,
+              power: vehicleData.power,
+              km: vehicleData.km,
+              state: vehicleData.state,
+              volume: vehicleData.volume,
+              yearMan: vehicleData.yearMan,
+              type: vehicleData.type,
+              power: vehicleData.power,
+              gearbox: vehicleData.gearbox,
+              engine: vehicleData.engine,
+              brand: vehicleData.brand,
+              folderName: vehicleData.folderName,
+              action: vehicleData.action,
+              priceph: vehicleData.priceph,
+              max: vehicleData.max,
+              vehicles: [],
+              userId: vehicleData.userId,
+            };
+          });
 
-        const images = await Promise.all(imagePromises);
+          const images = await Promise.all(imagePromises);
 
-        vehicles.push(...images);
+          vehicles.push(...images);
 
-        this.vehicles = vehicles;
-      } catch (error) {
-        console.error("Failed to fetch vehicles:", error);
-      }
+          this.vehicles = vehicles;
+        } else {
+          // Handle the case where user is null
+          console.log("User is null");
+          // or show an error message to the user
+        }
+      });
     },
 
     async fetchBoughtVehicles() {
