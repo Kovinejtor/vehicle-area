@@ -41,6 +41,7 @@
                         type="text"
                         class="search-input"
                         placeholder="Search for vehicle or category"
+                        v-model="searchValue"
                       />
                     </div>
                     <v-btn
@@ -53,6 +54,7 @@
                         cursor: pointer;
                         margin-left: 16px;
                       "
+                      @click="searchVehicles"
                       >Search</v-btn
                     >
                   </v-col>
@@ -116,74 +118,93 @@
               <v-container>
                 <v-row class="align-center justify-center text-center">
                   <v-col cols="6" md="2">
-                    <v-card class="card-item">
+                    <v-card
+                      class="card-item"
+                      @click="fetchVehicles('All vehicles')"
+                    >
+                      <v-img class="card-image" src="@/assets/all.jpg"
+                        ><span class="card-text">All vehicles</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="6" md="2">
+                    <v-card class="card-item" @click="fetchVehicles('Car')">
                       <v-img class="card-image" src="@/assets/cars.jpg"
                         ><span class="card-text">Cars</span></v-img
                       >
                     </v-card>
                   </v-col>
                   <v-col cols="6" md="2">
-                    <v-card class="card-item">
+                    <v-card
+                      class="card-item"
+                      @click="fetchVehicles('Motorcycle')"
+                    >
                       <v-img class="card-image" src="@/assets/moto.jpeg"
                         ><span class="card-text">Motorcycles</span></v-img
                       >
                     </v-card>
                   </v-col>
                   <v-col cols="6" md="2">
-                    <v-card class="card-item">
+                    <v-card class="card-item" @click="fetchVehicles('Bycicle')">
                       <v-img class="card-image" src="@/assets/bice.jpg"
                         ><span class="card-text">Bicycles</span></v-img
                       >
                     </v-card>
                   </v-col>
-                  <v-col cols="6" md="2">
-                    <v-card class="card-item">
-                      <v-img class="card-image" src="@/assets/truck.jpg"
-                        ><span class="card-text">Trucks</span></v-img
-                      >
-                    </v-card>
-                  </v-col>
                   <v-col cols="6" md="3">
-                    <v-card class="card-item">
+                    <v-card
+                      class="card-item"
+                      @click="fetchVehicles('Romobile')"
+                    >
                       <v-img class="card-image" src="@/assets/romob.jpg"
                         ><span class="card-text">Romobiles</span></v-img
                       >
                     </v-card>
                   </v-col>
-
                   <v-col cols="6" md="2" v-show="showSecondDiv">
-                    <v-card class="card-item">
+                    <v-card class="card-item" @click="fetchVehicles('Truck')">
+                      <v-img class="card-image" src="@/assets/truck.jpg"
+                        ><span class="card-text">Trucks</span></v-img
+                      >
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="2" v-show="showSecondDiv">
+                    <v-card
+                      class="card-item"
+                      @click="fetchVehicles('Helicopter')"
+                    >
                       <v-img class="card-image" src="@/assets/helicopter.jpg"
                         ><span class="card-text">Helicopter</span></v-img
                       >
                     </v-card>
                   </v-col>
                   <v-col cols="6" md="2" v-show="showSecondDiv">
-                    <v-card class="card-item">
+                    <v-card class="card-item" @click="fetchVehicles('Boat')">
                       <v-img class="card-image" src="@/assets/boat.jpg"
                         ><span class="card-text">Boat</span></v-img
                       >
                     </v-card>
                   </v-col>
+
                   <v-col cols="6" md="2" v-show="showSecondDiv">
-                    <v-card class="card-item">
-                      <v-img class="card-image" src="@/assets/other.jpeg"
-                        ><span class="card-text">Others</span></v-img
-                      >
-                    </v-card>
-                  </v-col>
-                  <v-col cols="6" md="2" v-show="showSecondDiv">
-                    <v-card class="card-item">
+                    <v-card class="card-item" @click="fetchVehicles('Bus')">
                       <v-img class="card-image" src="@/assets/bus.jpg"
                         ><span class="card-text">Bus</span></v-img
                       >
                     </v-card>
                   </v-col>
-                  <v-col cols="6" md="3" v-show="showSecondDiv">
-                    <v-card
-                      class="card-item invisible-card"
-                      style="opacity: 0"
-                    ></v-card>
+                  <v-col
+                    cols="6"
+                    md="3"
+                    v-show="showSecondDiv"
+                    @click="fetchVehicles('Other')"
+                  >
+                    <v-card class="card-item">
+                      <v-img class="card-image" src="@/assets/other.jpeg"
+                        ><span class="card-text">Others</span></v-img
+                      >
+                    </v-card>
                   </v-col>
                 </v-row>
               </v-container>
@@ -268,7 +289,7 @@
                 "
               >
                 <v-btn
-                  v-if="isExpanded"
+                  v-if="isExpanded && vehicleCount > 8"
                   color="primary"
                   class="mr-2"
                   @click="increaseLatestHeight"
@@ -290,7 +311,7 @@
 
         <v-row class="align-center justify-center text-center">
           <v-container fluid style="background-color: #0f172a">
-            <v-row class="justify-center align-center">
+            <v-row class="justify-center align-center mb-6 mt-3">
               <v-col cols="12" sm="5" class="mr-7">
                 <v-img
                   src="@/assets/like.png"
@@ -309,6 +330,30 @@
             </v-row>
           </v-container>
         </v-row>
+
+        <v-row class="align-center justify-center text-center">
+          <v-container fluid style="background-color: #0FFFFFF">
+            <span>
+              Contact us:
+              <a href="mailto:your-email@example.com">
+                <v-icon size="24" class="ml-2 contact-icon">mdi-email</v-icon>
+              </a>
+              <a href="https://www.facebook.com">
+                <v-icon size="24" class="ml-2 contact-icon"
+                  >mdi-facebook</v-icon
+                >
+              </a>
+              <a href="https://www.instagram.com">
+                <v-icon size="24" class="ml-2 contact-icon"
+                  >mdi-instagram</v-icon
+                >
+              </a>
+              <a href="https://www.twitter.com">
+                <v-icon size="24" class="ml-2 contact-icon">mdi-twitter</v-icon>
+              </a>
+            </span>
+          </v-container>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
@@ -323,6 +368,9 @@ import {
   ref,
   listAll,
   getDownloadURL,
+  query,
+  orderBy,
+  where,
 } from "../../firebase.js";
 import Toolbar from "@/components/Toolbar.vue";
 import VehicleDetails from "@/components/VehicleDetails.vue";
@@ -343,7 +391,20 @@ export default {
       selectedVehicle: null,
       showSecondDiv: false,
       isExpanded: false,
+      vehicleCount: 0,
+      searchValue: "",
     };
+  },
+
+  mounted() {
+    const vehiclesCollection = collection(db, "vehicles");
+    getDocs(vehiclesCollection)
+      .then((snapshot) => {
+        this.vehicleCount = snapshot.size;
+      })
+      .catch((error) => {
+        console.error("Error getting vehicle count:", error);
+      });
   },
 
   created() {
@@ -389,9 +450,24 @@ export default {
       this.dialogVisible = true;
     },
 
-    async fetchVehicles() {
-      const vehiclesCollection = collection(db, "vehicles");
-      const querySnapshot = await getDocs(vehiclesCollection);
+    async fetchVehicles(type, searchValue) {
+      let queryRef = collection(db, "vehicles");
+
+      if (type && type !== "All vehicles") {
+        queryRef = query(queryRef, where("type", "==", type));
+      }
+
+      if (searchValue && searchValue.trim() !== "") {
+        queryRef = query(
+          queryRef,
+          where("searchField", "array-contains", searchValue.trim()),
+          orderBy("searchField"),
+          orderBy("time", "desc")
+        );
+      } else {
+        queryRef = query(queryRef, orderBy("time", "desc"));
+      }
+      const querySnapshot = await getDocs(queryRef);
 
       const vehicles = [];
 
@@ -418,7 +494,6 @@ export default {
           volume: vehicleData.volume,
           yearMan: vehicleData.yearMan,
           type: vehicleData.type,
-          power: vehicleData.power,
           gearbox: vehicleData.gearbox,
           engine: vehicleData.engine,
           brand: vehicleData.brand,
@@ -434,7 +509,22 @@ export default {
 
       vehicles.push(...images);
 
+      if (type && type !== "All vehicles") {
+        const countQueryRef = query(
+          collection(db, "vehicles"),
+          where("type", "==", type)
+        );
+        const countQuerySnapshot = await getDocs(countQueryRef);
+        this.vehicleCount = countQuerySnapshot.size;
+      } else {
+        this.vehicleCount = querySnapshot.size;
+      }
+
       this.vehicles = vehicles;
+    },
+
+    searchVehicles() {
+      this.fetchVehicles(null, this.searchValue);
     },
 
     toggleSecondDiv() {
@@ -538,13 +628,13 @@ export default {
 }
 
 .buy-label {
-  background-color: #F1F5F9;
+  background-color: #f1f5f9;
   color: #292524;
 }
 
 .rent-label {
-  background-color: #F3E8FF;
-  color: #6B21A8;
+  background-color: #f3e8ff;
+  color: #6b21a8;
 }
 @media (max-width: 768px) {
   .search-container-wrapper {

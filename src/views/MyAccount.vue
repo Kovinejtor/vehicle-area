@@ -979,7 +979,7 @@ export default {
 
         // Find documents in "br-vehicles" collection matching userId
         const brVehiclesQuerySnapshot = await getDocs(
-          query(collection(db, "br-vehicles"), where("userId", "==", userId))
+          query(collection(db, "br-vehicles"), where("buyer", "==", userId))
         );
 
         // Iterate over the documents in "br-vehicles" collection

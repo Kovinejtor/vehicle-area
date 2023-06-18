@@ -281,6 +281,7 @@ export default {
       volume: "",
       gearbox: "",
       price: "",
+      searchField: [],
       items: [
         "Car",
         "Motorcycle",
@@ -391,6 +392,9 @@ export default {
       const user = auth.currentUser;
 
       if (user) {
+         const currentDate = new Date();
+         const time = `${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}`;
+
         await addDoc(collection(db, "vehicles"), {
           userId: user.uid,
           type: this.type,
@@ -409,6 +413,8 @@ export default {
           price: this.price,
           folderName: folderName,
           action: "Buy",
+          time: time,
+          searchField: [this.type, this.brand, this.model, this.location, this.yearMan, this.yearModel, this.post, this.state, this.km, this.engine, this.power, this.volume, this.gearbox, this.price],
         });
 
         this.files = [];
