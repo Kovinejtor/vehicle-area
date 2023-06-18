@@ -102,7 +102,7 @@
           </v-col>
         </v-row>
 
-        <v-row class="align-center justify-center text-center">
+        <v-row class="align-center justify-center text-center" v-if="vehicleCount != 0">
           <v-col cols="12" sm="8">
             <v-card>
               <v-card-title>
@@ -192,7 +192,7 @@
           </v-col>
         </v-row>
 
-        <v-row class="align-center justify-center text-center">
+        <v-row class="align-center justify-center text-center" v-if="vehicleBoughtCount != 0">
           <v-col cols="12" sm="8">
             <v-card>
               <v-card-title>
@@ -280,7 +280,7 @@
           </v-col>
         </v-row>
 
-        <v-row class="align-center justify-center text-center">
+        <v-row class="align-center justify-center text-center" v-if="vehicleRentCount != 0">
           <v-col cols="12" sm="8">
             <v-card>
               <v-card-title>
@@ -375,7 +375,78 @@
                 <span>Changing the password</span>
               </v-card-title>
               <v-card-text>
-                <!-- Card content -->
+                <v-form>
+                  <v-row class="mt-4 align-center justify-center text-center">
+                    <v-col cols="8" sm="4"> 
+                      <v-text-field
+                        prepend-inner-icon="mdi-key"
+                        v-model="newPassword"
+                        :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show3 ? 'text' : 'password'"
+                        name="input-10-1"
+                        label="Enter new password"
+                        @click:append="show3 = !show3"
+                        outlined
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="8" sm="4">
+                      <v-text-field
+                        prepend-inner-icon="mdi-key"
+                        v-model="cNewPassword"
+                        :append-icon="show5 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show5 ? 'text' : 'password'"
+                        name="input-10-1"
+                        label="Comfirm new password"
+                        @click:append="show5 = !show5"
+                        outlined
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row class="align-center justify-center text-center">
+                    
+
+                    <v-col cols="6" sm="4">
+                      <v-btn
+                        style="background-color: #007074; color: #ffffff"
+                        class="pa-5 mb-8"
+                        @click="showLoginDialog = true"
+                        :disabled="!passwordFieldsValid"
+                      >
+                        UPDATE
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-dialog v-model="showLoginDialog" max-width="400px">
+          <v-card>
+            <v-card-title class="headline"
+              >Login to Update Password</v-card-title
+            >
+            <v-card-text>
+              <v-form ref="loginForm" @submit.prevent="login">
+                <v-text-field
+                  v-model="email"
+                  label="Email"
+                  outlined
+                  required
+                  type="email"
+                ></v-text-field>
+                <v-text-field
+                  v-model="password"
+                  label="Password"
+                  outlined
+                  required
+                  type="password"
+                ></v-text-field>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="primary" type="submit">Login</v-btn>
+                </v-card-actions>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+            </v-form>
               </v-card-text>
             </v-card>
           </v-col>
@@ -388,7 +459,59 @@
                 <span>Deleting the account</span>
               </v-card-title>
               <v-card-text>
-                <!-- Card content -->
+                <v-row class="align-center justify-center text-center mb-8">
+                    <v-col cols="12">
+                      <v-checkbox
+                        class="ml-10 mt-6"
+                        label="Confirm that I want to delete my account"
+                        color="error"
+                        v-model="deleteConfirmed"
+                        hide-details
+                      ></v-checkbox>
+                  </v-col>
+
+                  <v-col cols="12">
+                      <v-btn
+                        style="background-color: #cb0a0a; color: #ffffff"
+                        class="pa-5"
+                        :disabled="!deleteConfirmed"
+                        @click="showLoginDialog2 = true"
+                      >
+                        DELETE ACCOUNT
+                      </v-btn>
+                  </v-col> 
+                </v-row>
+                <v-dialog v-model="showLoginDialog2" max-width="400px">
+              <v-card>
+                <v-card-title class="headline"
+                  >Login to Delete Password</v-card-title
+                >
+                <v-card-text>
+                  <v-form ref="loginForm" @submit.prevent="login2">
+                    <v-text-field
+                      v-model="email"
+                      label="Email"
+                      outlined
+                      required
+                      type="email"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="password"
+                      label="Password"
+                      outlined
+                      required
+                      type="password"
+                    ></v-text-field>
+                    <v-card-actions class="d-flex justify-center">
+                      <v-btn color="primary" type="submit">Login</v-btn>
+                    </v-card-actions>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+            <v-row>
+              
+            </v-row>
               </v-card-text>
             </v-card>
           </v-col>
@@ -518,7 +641,6 @@ export default {
         console.error("Error getting vehicle count:", error);
       });
 
-
     const vehiclesCollectionBought = collection(db, "br-vehicles");
     const vehiclesQueryBought = query(
       vehiclesCollectionBought,
@@ -532,7 +654,6 @@ export default {
       .catch((error) => {
         console.error("Error getting vehicle count:", error);
       });
-
 
     const vehiclesCollectionRent = collection(db, "br-vehicles");
     const vehiclesQueryRent = query(
@@ -552,7 +673,6 @@ export default {
   computed: {
     passwordFieldsValid() {
       return (
-        this.oldPassword.length > 0 &&
         this.newPassword.length > 0 &&
         this.cNewPassword.length > 0 &&
         this.newPassword === this.cNewPassword
@@ -673,11 +793,20 @@ export default {
       console.log("Vehicle document deleted.");
 
       // Delete files within the folder
-      const folderRef = ref(storage, `images/${folderName}`);
-      const folderSnapshot = await listAll(folderRef);
-      const files = folderSnapshot.items;
-      for (const fileRef of files) {
-        await deleteObject(fileRef);
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, "br-vehicles"),
+          where("folderName", "==", folderName)
+        )
+      );
+      if (querySnapshot.empty) {
+        // Delete files within the folder
+        const folderRef = ref(storage, `images/${folderName}`);
+        const folderSnapshot = await listAll(folderRef);
+        const files = folderSnapshot.items;
+        for (const fileRef of files) {
+          await deleteObject(fileRef);
+        }
       }
 
       this.vehicleCount -= 1;
@@ -690,7 +819,6 @@ export default {
       // Reload the page
       window.location.reload();
     },
-
 
     async deleteVehicleBought(vehicle) {
       const vehicleId = vehicle.id;
@@ -725,7 +853,6 @@ export default {
       window.location.reload();
     },
 
-
     async deleteVehicleRent(vehicle) {
       const vehicleId = vehicle.id;
       const folderName = vehicle.folderName;
@@ -740,19 +867,24 @@ export default {
       await deleteDoc(doc(db, "br-vehicles", vehicleId));
       console.log("Vehicle document deleted.");
 
-      // Delete files within the folder
-      const folderRef = ref(storage, `images/${folderName}`);
-      const folderSnapshot = await listAll(folderRef);
-      const files = folderSnapshot.items;
-      for (const fileRef of files) {
-        await deleteObject(fileRef);
-      }
-
       this.vehicleRentCount -= 1;
 
       // Check if the condition is still valid and update button visibility
       if (this.isExpandedRent && this.vehicleRentCount <= 3) {
         this.isExpandedRent = false;
+      }
+
+      const querySnapshot = await getDocs(
+        query(collection(db, "vehicles"), where("folderName", "==", folderName))
+      );
+      if (querySnapshot.empty) {
+        // Delete files within the folder
+        const folderRef = ref(storage, `images/${folderName}`);
+        const folderSnapshot = await listAll(folderRef);
+        const files = folderSnapshot.items;
+        for (const fileRef of files) {
+          await deleteObject(fileRef);
+        }
       }
 
       // Reload the page
@@ -793,34 +925,115 @@ export default {
     async deleteAccount() {
       try {
         const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
+        const userId = user.uid;
 
-          await deleteDocumentFromCollection("users", userId);
-
-          const vehiclesSnapshot = await getDocumentsFromCollection(
-            "vehicles",
-            "userId",
-            userId
-          );
-          const deletePromises = [];
-
-          vehiclesSnapshot.forEach((vehicleDoc) => {
-            const folderName = vehicleDoc.data().folderName;
-
-            deletePromises.push(deleteFolderFromStorage(folderName));
-
-            deletePromises.push(deleteDocument("vehicles", vehicleDoc.id));
-          });
-
-          await Promise.all(deletePromises);
-
-          alert("Account deleted successfully!");
-          this.redirectToLandingPage();
+        // Delete documents in "users" collection matching userId
+        const usersQuerySnapshot = await getDocs(
+          query(collection(db, "users"), where("userId", "==", userId))
+        );
+        for (const userDoc of usersQuerySnapshot.docs) {
+          await deleteDoc(doc(db, "users", userDoc.id));
         }
+
+        // Find documents in "vehicles" collection matching userId
+        const vehiclesQuerySnapshot = await getDocs(
+          query(collection(db, "vehicles"), where("userId", "==", userId))
+        );
+
+        // Iterate over the documents in "vehicles" collection
+        for (const vehicleDoc of vehiclesQuerySnapshot.docs) {
+          const folderName = vehicleDoc.data().folderName;
+
+          // Check if there is a matching document in "br-vehicles" collection
+          const brVehiclesQuerySnapshot = await getDocs(
+            query(
+              collection(db, "br-vehicles"),
+              where("folderName", "==", folderName)
+            )
+          );
+
+          if (brVehiclesQuerySnapshot.empty) {
+            // No matching document found in "br-vehicles" collection
+            // Delete files in storage and delete document in "vehicles" collection
+            const folderRef = ref(storage, `images/${folderName}`);
+            const folderSnapshot = await listAll(folderRef);
+            const files = folderSnapshot.items;
+            for (const fileRef of files) {
+              await deleteObject(fileRef);
+            }
+
+            // Delete document in "vehicles" collection
+            await deleteDoc(doc(db, "vehicles", vehicleDoc.id));
+          } else {
+            // Matching document found in "br-vehicles" collection
+            // Delete documents in "vehicles" collection matching userId
+            const vehiclesToDeleteQuerySnapshot = await getDocs(
+              query(collection(db, "vehicles"), where("userId", "==", userId))
+            );
+            for (const vehicleToDeleteDoc of vehiclesToDeleteQuerySnapshot.docs) {
+              await deleteDoc(doc(db, "vehicles", vehicleToDeleteDoc.id));
+            }
+            break; // Exit the loop since further deletions are not required
+          }
+        }
+
+        // Find documents in "br-vehicles" collection matching userId
+        const brVehiclesQuerySnapshot = await getDocs(
+          query(collection(db, "br-vehicles"), where("userId", "==", userId))
+        );
+
+        // Iterate over the documents in "br-vehicles" collection
+        for (const brVehicleDoc of brVehiclesQuerySnapshot.docs) {
+          const folderName = brVehicleDoc.data().folderName;
+
+          // Check if there is a matching document in "vehicles" collection
+          const vehiclesQuerySnapshot = await getDocs(
+            query(
+              collection(db, "vehicles"),
+              where("folderName", "==", folderName)
+            )
+          );
+
+          if (vehiclesQuerySnapshot.empty) {
+            // No matching document found in "vehicles" collection
+            // Delete files in storage and delete document in "br-vehicles" collection
+            const folderRef = ref(storage, `images/${folderName}`);
+            const folderSnapshot = await listAll(folderRef);
+            const files = folderSnapshot.items;
+            for (const fileRef of files) {
+              await deleteObject(fileRef);
+            }
+
+            // Delete document in "br-vehicles" collection
+            await deleteDoc(doc(db, "br-vehicles", brVehicleDoc.id));
+          } else {
+            // Matching document found in "vehicles" collection
+            // Delete documents in "br-vehicles" collection matching userId
+            const brVehiclesToDeleteQuerySnapshot = await getDocs(
+              query(
+                collection(db, "br-vehicles"),
+                where("userId", "==", userId)
+              )
+            );
+            for (const brVehicleToDeleteDoc of brVehiclesToDeleteQuerySnapshot.docs) {
+              await deleteDoc(doc(db, "br-vehicles", brVehicleToDeleteDoc.id));
+            }
+            break; // Exit the loop since further deletions are not required
+          }
+        }
+        console.log("Knew it!");
+        // Delete the user account in authentication
+        deleteUser(user)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            // An error ocurred
+            // ...
+          });
+        console.log("User account deleted successfully.");
       } catch (error) {
-        console.error("Error deleting account:", error);
-        alert("Error deleting account. Please try again.");
+        console.error("Error deleting the user account:", error);
       }
     },
 
