@@ -5,6 +5,7 @@
       @sell-clicked="redirectToSellPage"
       @rent-clicked="redirectToRentPage"
       @logout-clicked="redirectToLandingPage"
+      :account="account"
     />
 
     <v-main>
@@ -72,29 +73,14 @@
                         </v-list-item-content>
                 </v-list-item>
 
-
-                <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Credit card number:</v-list-item-title>
-                            <v-list-item-subtitle>{{ccNumber}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-</v-col>
-<v-col>
-                    <v-list-item>
+<v-list-item>
                         <v-list-item-content>
                             <v-list-item-title class="info-title">Credit card expiration date:</v-list-item-title>
                             <v-list-item-subtitle>{{ccDate}}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
-
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Credit card CVV:</v-list-item-title>
-                            <v-list-item-subtitle>{{ccCVV}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                    </v-col>
+                
+</v-col>
                     </v-row>
                 </v-list>
               </v-card-text>
@@ -560,6 +546,7 @@ export default {
 
   data() {
     return {
+      account: true,
       selectedItem: "",
       items: ["Male", "Female"],
       show1: false,
@@ -1371,6 +1358,11 @@ export default {
 
 .delete-icon i {
   font-size: 16px;
+}
+
+.account-button {
+  border: 1px solid white;
+  padding: 10px 20px;
 }
 </style>
 

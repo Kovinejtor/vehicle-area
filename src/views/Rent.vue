@@ -5,6 +5,7 @@
       @sell-clicked="redirectToSellPage"
       @account-clicked="redirectToAccountPage"
       @logout-clicked="redirectToLandingPage"
+      :rent="rent"
     />
 
     <v-main>
@@ -201,7 +202,7 @@
                 </v-col>
               </v-card>
             </v-row>
-            <v-card class="mb-4">
+            <v-card>
               <v-img
                 v-if="imagePreview.length === 0"
                 src="../assets/upl.jpg"
@@ -220,7 +221,13 @@
                 </div>
               </div>
             </v-card>
-            <v-card class="mb-4" style="max-width: 100px; margin: 0 auto">
+            <v-progress-linear
+              v-if="uploading"
+              ref="progressBar"
+              color="yellow darken-2"
+              :height="10"
+            ></v-progress-linear>
+            <v-card class="mb-4 mt-4" style="max-width: 100px; margin: 0 auto">
               <div class="d-flex align-center justify-center pa-4">
                 <v-btn
                   :disabled="!isFormValid || imagePreview.length < 6"
@@ -267,6 +274,8 @@ export default {
 
   data() {
     return {
+      uploading: false,
+      rent: true,
       type: "",
       brand: "",
       model: "",
@@ -370,6 +379,8 @@ export default {
     },
 
     async uploadImages() {
+      this.uploading = true;
+      const totalImages = this.imagePreview.length;
       const storage = getStorage();
       const storageReference = storageRef(storage, "images");
 
@@ -385,9 +396,16 @@ export default {
         const snapshot = await uploadTask;
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log("Download URL:", downloadURL);
+
+        return downloadURL;
       });
 
-      await Promise.all(uploadPromises);
+      const uploadedCount = await Promise.all(uploadPromises).then(
+        (results) => results.filter((result) => !!result).length
+      );
+      const percentage = Math.floor((uploadedCount / totalImages) * 100);
+
+      this.$refs.progressBar.value = percentage;
 
       const user = auth.currentUser;
 
@@ -419,6 +437,7 @@ export default {
 
         this.files = [];
         this.imagePreview = [];
+        this.uploading = false;
         this.$router.push("/main-page");
       } else {
         console.log("User is not authenticated");
@@ -494,5 +513,10 @@ export default {
 
 .delete-icon i {
   font-size: 16px;
+}
+
+.rent-button {
+  border: 1px solid white;
+  padding: 10px 20px;
 }
 </style>

@@ -5,6 +5,7 @@
       @rent-clicked="redirectToRentPage"
       @account-clicked="redirectToAccountPage"
       @logout-clicked="redirectToLandingPage"
+      :explore="explore"
     />
 
     <v-main>
@@ -94,14 +95,15 @@
                 ofsset-xs="2"
                 class="d-flex justify-start"
               >
-                <span style="font-weight: bold; font-size: 20px">
+                <span style="font-weight: bold; font-size: 20px" class="hCategories">
                   Vehicle categories
                 </span>
               </v-col>
 
-              <v-col cols="6" xs="6" sm="4" class="mt-1">
+              <v-col cols="6" xs="6" sm="4"  class="mt-1">
                 <span
                   style="color: blue; cursor: pointer"
+                  class="categories"
                   @click="toggleSecondDiv"
                 >
                   {{
@@ -117,7 +119,7 @@
             <v-row class="align-center justify-center text-center">
               <v-container>
                 <v-row class="align-center justify-center text-center">
-                  <v-col cols="6" md="2">
+                  <v-col cols="6" md="2" offset-sm="1">
                     <v-card
                       class="card-item"
                       @click="fetchVehicles('All vehicles')"
@@ -162,7 +164,7 @@
                       >
                     </v-card>
                   </v-col>
-                  <v-col cols="6" md="2" v-show="showSecondDiv">
+                  <v-col cols="6" md="2" offset-sm="1" v-show="showSecondDiv">
                     <v-card class="card-item" @click="fetchVehicles('Truck')">
                       <v-img class="card-image" src="@/assets/truck.jpg"
                         ><span class="card-text">Trucks</span></v-img
@@ -225,7 +227,7 @@
                 ofsset-xs="2"
                 class="d-flex justify-start"
               >
-                <span style="font-weight: bold; font-size: 20px">
+                <span style="font-weight: bold; font-size: 20px" class="hLatest">
                   Latest offers
                 </span>
               </v-col>
@@ -385,6 +387,7 @@ export default {
 
   data() {
     return {
+      explore: true,
       vehicles: [],
       visibleVehicles: 8,
       dialogVisible: false,
@@ -652,11 +655,24 @@ export default {
   }
 }
 
+.explore-button {
+  border: 1px solid white;
+  padding: 10px 20px;
+}
+
 @media (min-width: 768px) {
   .car-image {
     margin-bottom: 60px;
     max-width: 290px;
     margin-top: 60px;
+  }
+
+  .categories{
+    margin-left: 47px;
+  }
+
+  .hCategories{
+    margin-left: 13px;
   }
 }
 </style>

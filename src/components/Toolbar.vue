@@ -20,12 +20,7 @@
         <!-- Hamburger menu icon for xs and sm displays -->
         <v-menu offset-y v-if="isSmallScreen">
           <template #activator="{ on, attrs }">
-            <v-btn
-              text
-              v-bind="attrs"
-              v-on="on"
-              class="button"
-            >
+            <v-btn text v-bind="attrs" v-on="on" class="button">
               <v-icon>mdi-menu</v-icon>
             </v-btn>
           </template>
@@ -42,7 +37,7 @@
         <v-btn
           v-if="!isSmallScreen"
           text
-          class="button"
+          :class="{ button: true, 'explore-button': explore }"
           @click="exploreClicked"
         >
           Explore
@@ -50,15 +45,16 @@
         <v-btn
           v-if="!isSmallScreen"
           text
-          class="button"
+          :class="{ button: true, 'sell-button': sell }"
           @click="sellClicked"
+          :outlined="sellOutlined"
         >
           Sell
         </v-btn>
         <v-btn
           v-if="!isSmallScreen"
           text
-          class="button"
+          :class="{ button: true, 'rent-button': rent }"
           @click="rentClicked"
         >
           Rent
@@ -66,17 +62,12 @@
         <v-btn
           v-if="!isSmallScreen"
           text
-          class="button"
+          :class="{ button: true, 'account-button': account }"
           @click="accountClicked"
         >
           My account
         </v-btn>
-        <v-btn
-          v-if="!isSmallScreen"
-          text
-          class="button"
-          @click="logoutClicked"
-        >
+        <v-btn v-if="!isSmallScreen" text class="button" @click="logoutClicked">
           Log out
         </v-btn>
       </v-col>
@@ -89,13 +80,33 @@ export default {
   props: {
     mobileBreakpoint: {
       type: Number,
-      default: 960
-    }
+      default: 960,
+    },
+    sellOutlined: {
+      type: Boolean,
+      default: false,
+    },
+    explore: {
+      type: Boolean,
+      default: false,
+    },
+    sell: {
+      type: Boolean,
+      default: false,
+    },
+    rent: {
+      type: Boolean,
+      default: false,
+    },
+    account: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
-      isSmallScreen: false
+      isSmallScreen: false,
     };
   },
 
@@ -117,7 +128,7 @@ export default {
     },
     updateScreenSize() {
       this.isSmallScreen = window.innerWidth <= this.mobileBreakpoint;
-    }
+    },
   },
 
   mounted() {
@@ -127,7 +138,7 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener("resize", this.updateScreenSize);
-  }
+  },
 };
 </script>
 
