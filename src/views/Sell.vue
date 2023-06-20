@@ -21,8 +21,8 @@
             <v-card class="mb-4 pa-10">
               <div class="text-center">
                 <h2 class="headline" style="font-weight: bold">
-                  Insert all the needed info for the <br />
-                  vehicle that you are selling
+                   Fill the text fields and select at<br /> 
+                   least 6 photos of the vehicle you are selling
                 </h2>
 
                 <v-row class="mt-8 align-center justify-center">
