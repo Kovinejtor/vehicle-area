@@ -78,7 +78,7 @@
               <v-dialog v-model="showDialog" max-width="500">
                 <template v-slot:activator>
                   <v-row class="mt-9 justify-center align-center">
-                    <span class="password-link" @click="showDialog = true"
+                    <span class="password-link" style="cursor: pointer" @click="showDialog = true"
                       >Forgot the password?</span
                     >
                   </v-row>
