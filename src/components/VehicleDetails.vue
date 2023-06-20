@@ -23,7 +23,7 @@
               "
               @click="prevImage"
             >
-              <v-icon dark>mdi-chevron-left</v-icon>
+              <v-icon dark color="black" outlined elevation="24" style="background-color: #ffffff; border-radius: 50%;">mdi-chevron-left</v-icon>
             </v-btn>
             <v-btn
               text
@@ -38,7 +38,7 @@
               "
               @click="nextImage"
             >
-              <v-icon dark>mdi-chevron-right</v-icon>
+              <v-icon dark color="black" outlined elevation="24" style="background-color: #ffffff; border-radius: 50%;">mdi-chevron-right</v-icon>
             </v-btn>
           </div>
         </v-col>
@@ -102,14 +102,13 @@ import {
   addDoc,
   collection,
   db,
-  getAuth,
   deleteDoc,
   doc,
   query,
   where,
   getDocs,
+  onAuthStateChanged,
 } from "../../firebase.js";
-import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   props: {
@@ -214,7 +213,6 @@ export default {
           buyer: currentUser ? currentUser.uid : "",
         };
 
-        // Add the new document to the "br-vehicles" collection
         await addDoc(collection(db, "br-vehicles"), docData);
 
         const folderRef = ref(storage, `images/${this.vehicle.folderName}`);
@@ -244,13 +242,10 @@ export default {
     },
 
     subscribeToAuthState() {
-      // Listen for changes in the user's authentication state
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          // User is signed in, update the userId data property
           this.userId = user.uid;
         } else {
-          // User is signed out, reset the userId data property
           this.userId = null;
         }
       });

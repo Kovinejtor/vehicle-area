@@ -20,71 +20,70 @@
                 <v-list>
                     <v-row>
                         <v-col>
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">First name:</v-list-item-title>
-                            <v-list-item-subtitle>{{firstName}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">First name:</v-list-item-title>
+                                  <v-list-item-subtitle>{{firstName}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
 
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Last name:</v-list-item-title>
-                            <v-list-item-subtitle>{{lastName}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-</v-col>
-<v-col>
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Email:</v-list-item-title>
-                            <v-list-item-subtitle>{{em}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">Last name:</v-list-item-title>
+                                  <v-list-item-subtitle>{{lastName}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                        <v-col>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">Email:</v-list-item-title>
+                                  <v-list-item-subtitle>{{em}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
 
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Phone:</v-list-item-title>
-                            <v-list-item-subtitle>{{phone}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-</v-col>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">Phone:</v-list-item-title>
+                                  <v-list-item-subtitle>{{phone}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
 
-<v-col>
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Gender:</v-list-item-title>
-                            <v-list-item-subtitle>{{gender}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
+                        <v-col>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">Gender:</v-list-item-title>
+                                  <v-list-item-subtitle>{{gender}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
 
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Birthday:</v-list-item-title>
-                            <v-list-item-subtitle>{{bDate}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-</v-col>
-<v-col>
-                    <v-list-item>
-                        <v-list-item-content class="info-container">
-                            <v-list-item-title class="info-title">Country:</v-list-item-title>
-                            <v-list-item-subtitle>{{ country }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                </v-list-item>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">Birthday:</v-list-item-title>
+                                  <v-list-item-subtitle>{{bDate}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                        <v-col>
+                          <v-list-item>
+                              <v-list-item-content class="info-container">
+                                  <v-list-item-title class="info-title">Country:</v-list-item-title>
+                                  <v-list-item-subtitle>{{ country }}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
 
-<v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="info-title">Credit card expiration date:</v-list-item-title>
-                            <v-list-item-subtitle>{{ccDate}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                
-</v-col>
-                    </v-row>
+                          <v-list-item>
+                              <v-list-item-content>
+                                  <v-list-item-title class="info-title">Credit card expiration date:</v-list-item-title>
+                                  <v-list-item-subtitle>{{ccDate}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
                 </v-list>
               </v-card-text>
-        </v-card>
+            </v-card>
           </v-col>
         </v-row>
 
@@ -95,23 +94,24 @@
                 <span>My vehicles that are in the store</span>
               </v-card-title>
               
-                <v-row class="align-center justify-center text-center">
-                    <v-container class="card-container">
-                        <v-card
-                        class="l-card-item"
-                        v-for="vehicle in vehicles.slice(0, visibleVehicles)"
-                        :key="vehicle.id"
-                        @click="showVehicleDetails(vehicle)"
-                        >
-                            <div>
-                                <v-img
-                                style="height: 130px"
-                                :src="vehicle.imageUrl"
-                                >
-                                <div class="delete-icon" @click="deleteVehicle(vehicle)">
-                    <i class="mdi mdi-delete"></i>
-                  </div>
-                                </v-img>
+              <v-row class="align-center justify-center text-center">
+                  <v-container class="card-container">
+                      <v-card
+                      class="l-card-item"
+                       v-for="vehicle in vehicles.slice(0, visibleVehicles)"
+                      :key="vehicle.id"
+                      @click="showVehicleDetails(vehicle)"
+                      >
+                          <div>
+                              <v-img
+                              style="height: 130px"
+                              :src="vehicle.imageUrl"
+                              >
+                                <div class="delete-icon" @click.stop="deleteVehicle(vehicle)">
+                                    <i class="mdi mdi-delete"></i>
+                                </div>
+                             </v-img>
+                                
                                 <div
                                 class="action-label"
                                 :class="{
@@ -121,108 +121,108 @@
                                 >
                                 {{ vehicle.action }}
                                 </div>
-                            </div>
+                          </div>
 
-                            <v-card-text>
-                                <div>
+                          <v-card-text>
+                              <div>
                                 <span>{{ vehicle.post }}</span>
-                                </div>
-                                <div v-if="vehicle.action === 'Buy'">
+                              </div>
+                              <div v-if="vehicle.action === 'Buy'">
                                 <strong>Price:</strong> {{ vehicle.price }}€
-                                </div>
-                                <div v-if="vehicle.action === 'Rent'">
+                              </div>
+                              <div v-if="vehicle.action === 'Rent'">
                                 <strong>Price for hour:</strong> {{ vehicle.priceph }}€
-                                </div>
-                            </v-card-text>
+                              </div>
+                          </v-card-text>
                         </v-card>
-                    </v-container>
-                    <v-dialog v-model="dialogVisible" max-width="500px">
-                <v-card>
-                  <vehicle-details
-                    v-if="selectedVehicle"
-                    :vehicle="selectedVehicle"
-                  />
-                </v-card>
+                </v-container>
+                <v-dialog v-model="dialogVisible" max-width="500px">
+                  <v-card>
+                    <vehicle-details
+                      v-if="selectedVehicle"
+                      :vehicle="selectedVehicle"
+                    />
+                  </v-card>
               </v-dialog>
-                </v-row>
-
-                <v-row style="margin-top: 100px">
-                  <div
-                    style="
-                      position: absolute;
-                      bottom: 20px;
-                      left: 0;
-                      width: 100%;
-                      text-align: center;
-                    "
-                   >
-                      <v-btn
-                        v-if="isExpanded && vehicleCount > 3"
-                        color="primary"
-                        class="mr-2"
-                        @click="increaseLatestHeight"
-                      >
-                        Show all vehicles
-                      </v-btn>
-
-                      <v-btn
-                        v-if="!isExpanded && vehicleCount > 3"
-                        color="error"
-                        @click="decreaseLatestHeight"
-                      >
-                        Show less Vehicles
-                      </v-btn>
-                   </div>
-               </v-row>
-            </v-card>
-          </v-col>
         </v-row>
 
-        <v-row class="align-center justify-center text-center" v-if="vehicleBoughtCount != 0">
-          <v-col cols="12" sm="8">
-            <v-card>
-              <v-card-title>
-                <span>Vehicles that I bought</span>
-              </v-card-title>
-              <v-row class="align-center justify-center text-center">
-                    <v-container class="card-container">
-                        <v-card
-                        class="l-card-item"
-                        v-for="vehicle in vehiclesBought.slice(0, visibleVehiclesBought)"
-                        :key="vehicle.id"
-                        @click="showVehicleDetails(vehicle)"
-                        >
-                            <div>
-                                <v-img
-                                style="height: 130px"
-                                :src="vehicle.imageUrl"
-                                >
-                                  <div class="delete-icon" @click="deleteVehicleBought(vehicle)">
-                                    <i class="mdi mdi-delete"></i>
-                                  </div>
-                                </v-img>
-                                <div
-                                class="action-label"
-                                :class="{
-                                    'buy-label': vehicle.action === 'Buy',
-                                    'rent-label': vehicle.action === 'Rent',
-                                }"
-                                >
-                                {{ vehicle.action }}
-                                </div>
-                            </div>
+        <v-row style="margin-top: 100px">
+            <div
+              style="
+              position: absolute;
+              bottom: 20px;
+              left: 0;
+              width: 100%;
+              text-align: center;
+              "
+               >
+                  <v-btn
+                  v-if="isExpanded && vehicleCount > 3"
+                  color="primary"
+                  class="mr-2"
+                  @click="increaseLatestHeight"
+                  >
+                  Show all vehicles
+                  </v-btn>
 
-                            <v-card-text>
-                                <div>
+                  <v-btn
+                  v-if="!isExpanded && vehicleCount > 3"
+                  color="error"
+                  @click="decreaseLatestHeight"
+                  >
+                  Show less Vehicles
+                 </v-btn>
+                </div>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row class="align-center justify-center text-center" v-if="vehicleBoughtCount != 0">
+        <v-col cols="12" sm="8">
+          <v-card>
+            <v-card-title>
+              <span>Vehicles that I bought</span>
+            </v-card-title>
+            <v-row class="align-center justify-center text-center">
+                 <v-container class="card-container">
+                      <v-card
+                      class="l-card-item"
+                      v-for="vehicle in vehiclesBought.slice(0, visibleVehiclesBought)"
+                      :key="vehicle.id"
+                      @click="showVehicleDetails(vehicle)"
+                      >
+                        <div>
+                          <v-img
+                          style="height: 130px"
+                          :src="vehicle.imageUrl"
+                          >
+                              <div class="delete-icon" @click.stop="deleteVehicleBought(vehicle)">
+                                    <i class="mdi mdi-delete"></i>
+                              </div>
+                          </v-img>
+                          <div
+                          class="action-label"
+                          :class="{
+                          'buy-label': vehicle.action === 'Buy',
+                          'rent-label': vehicle.action === 'Rent',
+                          }"
+                          >
+                          {{ vehicle.action }}
+                          </div>
+                        </div>
+
+                        <v-card-text>
+                            <div>
                                 <span>{{ vehicle.post }}</span>
-                                </div>
-                                <div v-if="vehicle.action === 'Buy'">
+                            </div>
+                            <div v-if="vehicle.action === 'Buy'">
                                 <strong>Price:</strong> {{ vehicle.price }}€
-                                </div>
-                                <div v-if="vehicle.action === 'Rent'">
+                            </div>
+                            <div v-if="vehicle.action === 'Rent'">
                                 <strong>Price for hour:</strong> {{ vehicle.priceph }}€
-                                </div>
-                            </v-card-text>
+                            </div>
+                          </v-card-text>
                         </v-card>
                     </v-container>
                     <v-dialog v-model="dialogVisible" max-width="500px">
@@ -285,7 +285,7 @@
                                 style="height: 130px"
                                 :src="vehicle.imageUrl"
                                 >
-                                  <div class="delete-icon" @click="deleteVehicleRent(vehicle)">
+                                  <div class="delete-icon" @click.stop="deleteVehicleRent(vehicle)">
                                     <i class="mdi mdi-delete"></i>
                                   </div>
                                 </v-img>
@@ -302,13 +302,13 @@
 
                             <v-card-text>
                                 <div>
-                                <span>{{ vehicle.post }}</span>
+                                  <span>{{ vehicle.post }}</span>
                                 </div>
                                 <div v-if="vehicle.action === 'Buy'">
-                                <strong>Price:</strong> {{ vehicle.price }}€
+                                  <strong>Price:</strong> {{ vehicle.price }}€
                                 </div>
                                 <div v-if="vehicle.action === 'Rent'">
-                                <strong>Price for hour:</strong> {{ vehicle.priceph }}€
+                                  <strong>Price for hour:</strong> {{ vehicle.priceph }}€
                                 </div>
                             </v-card-text>
                         </v-card>
@@ -391,8 +391,6 @@
                   </v-row>
 
                   <v-row class="align-center justify-center text-center">
-                    
-
                     <v-col cols="6" sm="4">
                       <v-btn
                         style="background-color: #007074; color: #ffffff"
@@ -405,34 +403,34 @@
                     </v-col>
                   </v-row>
                   <v-dialog v-model="showLoginDialog" max-width="400px">
-          <v-card>
-            <v-card-title class="headline"
-              >Login to Update Password</v-card-title
-            >
-            <v-card-text>
-              <v-form ref="loginForm" @submit.prevent="login">
-                <v-text-field
-                  v-model="email"
-                  label="Email"
-                  outlined
-                  required
-                  type="email"
-                ></v-text-field>
-                <v-text-field
-                  v-model="password"
-                  label="Password"
-                  outlined
-                  required
-                  type="password"
-                ></v-text-field>
-                <v-card-actions class="d-flex justify-center">
-                  <v-btn color="primary" type="submit">Login</v-btn>
-                </v-card-actions>
-              </v-form>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-            </v-form>
+                    <v-card>
+                      <v-card-title class="headline"
+                        >Login to Update Password</v-card-title
+                      >
+                      <v-card-text>
+                        <v-form ref="loginForm" @submit.prevent="login">
+                          <v-text-field
+                            v-model="email"
+                            label="Email"
+                            outlined
+                            required
+                            type="email"
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="password"
+                            label="Password"
+                            outlined
+                            required
+                            type="password"
+                          ></v-text-field>
+                          <v-card-actions class="d-flex justify-center">
+                            <v-btn color="primary" type="submit">Login</v-btn>
+                          </v-card-actions>
+                        </v-form>
+                      </v-card-text>
+                    </v-card>
+                   </v-dialog>
+                </v-form>
               </v-card-text>
             </v-card>
           </v-col>
@@ -468,36 +466,33 @@
                   </v-col> 
                 </v-row>
                 <v-dialog v-model="showLoginDialog2" max-width="400px">
-              <v-card>
-                <v-card-title class="headline"
-                  >Login to Delete Password</v-card-title
-                >
-                <v-card-text>
-                  <v-form ref="loginForm" @submit.prevent="login2">
-                    <v-text-field
-                      v-model="email"
-                      label="Email"
-                      outlined
-                      required
-                      type="email"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="password"
-                      label="Password"
-                      outlined
-                      required
-                      type="password"
-                    ></v-text-field>
-                    <v-card-actions class="d-flex justify-center">
-                      <v-btn color="primary" type="submit">Login</v-btn>
-                    </v-card-actions>
-                  </v-form>
-                </v-card-text>
-              </v-card>
-            </v-dialog>
-            <v-row>
-              
-            </v-row>
+                  <v-card>
+                    <v-card-title class="headline"
+                      >Login to Delete Password</v-card-title
+                    >
+                    <v-card-text>
+                      <v-form ref="loginForm" @submit.prevent="login2">
+                        <v-text-field
+                          v-model="email"
+                          label="Email"
+                          outlined
+                          required
+                          type="email"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="password"
+                          label="Password"
+                          outlined
+                          required
+                          type="password"
+                        ></v-text-field>
+                        <v-card-actions class="d-flex justify-center">
+                          <v-btn color="primary" type="submit">Login</v-btn>
+                        </v-card-actions>
+                      </v-form>
+                    </v-card-text>
+                  </v-card>
+            	  </v-dialog>
               </v-card-text>
             </v-card>
           </v-col>
@@ -517,9 +512,7 @@ import {
   getDocs,
   query,
   where,
-  updateDoc,
   doc,
-  getAuth,
   deleteUser,
   updatePassword,
   signInWithEmailAndPassword,
@@ -528,11 +521,10 @@ import {
   listAll,
   getDownloadURL,
   deleteDoc,
-  getMetadata,
   deleteObject,
+  onAuthStateChanged,
 } from "../../firebase.js";
 
-import { onAuthStateChanged } from "firebase/auth";
 import Toolbar from "@/components/Toolbar.vue";
 import VehicleDetails from "@/components/VehicleDetails.vue";
 
@@ -605,6 +597,7 @@ export default {
         this.fetchUserData();
         this.fetchBoughtVehicles();
         this.fetchRentVehicles();
+        this.refreshVehicleCounts();
       } else {
         this.userData = null;
       }
@@ -612,49 +605,7 @@ export default {
   },
 
   mounted() {
-    const userId = auth.currentUser.uid;
-
-    const vehiclesCollection = collection(db, "vehicles");
-    const vehiclesQuery = query(
-      vehiclesCollection,
-      where("userId", "==", userId)
-    );
-
-    getDocs(vehiclesQuery)
-      .then((snapshot) => {
-        this.vehicleCount = snapshot.size;
-      })
-      .catch((error) => {
-        console.error("Error getting vehicle count:", error);
-      });
-
-    const vehiclesCollectionBought = collection(db, "br-vehicles");
-    const vehiclesQueryBought = query(
-      vehiclesCollectionBought,
-      where("buyer", "==", userId)
-    );
-
-    getDocs(vehiclesQueryBought)
-      .then((snapshot) => {
-        this.vehicleBoughtCount = snapshot.size;
-      })
-      .catch((error) => {
-        console.error("Error getting vehicle count:", error);
-      });
-
-    const vehiclesCollectionRent = collection(db, "br-vehicles");
-    const vehiclesQueryRent = query(
-      vehiclesCollectionRent,
-      where("buyer", "==", userId)
-    );
-
-    getDocs(vehiclesQueryRent)
-      .then((snapshot) => {
-        this.vehicleRentCount = snapshot.size;
-      })
-      .catch((error) => {
-        console.error("Error getting vehicle count:", error);
-      });
+    this.refreshVehicleCounts();
   },
 
   computed: {
@@ -668,382 +619,6 @@ export default {
   },
 
   methods: {
-    async increaseLatestHeight() {
-      try {
-        const user = auth.currentUser;
-        if (!user) {
-          // User is not signed in, return or handle accordingly
-          return;
-        }
-        const userId = user.uid;
-
-        const usersCollectionRef = collection(db, "vehicles");
-        const q = query(usersCollectionRef, where("userId", "==", userId));
-
-        const querySnapshot = await getDocs(q);
-        let count = 0;
-
-        querySnapshot.forEach((doc) => {
-          // Increment the count for each document that matches the criteria
-          count++;
-        });
-        this.visibleVehicles = count;
-        this.isExpanded = false;
-        console.log(`Number of documents: ${count}`);
-      } catch (error) {
-        console.error("Error counting documents:", error);
-      }
-    },
-
-    decreaseLatestHeight() {
-      this.visibleVehicles = 3;
-      this.isExpanded = true;
-    },
-
-    async increaseBoughtHeight() {
-      try {
-        const user = auth.currentUser;
-        if (!user) {
-          // User is not signed in, return or handle accordingly
-          return;
-        }
-        const userId = user.uid;
-
-        const usersCollectionRef = collection(db, "br-vehicles");
-        const q = query(usersCollectionRef, where("buyer", "==", userId));
-
-        const querySnapshot = await getDocs(q);
-        let count = 0;
-
-        querySnapshot.forEach((doc) => {
-          // Increment the count for each document that matches the criteria
-          count++;
-        });
-        this.visibleVehiclesBought = count;
-        this.isExpandedBought = false;
-        console.log(`Number of documents: ${count}`);
-      } catch (error) {
-        console.error("Error counting documents:", error);
-      }
-    },
-
-    decreaseBoughtHeight() {
-      this.visibleVehiclesBought = 3;
-      this.isExpandedBought = true;
-    },
-
-    async increaseRentHeight() {
-      try {
-        const user = auth.currentUser;
-        if (!user) {
-          // User is not signed in, return or handle accordingly
-          return;
-        }
-        const userId = user.uid;
-
-        const usersCollectionRef = collection(db, "br-vehicles");
-        const q = query(usersCollectionRef, where("buyer", "==", userId));
-
-        const querySnapshot = await getDocs(q);
-        let count = 0;
-
-        querySnapshot.forEach((doc) => {
-          // Increment the count for each document that matches the criteria
-          count++;
-        });
-        this.visibleVehiclesRent = count;
-        this.isExpandedRent = false;
-        console.log(`Number of documents: ${count}`);
-      } catch (error) {
-        console.error("Error counting documents:", error);
-      }
-    },
-
-    decreaseRentHeight() {
-      this.visibleVehiclesRent = 3;
-      this.isExpandedRent = true;
-    },
-
-    async deleteVehicle(vehicle) {
-      const vehicleId = vehicle.id;
-      const folderName = vehicle.folderName;
-
-      console.log("Vehicle ID:", vehicleId);
-      console.log("Folder Name:", folderName);
-
-      // Remove the vehicle from the vehicles array
-      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
-      console.log("Removed from visual.");
-
-      // Delete the document from the "vehicles" collection
-      await deleteDoc(doc(db, "vehicles", vehicleId));
-      console.log("Vehicle document deleted.");
-
-      // Delete files within the folder
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, "br-vehicles"),
-          where("folderName", "==", folderName)
-        )
-      );
-      if (querySnapshot.empty) {
-        // Delete files within the folder
-        const folderRef = ref(storage, `images/${folderName}`);
-        const folderSnapshot = await listAll(folderRef);
-        const files = folderSnapshot.items;
-        for (const fileRef of files) {
-          await deleteObject(fileRef);
-        }
-      }
-
-      this.vehicleCount -= 1;
-
-      // Check if the condition is still valid and update button visibility
-      if (this.isExpanded && this.vehicleCount <= 3) {
-        this.isExpanded = false;
-      }
-
-      // Reload the page
-      window.location.reload();
-    },
-
-    async deleteVehicleBought(vehicle) {
-      const vehicleId = vehicle.id;
-      const folderName = vehicle.folderName;
-
-      console.log("Vehicle ID:", vehicleId);
-      console.log("Folder Name:", folderName);
-
-      // Remove the vehicle from the vehicles array
-      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
-      console.log("Removed from visual.");
-
-      await deleteDoc(doc(db, "br-vehicles", vehicleId));
-      console.log("Vehicle document deleted.");
-
-      // Delete files within the folder
-      const folderRef = ref(storage, `images/${folderName}`);
-      const folderSnapshot = await listAll(folderRef);
-      const files = folderSnapshot.items;
-      for (const fileRef of files) {
-        await deleteObject(fileRef);
-      }
-
-      this.vehicleBoughtCount -= 1;
-
-      // Check if the condition is still valid and update button visibility
-      if (this.isExpandedBought && this.vehicleBoughtCount <= 3) {
-        this.isExpandedBought = false;
-      }
-
-      // Reload the page
-      window.location.reload();
-    },
-
-    async deleteVehicleRent(vehicle) {
-      const vehicleId = vehicle.id;
-      const folderName = vehicle.folderName;
-
-      console.log("Vehicle ID:", vehicleId);
-      console.log("Folder Name:", folderName);
-
-      // Remove the vehicle from the vehicles array
-      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
-      console.log("Removed from visual.");
-
-      await deleteDoc(doc(db, "br-vehicles", vehicleId));
-      console.log("Vehicle document deleted.");
-
-      this.vehicleRentCount -= 1;
-
-      // Check if the condition is still valid and update button visibility
-      if (this.isExpandedRent && this.vehicleRentCount <= 3) {
-        this.isExpandedRent = false;
-      }
-
-      const querySnapshot = await getDocs(
-        query(collection(db, "vehicles"), where("folderName", "==", folderName))
-      );
-      if (querySnapshot.empty) {
-        // Delete files within the folder
-        const folderRef = ref(storage, `images/${folderName}`);
-        const folderSnapshot = await listAll(folderRef);
-        const files = folderSnapshot.items;
-        for (const fileRef of files) {
-          await deleteObject(fileRef);
-        }
-      }
-
-      // Reload the page
-      window.location.reload();
-    },
-
-    showVehicleDetails(vehicle) {
-      this.selectedVehicle = vehicle;
-      this.dialogVisible = true;
-    },
-
-    async login() {
-      let email = this.email;
-      let password = this.password;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          this.showLoginDialog = false;
-          this.updatePassword();
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    },
-
-    async login2() {
-      let email = this.email;
-      let password = this.password;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          this.showLoginDialog2 = false;
-          this.deleteAccount();
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    },
-
-    async deleteAccount() {
-      try {
-        const user = auth.currentUser;
-        const userId = user.uid;
-
-        // Delete documents in "users" collection matching userId
-        const usersQuerySnapshot = await getDocs(
-          query(collection(db, "users"), where("userId", "==", userId))
-        );
-        for (const userDoc of usersQuerySnapshot.docs) {
-          await deleteDoc(doc(db, "users", userDoc.id));
-        }
-
-        // Find documents in "vehicles" collection matching userId
-        const vehiclesQuerySnapshot = await getDocs(
-          query(collection(db, "vehicles"), where("userId", "==", userId))
-        );
-
-        // Iterate over the documents in "vehicles" collection
-        for (const vehicleDoc of vehiclesQuerySnapshot.docs) {
-          const folderName = vehicleDoc.data().folderName;
-
-          // Check if there is a matching document in "br-vehicles" collection
-          const brVehiclesQuerySnapshot = await getDocs(
-            query(
-              collection(db, "br-vehicles"),
-              where("folderName", "==", folderName)
-            )
-          );
-
-          if (brVehiclesQuerySnapshot.empty) {
-            // No matching document found in "br-vehicles" collection
-            // Delete files in storage and delete document in "vehicles" collection
-            const folderRef = ref(storage, `images/${folderName}`);
-            const folderSnapshot = await listAll(folderRef);
-            const files = folderSnapshot.items;
-            for (const fileRef of files) {
-              await deleteObject(fileRef);
-            }
-
-            // Delete document in "vehicles" collection
-            await deleteDoc(doc(db, "vehicles", vehicleDoc.id));
-          } else {
-            // Matching document found in "br-vehicles" collection
-            // Delete documents in "vehicles" collection matching userId
-            const vehiclesToDeleteQuerySnapshot = await getDocs(
-              query(collection(db, "vehicles"), where("userId", "==", userId))
-            );
-            for (const vehicleToDeleteDoc of vehiclesToDeleteQuerySnapshot.docs) {
-              await deleteDoc(doc(db, "vehicles", vehicleToDeleteDoc.id));
-            }
-            break; // Exit the loop since further deletions are not required
-          }
-        }
-
-        // Find documents in "br-vehicles" collection matching userId
-        const brVehiclesQuerySnapshot = await getDocs(
-          query(collection(db, "br-vehicles"), where("buyer", "==", userId))
-        );
-
-        // Iterate over the documents in "br-vehicles" collection
-        for (const brVehicleDoc of brVehiclesQuerySnapshot.docs) {
-          const folderName = brVehicleDoc.data().folderName;
-
-          // Check if there is a matching document in "vehicles" collection
-          const vehiclesQuerySnapshot = await getDocs(
-            query(
-              collection(db, "vehicles"),
-              where("folderName", "==", folderName)
-            )
-          );
-
-          if (vehiclesQuerySnapshot.empty) {
-            // No matching document found in "vehicles" collection
-            // Delete files in storage and delete document in "br-vehicles" collection
-            const folderRef = ref(storage, `images/${folderName}`);
-            const folderSnapshot = await listAll(folderRef);
-            const files = folderSnapshot.items;
-            for (const fileRef of files) {
-              await deleteObject(fileRef);
-            }
-
-            // Delete document in "br-vehicles" collection
-            await deleteDoc(doc(db, "br-vehicles", brVehicleDoc.id));
-          } else {
-            // Matching document found in "vehicles" collection
-            // Delete documents in "br-vehicles" collection matching userId
-            const brVehiclesToDeleteQuerySnapshot = await getDocs(
-              query(
-                collection(db, "br-vehicles"),
-                where("userId", "==", userId)
-              )
-            );
-            for (const brVehicleToDeleteDoc of brVehiclesToDeleteQuerySnapshot.docs) {
-              await deleteDoc(doc(db, "br-vehicles", brVehicleToDeleteDoc.id));
-            }
-            break; // Exit the loop since further deletions are not required
-          }
-        }
-        console.log("Knew it!");
-        // Delete the user account in authentication
-        deleteUser(user)
-          .then(() => {
-            this.$router.push("/");
-          })
-          .catch((error) => {
-            // An error ocurred
-            // ...
-          });
-        console.log("User account deleted successfully.");
-      } catch (error) {
-        console.error("Error deleting the user account:", error);
-      }
-    },
-
-    async updatePassword() {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const newPassword = this.newPassword;
-          await updatePassword(user, newPassword);
-
-          this.oldPassword = "";
-          this.newPassword = "";
-          this.cNewPassword = "";
-
-          alert("Password updated successfully!");
-        }
-      } catch (error) {
-        console.error("Error updating password:", error);
-
-        alert("Error updating password. Please try again.");
-      }
-    },
-
     async fetchUserData() {
       try {
         const user = auth.currentUser;
@@ -1130,23 +705,20 @@ export default {
 
           this.vehicles = vehicles;
         } else {
-          // Handle the case where user is null
           console.log("User is null");
-          // or show an error message to the user
+          
         }
       });
     },
 
     async fetchBoughtVehicles() {
-      // Get the current user's ID
       const user = auth.currentUser;
       if (!user) {
-        // User is not signed in, return or handle accordingly
+        // User is not signed in
         return;
       }
       const userId = user.uid;
 
-      // Create a query to fetch vehicles with matching userId
       const vehiclesCollection = collection(db, "br-vehicles");
       const q = query(
         vehiclesCollection,
@@ -1166,13 +738,13 @@ export default {
           const imagesFolderRef = ref(storage, `images/${folderName}`);
           const imagesList = await listAll(imagesFolderRef);
           const firstImageRef = imagesList.items[0];
-          const imageUrl = await getDownloadURL(firstImageRef); // Define imageUrl within the scope
+          const imageUrl = await getDownloadURL(firstImageRef); 
 
           return {
             id: doc.id,
             post: vehicleData.post,
             price: vehicleData.price,
-            imageUrl, // Use the defined imageUrl variable
+            imageUrl, 
             model: vehicleData.model,
             yearModel: vehicleData.yearModel,
             location: vehicleData.location,
@@ -1207,15 +779,13 @@ export default {
     },
 
     async fetchRentVehicles() {
-      // Get the current user's ID
       const user = auth.currentUser;
       if (!user) {
-        // User is not signed in, return or handle accordingly
+        // User is not signed in
         return;
       }
       const userId = user.uid;
 
-      // Create a query to fetch vehicles with matching userId
       const vehiclesCollection = collection(db, "br-vehicles");
       const q = query(
         vehiclesCollection,
@@ -1235,13 +805,13 @@ export default {
           const imagesFolderRef = ref(storage, `images/${folderName}`);
           const imagesList = await listAll(imagesFolderRef);
           const firstImageRef = imagesList.items[0];
-          const imageUrl = await getDownloadURL(firstImageRef); // Define imageUrl within the scope
+          const imageUrl = await getDownloadURL(firstImageRef); 
 
           return {
             id: doc.id,
             post: vehicleData.post,
             price: vehicleData.price,
-            imageUrl, // Use the defined imageUrl variable
+            imageUrl, 
             model: vehicleData.model,
             yearModel: vehicleData.yearModel,
             location: vehicleData.location,
@@ -1272,6 +842,394 @@ export default {
         this.vehiclesRent = vehiclesRent;
       } catch (error) {
         console.error("Failed to fetch vehicles:", error);
+      }
+    },
+
+    refreshVehicleCounts() {
+      const userId = auth.currentUser.uid;
+
+      const vehiclesCollection = collection(db, "vehicles");
+      const vehiclesQuery = query(
+        vehiclesCollection,
+        where("userId", "==", userId)
+      );
+
+      getDocs(vehiclesQuery)
+        .then((snapshot) => {
+          this.vehicleCount = snapshot.size;
+          console.log(this.vehicleCount);
+        })
+        .catch((error) => {
+          console.error("Error getting vehicle count:", error);
+        });
+
+      const vehiclesCollectionBought = collection(db, "br-vehicles");
+      const vehiclesQueryBought = query(
+        vehiclesCollectionBought,
+        where("buyer", "==", userId),
+        where("action", "==", "Buy")
+      );
+
+      getDocs(vehiclesQueryBought)
+        .then((snapshot) => {
+          this.vehicleBoughtCount = snapshot.size;
+        })
+        .catch((error) => {
+          console.error("Error getting vehicle count:", error);
+        });
+
+      const vehiclesCollectionRent = collection(db, "br-vehicles");
+      const vehiclesQueryRent = query(
+        vehiclesCollectionRent,
+        where("buyer", "==", userId),
+        where("action", "==", "Rent")
+      );
+
+      getDocs(vehiclesQueryRent)
+        .then((snapshot) => {
+          this.vehicleRentCount = snapshot.size;
+        })
+        .catch((error) => {
+          console.error("Error getting vehicle count:", error);
+        });
+    },
+
+    async increaseLatestHeight() {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          return;
+        }
+        const userId = user.uid;
+
+        const usersCollectionRef = collection(db, "vehicles");
+        const q = query(usersCollectionRef, where("userId", "==", userId));
+
+        const querySnapshot = await getDocs(q);
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          count++;
+        });
+        this.visibleVehicles = count;
+        this.isExpanded = false;
+        console.log(`Number of documents: ${count}`);
+      } catch (error) {
+        console.error("Error counting documents:", error);
+      }
+    },
+
+    decreaseLatestHeight() {
+      this.visibleVehicles = 3;
+      this.isExpanded = true;
+    },
+
+    async increaseBoughtHeight() {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          return;
+        }
+        const userId = user.uid;
+
+        const usersCollectionRef = collection(db, "br-vehicles");
+        const q = query(usersCollectionRef, where("buyer", "==", userId));
+
+        const querySnapshot = await getDocs(q);
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          count++;
+        });
+        this.visibleVehiclesBought = count;
+        this.isExpandedBought = false;
+        console.log(`Number of documents: ${count}`);
+      } catch (error) {
+        console.error("Error counting documents:", error);
+      }
+    },
+
+    decreaseBoughtHeight() {
+      this.visibleVehiclesBought = 3;
+      this.isExpandedBought = true;
+    },
+
+    async increaseRentHeight() {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          // User is not signed ins
+          return;
+        }
+        const userId = user.uid;
+
+        const usersCollectionRef = collection(db, "br-vehicles");
+        const q = query(usersCollectionRef, where("buyer", "==", userId));
+
+        const querySnapshot = await getDocs(q);
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          count++;
+        });
+        this.visibleVehiclesRent = count;
+        this.isExpandedRent = false;
+        console.log(`Number of documents: ${count}`);
+      } catch (error) {
+        console.error("Error counting documents:", error);
+      }
+    },
+
+    decreaseRentHeight() {
+      this.visibleVehiclesRent = 3;
+      this.isExpandedRent = true;
+    },
+
+    async deleteVehicle(vehicle) {
+      const vehicleId = vehicle.id;
+      const folderName = vehicle.folderName;
+
+      console.log("Vehicle ID:", vehicleId);
+      console.log("Folder Name:", folderName);
+
+      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+      console.log("Removed from visual.");
+
+      await deleteDoc(doc(db, "vehicles", vehicleId));
+      console.log("Vehicle document deleted.");
+
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, "br-vehicles"),
+          where("folderName", "==", folderName)
+        )
+      );
+      if (querySnapshot.empty) {
+        const folderRef = ref(storage, `images/${folderName}`);
+        const folderSnapshot = await listAll(folderRef);
+        const files = folderSnapshot.items;
+        for (const fileRef of files) {
+          await deleteObject(fileRef);
+        }
+      }
+
+      this.vehicleCount -= 1;
+
+      if (this.isExpanded && this.vehicleCount <= 3) {
+        this.isExpanded = false;
+      }
+
+      window.location.reload();
+    },
+
+    async deleteVehicleBought(vehicle) {
+      const vehicleId = vehicle.id;
+      const folderName = vehicle.folderName;
+
+      console.log("Vehicle ID:", vehicleId);
+      console.log("Folder Name:", folderName);
+
+      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+      console.log("Removed from visual.");
+
+      await deleteDoc(doc(db, "br-vehicles", vehicleId));
+      console.log("Vehicle document deleted.");
+
+      const folderRef = ref(storage, `images/${folderName}`);
+      const folderSnapshot = await listAll(folderRef);
+      const files = folderSnapshot.items;
+      for (const fileRef of files) {
+        await deleteObject(fileRef);
+      }
+
+      this.vehicleBoughtCount -= 1;
+
+      if (this.isExpandedBought && this.vehicleBoughtCount <= 3) {
+        this.isExpandedBought = false;
+      }
+
+      window.location.reload();
+    },
+
+    async deleteVehicleRent(vehicle) {
+      const vehicleId = vehicle.id;
+      const folderName = vehicle.folderName;
+
+      console.log("Vehicle ID:", vehicleId);
+      console.log("Folder Name:", folderName);
+
+      this.vehicles = this.vehicles.filter((v) => v.id !== vehicleId);
+      console.log("Removed from visual.");
+
+      await deleteDoc(doc(db, "br-vehicles", vehicleId));
+      console.log("Vehicle document deleted.");
+
+      this.vehicleRentCount -= 1;
+
+      if (this.isExpandedRent && this.vehicleRentCount <= 3) {
+        this.isExpandedRent = false;
+      }
+
+      const querySnapshot = await getDocs(
+        query(collection(db, "vehicles"), where("folderName", "==", folderName))
+      );
+      if (querySnapshot.empty) {
+        const folderRef = ref(storage, `images/${folderName}`);
+        const folderSnapshot = await listAll(folderRef);
+        const files = folderSnapshot.items;
+        for (const fileRef of files) {
+          await deleteObject(fileRef);
+        }
+      }
+
+      window.location.reload();
+    },
+
+    showVehicleDetails(vehicle) {
+      this.selectedVehicle = vehicle;
+      this.dialogVisible = true;
+    },
+
+    async login() {
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.showLoginDialog = false;
+          this.updatePassword();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+
+    async login2() {
+      let email = this.email;
+      let password = this.password;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          this.showLoginDialog2 = false;
+          this.deleteAccount();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+
+    async updatePassword() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const newPassword = this.newPassword;
+          await updatePassword(user, newPassword);
+
+          this.oldPassword = "";
+          this.newPassword = "";
+          this.cNewPassword = "";
+
+          alert("Password updated successfully!");
+        }
+      } catch (error) {
+        console.error("Error updating password:", error);
+
+        alert("Error updating password. Please try again.");
+      }
+    },
+
+    async deleteAccount() {
+      try {
+        const user = auth.currentUser;
+        const userId = user.uid;
+
+        const usersQuerySnapshot = await getDocs(
+          query(collection(db, "users"), where("userId", "==", userId))
+        );
+        for (const userDoc of usersQuerySnapshot.docs) {
+          await deleteDoc(doc(db, "users", userDoc.id));
+        }
+
+        const vehiclesQuerySnapshot = await getDocs(
+          query(collection(db, "vehicles"), where("userId", "==", userId))
+        );
+
+        for (const vehicleDoc of vehiclesQuerySnapshot.docs) {
+          const folderName = vehicleDoc.data().folderName;
+
+          const brVehiclesQuerySnapshot = await getDocs(
+            query(
+              collection(db, "br-vehicles"),
+              where("folderName", "==", folderName)
+            )
+          );
+
+          if (brVehiclesQuerySnapshot.empty) {
+            const folderRef = ref(storage, `images/${folderName}`);
+            const folderSnapshot = await listAll(folderRef);
+            const files = folderSnapshot.items;
+            for (const fileRef of files) {
+              await deleteObject(fileRef);
+            }
+
+            await deleteDoc(doc(db, "vehicles", vehicleDoc.id));
+          } else {
+            const vehiclesToDeleteQuerySnapshot = await getDocs(
+              query(collection(db, "vehicles"), where("userId", "==", userId))
+            );
+            for (const vehicleToDeleteDoc of vehiclesToDeleteQuerySnapshot.docs) {
+              await deleteDoc(doc(db, "vehicles", vehicleToDeleteDoc.id));
+            }
+            break; 
+          }
+        }
+
+        const brVehiclesQuerySnapshot = await getDocs(
+          query(collection(db, "br-vehicles"), where("buyer", "==", userId))
+        );
+
+        for (const brVehicleDoc of brVehiclesQuerySnapshot.docs) {
+          const folderName = brVehicleDoc.data().folderName;
+
+          const vehiclesQuerySnapshot = await getDocs(
+            query(
+              collection(db, "vehicles"),
+              where("folderName", "==", folderName)
+            )
+          );
+
+          if (vehiclesQuerySnapshot.empty) {
+            const folderRef = ref(storage, `images/${folderName}`);
+            const folderSnapshot = await listAll(folderRef);
+            const files = folderSnapshot.items;
+            for (const fileRef of files) {
+              await deleteObject(fileRef);
+            }
+
+            await deleteDoc(doc(db, "br-vehicles", brVehicleDoc.id));
+          } else {
+            const brVehiclesToDeleteQuerySnapshot = await getDocs(
+              query(
+                collection(db, "br-vehicles"),
+                where("userId", "==", userId)
+              )
+            );
+            for (const brVehicleToDeleteDoc of brVehiclesToDeleteQuerySnapshot.docs) {
+              await deleteDoc(doc(db, "br-vehicles", brVehicleToDeleteDoc.id));
+            }
+            break; 
+          }
+        }
+        console.log("Knew it!");
+        deleteUser(user)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            // An error ocurred
+            // ...
+          });
+        console.log("User account deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting the user account:", error);
       }
     },
 

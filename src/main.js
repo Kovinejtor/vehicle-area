@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import '../firebase.js';
-import './assets/js/file-upload.js';
 
 
 Vue.config.productionTip = false

@@ -200,9 +200,8 @@
                     cols="6"
                     md="3"
                     v-show="showSecondDiv"
-                    @click="fetchVehicles('Other')"
                   >
-                    <v-card class="card-item">
+                    <v-card class="card-item" @click="fetchVehicles('Other')">
                       <v-img class="card-image" src="@/assets/other.jpeg"
                         ><span class="card-text">Others</span></v-img
                       >
@@ -284,7 +283,7 @@
               <div
                 style="
                   position: absolute;
-                  bottom: 20px;
+                  bottom: 10px;
                   left: 0;
                   width: 100%;
                   text-align: center;
@@ -293,7 +292,7 @@
                 <v-btn
                   v-if="isExpanded && vehicleCount > 8"
                   color="primary"
-                  class="mr-2"
+                  class="mr-2 moreButton"
                   @click="increaseLatestHeight"
                 >
                   Show More Vehicles
@@ -302,6 +301,7 @@
                 <v-btn
                   v-if="visibleVehicles > 8"
                   color="error"
+                  class="lessButton"
                   @click="decreaseLatestHeight"
                 >
                   Show Less Vehicles
@@ -554,7 +554,6 @@ export default {
 </script>
 
 
-
 <style>
 .card-container {
   display: flex;
@@ -653,7 +652,17 @@ export default {
     margin-left: 13px;
     margin-right: 13px;
   }
+
+  .moreButton{
+    margin-top: 20px !important;
+  }
+
+  .lessButton{
+    margin-top: 5px;
+    margin-right: 10px;
+  }
 }
+
 
 .explore-button {
   border: 1px solid white;
@@ -674,7 +683,9 @@ export default {
   .hCategories{
     margin-left: 13px;
   }
+
 }
+
 </style>
 
 

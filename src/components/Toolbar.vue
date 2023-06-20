@@ -3,12 +3,8 @@
     <v-row class="fill-height align-center justify-center mb-1">
       <v-col cols="9" sm="6" md="4">
         <v-toolbar-title
-          style="
-            color: #afffd9;
-            font-size: 34px !important;
-            font-weight: bold;
-            margin-left: 60px;
-          "
+          style="color: #afffd9; font-weight: bold; margin-left: 60px"
+          class="head"
         >
           Vehicle area
         </v-toolbar-title>
@@ -16,8 +12,6 @@
 
       <v-col class="d-flex align-end" cols="3" sm="6" md="8">
         <v-spacer></v-spacer>
-
-        <!-- Hamburger menu icon for xs and sm displays -->
         <v-menu offset-y v-if="isSmallScreen">
           <template #activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on" class="button">
@@ -147,5 +141,15 @@ export default {
   color: #ffffff !important;
   text-transform: none;
   margin-right: 7px;
+}
+
+.head {
+  font-size: 34px !important;
+}
+
+@media (max-width: 377px) {
+  .head {
+    font-size: 30px !important;
+  }
 }
 </style>

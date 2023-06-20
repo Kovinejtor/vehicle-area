@@ -250,22 +250,14 @@ import Toolbar from "@/components/Toolbar.vue";
 
 import {
   auth,
-  onAuthStateChanged,
   collection,
-  getDocs,
-  query,
-  where,
   db,
   addDoc,
-} from "../../firebase.js";
-
-import { ref } from "vue";
-import {
-  getStorage,
   ref as storageRef,
+  getStorage,
   uploadBytes,
   getDownloadURL,
-} from "firebase/storage";
+} from "../../firebase.js";
 
 export default {
   components: {

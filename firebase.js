@@ -60,4 +60,5 @@ export {
   getMetadata, 
   deleteObject,
   orderBy,
+  getStorage,
 };
