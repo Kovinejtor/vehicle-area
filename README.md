@@ -4,6 +4,7 @@
 - Study program: Faculty of Informatics in Pula
 - Course: "Software Engineering"
 - Academic year: 2022./2023.
+- https://vehicle-area.netlify.app/#/
 
 ## About the project
 ### Tools that were used
